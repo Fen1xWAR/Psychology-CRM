@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CRM.Domain.Models;
+using CRM.Infrastructure.Interfaces;
+using CRM.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Protocol.Core.Types;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,36 +15,50 @@ namespace CRM.WebAPI.Controllers
     [Route("api/[controller]")]
     public class VisitController : Controller
     {
+        private IVisitRepository _visitRepository;
+
+        public VisitController(IVisitRepository repository)
+        {
+            _visitRepository = repository ?? throw new ArgumentException(nameof(repository));
+        }
         // GET: api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<ActionResult> GetAll()
         {
-            return new string[] { "value1", "value2" };
+           return Ok(await _visitRepository.GetAll());
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult> GetById(Guid id)
         {
-            return "value";
+            try
+            {
+                return Ok(await _visitRepository.GetById(id));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(StatusCodes.Status404NotFound);
+            }
+            
         }
 
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
-
+       
         // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        [HttpPut]
+        public async Task<ActionResult> Insert([FromBody]Visit visit)
+
         {
+           await _visitRepository.Put(visit);
+            return Ok(StatusCodes.Status200OK);
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult> Delete(Guid id)
         {
+            await _visitRepository.RemoveById(id);
+            return Ok(StatusCodes.Status200OK);
         }
     }
 }
