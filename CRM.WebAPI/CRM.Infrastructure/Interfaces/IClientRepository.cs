@@ -2,7 +2,7 @@ using CRM.Domain.Models;
 
 namespace CRM.Infrastructure.Interfaces;
 
-public interface IClientRepository
+public interface IClientRepository //интерфейс для репозитория (мало ли поменяем)
 {
     Task<IEnumerable<Client>> GetAll();
     Task<Client> GetById(Guid id);
