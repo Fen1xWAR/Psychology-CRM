@@ -6,8 +6,8 @@ namespace CRM.Infrastructure.Repositories;
 
 public class RepositoryBase
 {
-    IConfiguration _configuration;
-    private string _connectionString;
+    private IConfiguration _configuration;
+    private readonly string _connectionString;
 
     protected RepositoryBase(IConfiguration configuration)
     {
@@ -15,44 +15,41 @@ public class RepositoryBase
         _connectionString = configuration.GetConnectionString("PostgreConnectionString");
     }
 
-    protected async Task<IEnumerable<T>> GetDataSql<T,TCreator>(string sql) where T : class where TCreator : ICreator<T>,new()
+    protected async Task<IEnumerable<T>> GetDataSql<T, TCreator>(string sql)
+        where T : class where TCreator : ICreator<T>, new()
     {
-        List<T> result = new List<T>();
+        var result = new List<T>();
         var creator = new TCreator();
-        using (var connection = new NpgsqlConnection(this._connectionString))
+        await using var connection = new NpgsqlConnection(_connectionString);
+        await connection.OpenAsync();
+        await using (var command = new NpgsqlCommand(sql, connection))
         {
-            await connection.OpenAsync();
-            await using (var command = new NpgsqlCommand(sql, connection))
+            var reader = await command.ExecuteReaderAsync();
+            while (reader.Read())
             {
-                var reader = await command.ExecuteReaderAsync();
-                while (reader.Read())
-                {
-                    result.Add(creator.Map(reader));
-                }
+                result.Add(creator.Map(reader));
             }
-        
-            await connection.CloseAsync();
         }
+
+        await connection.CloseAsync();
 
         return result;
     }
-    protected async Task ExecuteSQL(string sql)
+
+    protected async Task ExecuteSql(string sql)
     {
         if (string.IsNullOrEmpty(sql))
         {
             throw new ArgumentNullException(nameof(sql));
         }
 
-        using (var connection = new NpgsqlConnection(this._connectionString))
+        await using var connection = new NpgsqlConnection(this._connectionString);
+        await connection.OpenAsync();
+        await using (var command = new NpgsqlCommand(sql, connection))
         {
-           await  connection.OpenAsync();
-            using (var command = new NpgsqlCommand(sql,connection))
-            {
-                await command.ExecuteNonQueryAsync();
-            }
-
-            await connection.CloseAsync();
+            await command.ExecuteNonQueryAsync();
         }
+
+        await connection.CloseAsync();
     }
-    
 }

@@ -8,81 +8,45 @@ namespace CRM.Infrastructure.Repositories;
 
 public class VisitRepository : RepositoryBase, IVisitRepository
 {
-   
-
     public async Task<IEnumerable<Visit>> GetAll()
     {
         return await GetDataSql<Visit, VisitCreator>("SELECT * FROM visits");
-        // var result = new List<Visit>();
-        //
-        // using var connection = new NpgsqlConnection(
-        //     this._configuration.GetConnectionString("PostgreConnectionString"));
-        // connection.Open();
-        // await using (var command = new NpgsqlCommand("SELECT * FROM visits", connection))
-        // {
-        //     var reader = await command.ExecuteReaderAsync();
-        //     while (reader.Read())
-        //     {
-        //         result.Add(new Visit
-        //         {
-        //             VisitId = reader.GetGuid(0),
-        //             // ClientId = reader.GetGuid(1),
-        //             // DateTime = reader.GetDateTime(2),
-        //             ClientNote = reader.GetString(3),
-        //         });
-        //     }
-        // }
-        // await connection.CloseAsync();
-        // return result;
     }
 
     public async Task<Visit> GetById(Guid id)
     {
         return (await GetDataSql<Visit, VisitCreator>($"SELECT * FROM visits WHERE visit_id = '{id}'")).First();
     }
-       // using var connection = new NpgsqlConnection(
-       //     this._configuration.GetConnectionString("PostgreConnectionString"));
-       // await connection.OpenAsync();
-       // using (var command = new NpgsqlCommand("SELECT * FROM visits WHERE visit_id = @id", connection))
-       // {
-       //     command.Parameters.AddWithValue("id", id);
-       //     Visit result = null;
-       //     var reader = await command.ExecuteReaderAsync();
-       //     if (await reader.ReadAsync())
-       //     {
-       //         result = new Visit
-       //         {
-       //             VisitId = reader.GetGuid(0),
-       //             // ClientId = reader.GetGuid(1),
-       //             // DateTime = reader.GetDateTime(2),
-       //             ClientNote = reader.GetString(3),
-       //         };
-       //     }
-       //
-       //     return result;
-       // }
-       public async Task Put(Visit visit)
-       
-       {
-           
-           var visitId = Guid.NewGuid();
-           await ExecuteSQL($"INSERT INTO visits (visit_id, client_id, date_time, client_note, service_id, psychologist_id, visit_note) VALUES ('{visitId}', '{visit.ClientId}', '{visit.DateTime}', '{visit.ClientNote}', '{visit.ServiceID}', '{visit.PsychologistID}', '{visit.VisitNote}')");
 
-       }
+    public async Task Put(Visit visit)
+
+    {
+        var visitId = Guid.NewGuid();
+        await ExecuteSql($"INSERT INTO visits (visit_id, client_id, date_time, psychologist_description, client_note, " +
+                         $"service_id, psychologist_id ) VALUES ('{visitId}', '{visit.ClientId}', " +
+                         $"'{visit.DateTime:yyyy-MM-dd HH:mm:ss.fff}', " +
+                         $"'{visit.ClientNote}', '{visit.PsychologistDescription}', '{visit.ServiceId}', '{visit.PsychologistId}')");
+    }
+
     public async Task RemoveById(Guid id)
     {
-        await ExecuteSQL($"DELETE FROM visits WHERE visit_id = '{id}' ");
-        // using var connection = new NpgsqlConnection(
-        //     this._configuration.GetConnectionString("PostgreConnectionString"));
-        // await connection.OpenAsync();
-        // using (var command = new NpgsqlCommand("DELETE FROM visits WHERE visit_id = @id",connection))
-        // {
-        //     command.Parameters.AddWithValue("id", id);
-        //     await command.ExecuteNonQueryAsync();
-        // }
-
-        // await connection.CloseAsync();
+        await ExecuteSql($"DELETE FROM visits WHERE visit_id = '{id}' ");
     }
+
+    public async Task Update(Visit dataToUpdate)
+    {
+        await ExecuteSql(
+            $"UPDATE public.visits SET " +
+            $"client_id = COALESCE('{dataToUpdate.ClientId}', client_id), " +
+            $"date_time = COALESCE('{dataToUpdate.DateTime:yyyy-MM-dd HH:mm:ss.fff}', date_time), " +
+            $"client_note = COALESCE('{dataToUpdate.ClientNote}', client_note), " +
+            $"psychologist_description = COALESCE('{dataToUpdate.PsychologistDescription}', psychologist_description), " +
+            $"service_id = COALESCE('{dataToUpdate.ServiceId}', service_id), " +
+            $"psychologist_id = COALESCE('{dataToUpdate.PsychologistId}', psychologist_id) " +
+            $"WHERE " +
+            $"visit_id = '{dataToUpdate.VisitId}'");
+    }
+
 
     public VisitRepository(IConfiguration configuration) : base(configuration)
     {

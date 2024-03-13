@@ -12,24 +12,26 @@ using NuGet.Protocol.Core.Types;
 
 namespace CRM.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
-    public class VisitController : Controller
+    [Route("api/[controller]/[action]")]
+    [ApiController]
+    public class VisitController : ControllerBase
     {
         private IVisitRepository _visitRepository;
 
-        public VisitController(IVisitRepository repository)
+        public VisitController(IVisitRepository visitRepository)
         {
-            _visitRepository = repository ?? throw new ArgumentException(nameof(repository));
+            _visitRepository = visitRepository ?? throw new ArgumentException(nameof(visitRepository));
         }
+
         // GET: api/values
         [HttpGet]
         public async Task<ActionResult> GetAll()
         {
-           return Ok(await _visitRepository.GetAll());
+            return Ok(await _visitRepository.GetAll());
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetByID")]
         public async Task<ActionResult> GetById(Guid id)
         {
             try
@@ -40,16 +42,22 @@ namespace CRM.WebAPI.Controllers
             {
                 return BadRequest(StatusCodes.Status404NotFound);
             }
-            
         }
 
-       
+
         // PUT api/values/5
         [HttpPut]
-        public async Task<ActionResult> Insert([FromBody]Visit visit)
+        public async Task<ActionResult> Insert([FromBody] Visit visit)
 
         {
-           await _visitRepository.Put(visit);
+            await _visitRepository.Put(visit);
+            return Ok(StatusCodes.Status200OK);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Update([FromBody] Visit dataToUpdate)
+        {
+            await _visitRepository.Update(dataToUpdate);
             return Ok(StatusCodes.Status200OK);
         }
 
@@ -62,4 +70,3 @@ namespace CRM.WebAPI.Controllers
         }
     }
 }
-

@@ -13,9 +13,9 @@ public class VisitCreator : ICreator<Visit>
             ClientId = reader.GetGuid(1),
             DateTime = reader.GetDateTime(2),
             ClientNote = reader.GetString(3),
-            ServiceID = reader.GetGuid(4),
-            PsychologistID = reader.GetGuid(5),
-            VisitNote = reader.GetGuid(6)
+            PsychologistDescription = reader.GetString(4),
+            ServiceId = reader.GetGuid(5),
+            PsychologistId = reader.GetGuid(6),
         };
     }
 }
