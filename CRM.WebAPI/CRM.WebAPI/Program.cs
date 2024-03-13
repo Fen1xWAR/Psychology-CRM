@@ -1,8 +1,7 @@
 using CRM.Domain.Models;
 using CRM.Infrastructure.Interfaces;
 using CRM.Infrastructure.Repositories;
-using TimePlanner.WebApi;
-
+using CRM.WebApi;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

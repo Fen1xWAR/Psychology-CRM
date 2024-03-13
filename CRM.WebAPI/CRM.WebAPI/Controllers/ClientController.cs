@@ -18,7 +18,9 @@ namespace CRM.WebAPI.Controllers
         private IClientRepository _clientRepository; //храним репозиторий (что то что напрямую взаимодействует с базой)
 
 
-        public ClientController(IClientRepository repository) //  конструктор где принимаем репозиторий (его передаем как DI в классе program)
+        public
+            ClientController(
+                IClientRepository repository) //  конструктор где принимаем репозиторий (его передаем как DI в классе program)
         {
             _clientRepository = repository ?? throw new ArgumentException(nameof(repository));
         }
@@ -34,14 +36,7 @@ namespace CRM.WebAPI.Controllers
         [HttpGet("{id}", Name = "Get")] // ищет по id
         public async Task<ActionResult> Get(Guid id)
         {
-            try
-            {
-                return Ok(await _clientRepository.GetById(id));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(StatusCodes.Status404NotFound);
-            }
+            return Ok(await _clientRepository.GetById(id));
         }
 
 
@@ -55,7 +50,8 @@ namespace CRM.WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Update([FromBody] Client dataToUpdate) //обновляет данные (что угодно можно поменять в клиенте кроме id)
+        public async Task<ActionResult>
+            Update([FromBody] Client dataToUpdate) //обновляет данные (что угодно можно поменять в клиенте кроме id)
         {
             await _clientRepository.Update(dataToUpdate);
             return Ok(StatusCodes.Status200OK);

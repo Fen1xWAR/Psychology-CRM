@@ -1,4 +1,4 @@
-namespace TimePlanner.WebApi
+namespace CRM.WebApi
 {
     public class ExceptionMiddleware : IMiddleware
     {
@@ -17,8 +17,20 @@ namespace TimePlanner.WebApi
 
         private async Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
-            var errorCode = StatusCodes.Status500InternalServerError;
-            var errorMessage = "У нас что то пошло не так";
+            int errorCode;
+            string errorMessage;
+            switch(exception)
+            {
+                case InvalidOperationException:
+                    errorCode = StatusCodes.Status404NotFound;
+                    errorMessage = "По вашему запросу ничего не найдено";
+                    break;
+                default: 
+                    errorCode = StatusCodes.Status500InternalServerError;
+                    errorMessage = "У нас что то пошло нет так";
+                    break;
+            }
+             
 
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = errorCode;
