@@ -15,28 +15,26 @@ namespace CRM.WebAPI.Controllers
     [ApiController]
     public class ClientController : ControllerBase
     {
-        private IClientRepository _clientRepository; //храним репозиторий (что то что напрямую взаимодействует с базой)
+        private IClientRepository _repository; //храним репозиторий (что то что напрямую взаимодействует с базой)
 
 
-        public
-            ClientController(
-                IClientRepository repository) //  конструктор где принимаем репозиторий (его передаем как DI в классе program)
+        public ClientController(IClientRepository repository) //  конструктор где принимаем репозиторий (его передаем как DI в классе program)
         {
-            _clientRepository = repository ?? throw new ArgumentException(nameof(repository));
+            _repository = repository ?? throw new ArgumentException(nameof(repository));
         }
 
         // GET: api/Client
         [HttpGet]
         public async Task<ActionResult> GetAll() // метод возвращает все
         {
-            return Ok(await _clientRepository.GetAll());
+            return Ok(await _repository.GetAll());
         }
 
         // GET: api/Client/5
-        [HttpGet("{id}", Name = "Get")] // ищет по id
-        public async Task<ActionResult> Get(Guid id)
+        [HttpGet("{id}", Name = "GetByID")] // ищет по id
+        public async Task<ActionResult> GetById(Guid id)
         {
-            return Ok(await _clientRepository.GetById(id));
+            return Ok(await _repository.GetById(id));
         }
 
 
@@ -45,7 +43,7 @@ namespace CRM.WebAPI.Controllers
         public async Task<ActionResult> Insert([FromBody] Client client)
 
         {
-            await _clientRepository.Put(client);
+            await _repository.Put(client);
             return Ok(StatusCodes.Status200OK);
         }
 
@@ -53,7 +51,7 @@ namespace CRM.WebAPI.Controllers
         public async Task<ActionResult>
             Update([FromBody] Client dataToUpdate) //обновляет данные (что угодно можно поменять в клиенте кроме id)
         {
-            await _clientRepository.Update(dataToUpdate);
+            await _repository.Update(dataToUpdate);
             return Ok(StatusCodes.Status200OK);
         }
 
@@ -61,7 +59,7 @@ namespace CRM.WebAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(Guid id) //удаляет по id
         {
-            await _clientRepository.RemoveById(id);
+            await _repository.RemoveById(id);
             return Ok(StatusCodes.Status200OK);
         }
     }

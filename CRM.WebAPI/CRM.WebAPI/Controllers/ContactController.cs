@@ -1,61 +1,49 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CRM.Domain.Models;
 using CRM.Infrastructure.Interfaces;
-using CRM.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using NuGet.Protocol.Core.Types;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace CRM.WebAPI.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class VisitController : ControllerBase
+    public class ContactController : ControllerBase
     {
-        private IVisitRepository _repository;
+        private IContactRepository _repository;
 
-        public VisitController(IVisitRepository repository)
+        public ContactController(IContactRepository repository)
         {
-            _repository = repository ?? throw new ArgumentException(nameof(repository));
+            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
-
-        // GET: api/values
+        // GET: api/Contact
         [HttpGet]
         public async Task<ActionResult> GetAll()
         {
-            return Ok(await _repository.GetAll());
+          return Ok(await _repository.GetAll());
         }
 
-        // GET api/values/5
+        // GET: api/Contact/5
         [HttpGet("{id}")]
         public async Task<ActionResult> GetById(Guid id)
         {
-            try
-            {
-                return Ok(await _repository.GetById(id));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(StatusCodes.Status404NotFound);
-            }
+            return Ok(await _repository.GetById(id));
         }
-
 
         // PUT api/values/5
         [HttpPut]
-        public async Task<ActionResult> Insert([FromBody] Visit visit)
+        public async Task<ActionResult> Insert([FromBody] Contact contact)
 
         {
-            await _repository.Put(visit);
+            await _repository.Put(contact);
             return Ok(StatusCodes.Status200OK);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Update([FromBody] Visit dataToUpdate)
+        public async Task<ActionResult> Update([FromBody] Contact dataToUpdate)
         {
             await _repository.Update(dataToUpdate);
             return Ok(StatusCodes.Status200OK);
