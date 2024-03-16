@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using CRM.Domain.Models;
 using CRM.Infrastructure.Interfaces;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using File = CRM.Domain.Models.File;
 
 namespace CRM.WebAPI.Controllers
@@ -37,10 +38,28 @@ namespace CRM.WebAPI.Controllers
 
         // PUT api/values/5
         [HttpPut]
-        public async Task<ActionResult> Insert([FromBody] IFormFile file)
+        public async Task<ActionResult> Insert([FromForm] FileToUpload file)
 
         {
-            await _repository.Put(file);
+            byte[] fileBytes;
+            using (var ms = new MemoryStream())
+            {
+                file.files.CopyTo(ms);
+                fileBytes = ms.ToArray();
+                // string s = Convert.ToBase64String(fileBytes);
+                    // act on the Base64 data
+            }
+            
+
+            var fileToPut = new File()
+            {
+                FileId = Guid.NewGuid(),
+                ClientId = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
+                PsychologistId = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
+                FileName = file.files.FileName,
+                FileContent = fileBytes,
+            };
+            await _repository.Put(fileToPut);
             return Ok(StatusCodes.Status200OK);
         }
 

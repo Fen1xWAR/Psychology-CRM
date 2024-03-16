@@ -20,10 +20,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\CRM.Domain\CRM.Domain.csproj" />
       <ProjectReference Include="..\CRM.Infrastructure\CRM.Infrastructure.csproj" />
     </ItemGroup>

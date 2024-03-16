@@ -23,8 +23,7 @@ public class FileRepository : RepositoryBase, IFileRepository
 
     public async Task Put(File file)
     {
-        var fileId = new Guid();
-        await ExecuteSql($"INSERT INTO files (file_id, client_id, psychologist_id, file_name, file_content) VALUES ('{fileId}','{file.ClientId}','{file.PsychologistId}','{file.FileId}','{file.FileContent}')");
+        await ExecuteSql($"INSERT INTO files (file_id, client_id, psychologist_id, file_name, file_content) VALUES ('{file.FileId}','{file.ClientId}','{file.PsychologistId}','{file.FileName}','{file.FileContent}')");
     }
 
     public async Task Update(File dataToUpdate)
