@@ -7,6 +7,7 @@ using Npgsql;
 namespace CRM.Infrastructure.Repositories;
 
 public class VisitRepository : RepositoryBase, IVisitRepository
+
 {
     public async Task<IEnumerable<Visit>> GetAll()
     {
