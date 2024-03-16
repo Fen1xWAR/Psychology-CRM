@@ -16,6 +16,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IClientRepository, ClientRepository>();
 builder.Services.AddSingleton<IVisitRepository, VisitRepository>();
 builder.Services.AddSingleton<IContactRepository,ContactRepository>();
+builder.Services.AddSingleton<IFileRepository, FileRepository>();
 
 
 
@@ -35,7 +36,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-app.UseMiddleware<ExceptionMiddleware>();
+// app.UseMiddleware<ExceptionMiddleware>();
 app.MapControllers();
 
 app.Run();

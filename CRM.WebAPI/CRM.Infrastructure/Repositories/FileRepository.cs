@@ -1,4 +1,5 @@
-﻿using CRM.Infrastructure.Interfaces;
+﻿using CRM.Infrastructure.CreationObjectFromSQL;
+using CRM.Infrastructure.Interfaces;
 using Microsoft.Extensions.Configuration;
 using File = CRM.Domain.Models.File;
 
@@ -10,28 +11,30 @@ public class FileRepository : RepositoryBase, IFileRepository
     {
     }
 
-    public Task<IEnumerable<File>> GetAll()
+    public async Task<IEnumerable<File>> GetAll()
     {
-        throw new NotImplementedException();
+        return await GetDataSql<File, FileCreator>("SELECT * FROM files");
     }
 
-    public Task<File> GetById(Guid id)
+    public async Task<File> GetById(Guid id)
     {
-        throw new NotImplementedException();
+        return (await GetDataSql<File, FileCreator>($"SELECT * FROM files WHERE file_id= '{id}'")).First();
     }
 
-    public Task Put(File file)
+    public async Task Put(File file)
     {
-        throw new NotImplementedException();
+        var fileId = new Guid();
+        await ExecuteSql($"INSERT INTO files (file_id, client_id, psychologist_id, file_name, file_content) VALUES ('{fileId}','{file.ClientId}','{file.PsychologistId}','{file.FileId}','{file.FileContent}')");
     }
 
-    public Task Update(File dataToUpdate)
+    public async Task Update(File dataToUpdate)
     {
-        throw new NotImplementedException();
+
+        await ExecuteSql($"UPDATE files SET client_id= COALESCE('{dataToUpdate.ClientId}',client_id), psychologist_id=coalesce('{dataToUpdate.PsychologistId}',psychologist_id), file_name=coalesce('{dataToUpdate.FileName}', file_name), file_content=coalesce('{dataToUpdate.FileContent}',file_content) WHERE file_id='{dataToUpdate.FileId}'" );
     }
 
-    public Task RemoveById(Guid id)
+    public async Task RemoveById(Guid id)
     {
-        throw new NotImplementedException();
+        await ExecuteSql($"DELETE FROM files WHERE file_id='{id}'");
     }
 }

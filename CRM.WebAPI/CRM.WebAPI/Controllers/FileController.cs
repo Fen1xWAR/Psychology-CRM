@@ -11,7 +11,7 @@ using File = CRM.Domain.Models.File;
 
 namespace CRM.WebAPI.Controllers
 {
-    [Route("api/[controller]/[action]/{contact}")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class FileController : ControllerBase
     {
@@ -37,7 +37,7 @@ namespace CRM.WebAPI.Controllers
 
         // PUT api/values/5
         [HttpPut]
-        public async Task<ActionResult> Insert([FromBody] File file)
+        public async Task<ActionResult> Insert([FromBody] IFormFile file)
 
         {
             await _repository.Put(file);
