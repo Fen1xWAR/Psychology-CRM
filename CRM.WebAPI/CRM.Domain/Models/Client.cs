@@ -8,6 +8,4 @@ public class Client
     public Guid Form { get; set; }
     public string CurrentProblem { get; set; }
     public Guid ContactId { get; set; }
-    
-    
 }

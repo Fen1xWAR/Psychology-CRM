@@ -8,5 +8,5 @@ public interface IContactRepository
     Task<Contact> GetById(Guid id);
     Task Put(Contact contact);
     Task Update(Contact dataToUpdate);
-    Task RemoveById(Guid id); 
+    Task RemoveById(Guid id);
 }

@@ -18,7 +18,9 @@ namespace CRM.WebAPI.Controllers
         private IClientRepository _repository; //храним репозиторий (что то что напрямую взаимодействует с базой)
 
 
-        public ClientController(IClientRepository repository) //  конструктор где принимаем репозиторий (его передаем как DI в классе program)
+        public
+            ClientController(
+                IClientRepository repository) //  конструктор где принимаем репозиторий (его передаем как DI в классе program)
         {
             _repository = repository ?? throw new ArgumentException(nameof(repository));
         }

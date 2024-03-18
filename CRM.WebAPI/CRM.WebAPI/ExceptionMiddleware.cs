@@ -2,8 +2,9 @@ namespace CRM.WebApi
 {
     public class ExceptionMiddleware : IMiddleware //Миддлвер реализует миддлвер, ауф!
     {
-
-        public async Task InvokeAsync(HttpContext context, RequestDelegate next) // Метод, который пытается запустить проходящий запрос, и ловит ошибки
+        public async Task
+            InvokeAsync(HttpContext context,
+                RequestDelegate next) // Метод, который пытается запустить проходящий запрос, и ловит ошибки
         {
             try
             {
@@ -20,18 +21,19 @@ namespace CRM.WebApi
             //Статус код и сообщение ошибки объявим сразу
             int errorCode;
             string errorMessage;
-            switch(exception) //смотрим что за ошибка
+            switch (exception) //смотрим что за ошибка
             {
-                case InvalidOperationException: //если ошибка такая, что запрос ничего не нашел, выдаем юзеру соответсвующее уведомление
+                case InvalidOperationException
+                    : //если ошибка такая, что запрос ничего не нашел, выдаем юзеру соответсвующее уведомление
                     errorCode = StatusCodes.Status404NotFound;
                     errorMessage = "По вашему запросу ничего не найдено";
                     break;
-                default:  //иначе просто говорим что мы напортачили 
+                default: //иначе просто говорим что мы напортачили 
                     errorCode = StatusCodes.Status500InternalServerError;
                     errorMessage = "У нас что то пошло нет так";
                     break;
             }
-             
+
             //следующие две строки, просто устанавливают тип ответа браузера и код, который он получает (от нас :) )
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = errorCode;

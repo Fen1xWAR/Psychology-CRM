@@ -23,13 +23,15 @@ public class FileRepository : RepositoryBase, IFileRepository
 
     public async Task Put(File file)
     {
-        await ExecuteSql($"INSERT INTO files (file_id, client_id, psychologist_id, file_name, file_content) VALUES ('{file.FileId}','{file.ClientId}','{file.PsychologistId}','{file.FileName}','{file.FileContent}')");
+        var id = Guid.NewGuid();
+        await ExecuteSql(
+            $"INSERT INTO files (file_id, client_id, psychologist_id, file_name, file_content) VALUES ('{id}','{file.ClientId}','{file.PsychologistId}','{file.FileName}','{file.FileContent}')");
     }
 
     public async Task Update(File dataToUpdate)
     {
-
-        await ExecuteSql($"UPDATE files SET client_id= COALESCE('{dataToUpdate.ClientId}',client_id), psychologist_id=coalesce('{dataToUpdate.PsychologistId}',psychologist_id), file_name=coalesce('{dataToUpdate.FileName}', file_name), file_content=coalesce('{dataToUpdate.FileContent}',file_content) WHERE file_id='{dataToUpdate.FileId}'" );
+        await ExecuteSql(
+            $"UPDATE files SET client_id= COALESCE('{dataToUpdate.ClientId}',client_id), psychologist_id=coalesce('{dataToUpdate.PsychologistId}',psychologist_id), file_name=coalesce('{dataToUpdate.FileName}', file_name), file_content=coalesce('{dataToUpdate.FileContent}',file_content) WHERE file_id='{dataToUpdate.FileId}'");
     }
 
     public async Task RemoveById(Guid id)

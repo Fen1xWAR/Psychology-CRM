@@ -22,10 +22,11 @@ public class VisitRepository : RepositoryBase, IVisitRepository
 
     {
         var visitId = Guid.NewGuid();
-        await ExecuteSql($"INSERT INTO visits (visit_id, client_id, date_time, psychologist_description, client_note, " +
-                         $"service_id, psychologist_id ) VALUES ('{visitId}', '{visit.ClientId}', " +
-                         $"'{visit.DateTime:yyyy-MM-dd HH:mm:ss.fff}', " +
-                         $"'{visit.ClientNote}', '{visit.PsychologistDescription}', '{visit.ServiceId}', '{visit.PsychologistId}')");
+        await ExecuteSql(
+            $"INSERT INTO visits (visit_id, client_id, date_time, psychologist_description, client_note, " +
+            $"service_id, psychologist_id ) VALUES ('{visitId}', '{visit.ClientId}', " +
+            $"'{visit.DateTime:yyyy-MM-dd HH:mm:ss.fff}', " +
+            $"'{visit.ClientNote}', '{visit.PsychologistDescription}', '{visit.ServiceId}', '{visit.PsychologistId}')");
     }
 
     public async Task RemoveById(Guid id)

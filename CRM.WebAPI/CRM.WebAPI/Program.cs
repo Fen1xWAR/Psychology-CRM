@@ -2,6 +2,7 @@ using CRM.Domain.Models;
 using CRM.Infrastructure.Interfaces;
 using CRM.Infrastructure.Repositories;
 using CRM.WebApi;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -12,13 +13,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-
 builder.Services.AddSingleton<IClientRepository, ClientRepository>();
 builder.Services.AddSingleton<IVisitRepository, VisitRepository>();
-builder.Services.AddSingleton<IContactRepository,ContactRepository>();
+builder.Services.AddSingleton<IContactRepository, ContactRepository>();
 builder.Services.AddSingleton<IFileRepository, FileRepository>();
-
-
+builder.Services.AddSingleton<IFormRepository, FormRepository>();
 
 
 builder.Services.AddSingleton<ExceptionMiddleware>();
@@ -36,7 +35,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-// app.UseMiddleware<ExceptionMiddleware>();
+app.UseMiddleware<ExceptionMiddleware>();
 app.MapControllers();
 
 app.Run();

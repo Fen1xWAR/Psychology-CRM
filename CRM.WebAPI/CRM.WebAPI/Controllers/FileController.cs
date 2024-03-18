@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using CRM.Domain.Models;
 using CRM.Infrastructure.Interfaces;
+using CRM.WebAPI.ModelsToUpload;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using File = CRM.Domain.Models.File;
 
@@ -22,6 +23,7 @@ namespace CRM.WebAPI.Controllers
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
+
         // GET: api/Contact
         [HttpGet]
         public async Task<ActionResult> GetAll()
@@ -41,26 +43,29 @@ namespace CRM.WebAPI.Controllers
         public async Task<ActionResult> Insert([FromForm] FileToUpload file)
 
         {
+            if (file.ClientId == Guid.Empty || file.PsychologistId == Guid.Empty)
+            {
+                return BadRequest(new { message = "Попытка передача пустого значения" });
+            }
+
             byte[] fileBytes;
             using (var ms = new MemoryStream())
             {
-                file.files.CopyTo(ms);
+                await file.Files.CopyToAsync(ms);
                 fileBytes = ms.ToArray();
-                // string s = Convert.ToBase64String(fileBytes);
-                    // act on the Base64 data
             }
-            
+
 
             var fileToPut = new File()
             {
                 FileId = Guid.NewGuid(),
-                ClientId = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
-                PsychologistId = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
-                FileName = file.files.FileName,
+                ClientId = file.ClientId,
+                PsychologistId = file.PsychologistId,
+                FileName = file.Files.FileName,
                 FileContent = fileBytes,
             };
             await _repository.Put(fileToPut);
-            return Ok(StatusCodes.Status200OK);
+            return Ok();
         }
 
         [HttpPost]

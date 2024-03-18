@@ -2,7 +2,9 @@
 using Npgsql;
 
 namespace CRM.Infrastructure.CreationObjectFromSQL;
+
 using CRM.Domain.Models;
+
 public class FileCreator : ICreator<File>
 {
     public File Map(NpgsqlDataReader reader)
