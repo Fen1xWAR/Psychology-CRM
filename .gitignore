@@ -33,3 +33,4 @@ Thumbs.db
 Desktop.ini
 .DS_Store
 /CRM.WebAPI/CRM.WebAPI/appsettings.Development.json
+/CRM.WebAPI/appsettings.Development.json
