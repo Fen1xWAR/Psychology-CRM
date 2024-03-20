@@ -12,14 +12,14 @@ public class VisitRepository : RepositoryBase, IVisitRepository
     {
         return await GetDataSql<Visit, VisitCreator>("SELECT * FROM visits");
     }
-
+    
     public async Task<Visit> GetById(Guid id)
     {
         return (await GetDataSql<Visit, VisitCreator>($"SELECT * FROM visits WHERE visit_id = '{id}'")).First();
     }
-
+    
     public async Task Put(Visit visit)
-
+    
     {
         var visitId = Guid.NewGuid();
         await ExecuteSql(
@@ -28,16 +28,16 @@ public class VisitRepository : RepositoryBase, IVisitRepository
             $"'{visit.DateTime:yyyy-MM-dd HH:mm:ss.fff}', " +
             $"'{visit.ClientNote}', '{visit.PsychologistDescription}', '{visit.ServiceId}', '{visit.PsychologistId}')");
     }
-
+    
     public async Task RemoveById(Guid id)
     {
         await ExecuteSql($"DELETE FROM visits WHERE visit_id = '{id}' ");
     }
-
+    
     public async Task Update(Visit dataToUpdate)
     {
         await ExecuteSql(
-            $"UPDATE public.visits SET " +
+            $"UPDATE visits SET " +
             $"client_id = COALESCE('{dataToUpdate.ClientId}', client_id), " +
             $"date_time = COALESCE('{dataToUpdate.DateTime:yyyy-MM-dd HH:mm:ss.fff}', date_time), " +
             $"client_note = COALESCE('{dataToUpdate.ClientNote}', client_note), " +
@@ -47,8 +47,8 @@ public class VisitRepository : RepositoryBase, IVisitRepository
             $"WHERE " +
             $"visit_id = '{dataToUpdate.VisitId}'");
     }
-
-
+    
+    
     public VisitRepository(IConfiguration configuration) : base(configuration)
     {
     }

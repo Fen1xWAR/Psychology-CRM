@@ -1,12 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using CRM.Domain.Models;
 using CRM.Infrastructure.Interfaces;
-using CRM.Infrastructure.Repositories;
 
 namespace CRM.WebAPI.Controllers
 {
@@ -33,7 +27,7 @@ namespace CRM.WebAPI.Controllers
         }
 
         // GET: api/Client/5
-        [HttpGet("{id}", Name = "GetByID")] // ищет по id
+        [HttpGet("{id}")] // ищет по id
         public async Task<ActionResult> GetById(Guid id)
         {
             return Ok(await _repository.GetById(id));
@@ -46,7 +40,7 @@ namespace CRM.WebAPI.Controllers
 
         {
             await _repository.Put(client);
-            return Ok(StatusCodes.Status200OK);
+            return Ok();
         }
 
         [HttpPost]
@@ -54,7 +48,7 @@ namespace CRM.WebAPI.Controllers
             Update([FromBody] Client dataToUpdate) //обновляет данные (что угодно можно поменять в клиенте кроме id)
         {
             await _repository.Update(dataToUpdate);
-            return Ok(StatusCodes.Status200OK);
+            return Ok();
         }
 
         // DELETE api/values/5
@@ -62,7 +56,7 @@ namespace CRM.WebAPI.Controllers
         public async Task<ActionResult> Delete(Guid id) //удаляет по id
         {
             await _repository.RemoveById(id);
-            return Ok(StatusCodes.Status200OK);
+            return Ok();
         }
     }
 }

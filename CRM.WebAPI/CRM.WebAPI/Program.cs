@@ -18,6 +18,9 @@ builder.Services.AddSingleton<IVisitRepository, VisitRepository>();
 builder.Services.AddSingleton<IContactRepository, ContactRepository>();
 builder.Services.AddSingleton<IFileRepository, FileRepository>();
 builder.Services.AddSingleton<IFormRepository, FormRepository>();
+builder.Services.AddSingleton<ILoginRepository, LoginRepository>();
+builder.Services.AddSingleton<IPaymentRepository, PaymentRepository>();
+
 
 
 builder.Services.AddSingleton<ExceptionMiddleware>();
