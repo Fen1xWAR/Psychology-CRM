@@ -21,6 +21,7 @@ builder.Services.AddSingleton<IFormRepository, FormRepository>();
 builder.Services.AddSingleton<ILoginRepository, LoginRepository>();
 builder.Services.AddSingleton<IPaymentRepository, PaymentRepository>();
 builder.Services.AddSingleton<IPsychologistRepository, PsychologistRepository>();
+builder.Services.AddSingleton<IUserRepository, UserRepository>();
 
 
 
@@ -39,7 +40,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-// app.UseMiddleware<ExceptionMiddleware>();
+app.UseMiddleware<ExceptionMiddleware>();
 app.MapControllers();
 
 app.Run();

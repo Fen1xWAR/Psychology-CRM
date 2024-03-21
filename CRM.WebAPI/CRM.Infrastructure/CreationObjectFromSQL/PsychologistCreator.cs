@@ -8,7 +8,6 @@ public class PsychologistCreator : ICreator<Psychologist>
     {
         return new Psychologist()
         {
-            //читаем собираем обьект:) ридер просим взять строку гуид или еще что то с определенного места (это номера колонок)
             PsychologistId = reader.GetGuid(0),
             Name = reader.GetString(1),
             Lastname = reader.GetString(2),
