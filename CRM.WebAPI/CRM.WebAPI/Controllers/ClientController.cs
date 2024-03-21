@@ -51,7 +51,7 @@ namespace CRM.WebAPI.Controllers
             return Ok();
         }
 
-        // DELETE api/values/5
+        // DELETE api/Client/5
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(Guid id) //удаляет по id
         {

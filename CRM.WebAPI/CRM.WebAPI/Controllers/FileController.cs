@@ -24,21 +24,21 @@ namespace CRM.WebAPI.Controllers
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
-        // GET: api/Contact
+        // GET: api/File
         [HttpGet]
         public async Task<ActionResult> GetAll()
         {
             return Ok(await _repository.GetAll());
         }
 
-        // GET: api/Contact/5
+        // GET: api/File/5
         [HttpGet("{id}")]
         public async Task<ActionResult> GetById(Guid id)
         {
             return Ok(await _repository.GetById(id));
         }
 
-        // PUT api/values/5
+        // PUT api/File/5
         [HttpPut]
         public async Task<ActionResult> Insert([FromForm] FileToUpload file)
 
@@ -75,7 +75,7 @@ namespace CRM.WebAPI.Controllers
             return Ok(StatusCodes.Status200OK);
         }
 
-        // DELETE api/values/5
+        // DELETE api/File/5
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(Guid id)
         {

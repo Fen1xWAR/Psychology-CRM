@@ -19,14 +19,14 @@ namespace CRM.WebAPI.Controllers
         {
             _repository = repository ?? throw new ArgumentException(nameof(repository));
         }
-        // GET: api/Login
+        // GET: api/Payment
         [HttpGet]
         public async Task<ActionResult> GetAll()
         {
             return Ok(await _repository.GetAll());
         }
 
-        // GET: api/Login/5
+        // GET: api/Payment/5
         [HttpGet("{id}")]
         public async Task<ActionResult> GetById(Guid id)
         {
@@ -34,14 +34,14 @@ namespace CRM.WebAPI.Controllers
         }
         
 
-        // PUT: api/Login/5
+        // PUT: api/Payment/5
         [HttpPut]
         public async Task<ActionResult>Insert([FromBody]Payment payment)
         {
             await _repository.Put(payment);
             return Ok();
         }
-        // POST: api/Login
+        // POST: api/Payment
         [HttpPost]
         public async Task<ActionResult>
             Update([FromBody]Payment dataToUpdate)
@@ -51,7 +51,7 @@ namespace CRM.WebAPI.Controllers
 
         }
 
-        // DELETE: api/Login/5
+        // DELETE: api/Payment/5
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(Guid id) //удаляет по id
         {

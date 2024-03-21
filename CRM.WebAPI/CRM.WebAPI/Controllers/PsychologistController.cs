@@ -8,51 +8,51 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CRM.WebAPI.Controllers
-{
-    [Route("api/[controller]/[action]")]
+{[Route("api/[controller]/[action]")]
     [ApiController]
-    public class ContactController : ControllerBase
+    public class PsychologistController : ControllerBase
     {
-        private IContactRepository _repository;
+        private IPsychologistRepository _repository;
 
-        public ContactController(IContactRepository repository)
+        public PsychologistController(IPsychologistRepository repository)
         {
-            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _repository = repository ?? throw new ArgumentException(nameof(repository));
         }
-
-        // GET: api/Contact
+        // GET: api/Psychologist
         [HttpGet]
         public async Task<ActionResult> GetAll()
         {
             return Ok(await _repository.GetAll());
         }
 
-        // GET: api/Contact/5
+        // GET: api/Psychologist/5
         [HttpGet("{id}")]
         public async Task<ActionResult> GetById(Guid id)
         {
             return Ok(await _repository.GetById(id));
         }
+        
 
-        // PUT api/Contact/5
+        // PUT: api/Psychologist/5
         [HttpPut]
-        public async Task<ActionResult> Insert([FromBody] Contact contact)
-
+        public async Task<ActionResult>Insert([FromBody]Psychologist psychologist)
         {
-            await _repository.Put(contact);
+            await _repository.Put(psychologist);
             return Ok();
         }
-
+        // POST: api/Psychologist
         [HttpPost]
-        public async Task<ActionResult> Update([FromBody] Contact dataToUpdate)
+        public async Task<ActionResult>
+            Update([FromBody]Psychologist dataToUpdate)
         {
             await _repository.Update(dataToUpdate);
             return Ok();
+
         }
 
-        // DELETE api/Contact/5
+        // DELETE: api/Psychologist/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(Guid id)
+        public async Task<ActionResult> Delete(Guid id) 
         {
             await _repository.RemoveById(id);
             return Ok();

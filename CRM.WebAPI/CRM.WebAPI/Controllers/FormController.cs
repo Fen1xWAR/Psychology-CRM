@@ -20,14 +20,14 @@ namespace CRM.WebAPI.Controllers
             _repository = repository ?? throw new ArgumentException(nameof(repository));
         }
 
-        // GET: api/values
+        // GET: api/Form
         [HttpGet]
         public async Task<ActionResult> GetAll()
         {
             return Ok(await _repository.GetAll());
         }
 
-        // GET api/values/5
+        // GET api/Form/5
         [HttpGet("{id}")]
         public async Task<ActionResult> GetById(Guid id)
         {
@@ -42,7 +42,7 @@ namespace CRM.WebAPI.Controllers
         }
 
 
-        // PUT api/values/5
+        // PUT api/Form/5
         [HttpPut]
         public async Task<ActionResult> Insert([FromBody] Form visit)
 
@@ -58,7 +58,7 @@ namespace CRM.WebAPI.Controllers
             return Ok(StatusCodes.Status200OK);
         }
 
-        // DELETE api/values/5
+        // DELETE api/Form/5
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(Guid id)
         {
