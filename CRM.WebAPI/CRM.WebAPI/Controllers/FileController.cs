@@ -69,9 +69,23 @@ namespace CRM.WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Update([FromBody] File dataToUpdate)
+        public async Task<ActionResult> Update([FromForm] Guid fileId,[FromForm] FileToUpload dataToUpdate)
         {
-            await _repository.Update(dataToUpdate);
+            byte[] fileBytes;
+            using (var ms = new MemoryStream())
+            {
+                await dataToUpdate.Files.CopyToAsync(ms);
+                fileBytes = ms.ToArray();
+            }
+            var fileToUpdate = new File()
+            {
+                FileId = fileId,
+                ClientId = dataToUpdate.ClientId,
+                PsychologistId = dataToUpdate.PsychologistId,
+                FileName = dataToUpdate.Files.FileName,
+                FileContent = fileBytes,
+            };
+            await _repository.Update(fileToUpdate);
             return Ok(StatusCodes.Status200OK);
         }
 

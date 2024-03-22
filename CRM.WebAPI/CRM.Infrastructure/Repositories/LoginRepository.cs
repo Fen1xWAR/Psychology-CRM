@@ -32,10 +32,12 @@ public class LoginRepository : RepositoryBase,ILoginRepository
 
     public async Task Update(Login dataToUpdate)
     {
-        await ExecuteSql($"UPDATE logins SET " +
-                         $"user_id= coalesce('{dataToUpdate.UserId}', user_id)," +
-                         $"login_time=coalesce('{dataToUpdate.LoginTime:yyyy-MM-dd HH:mm:ss.fff'}', login_time)," +
-                         $"logout_time=coalesce('{dataToUpdate.LoginTime:yyyy-MM-dd HH:mm:ss.fff'}', logout_time)");
+        await ExecuteSql($"Update logins Set" +
+                         $" user_id=coalesce('{dataToUpdate.UserId}',user_id )," +
+                         $"login_time=coalesce('{dataToUpdate.LoginTime:yyyy-MM-dd HH:mm:ss.fff}',login_time)," +
+                         $"logout_time=coalesce('{dataToUpdate.LogoutTime:yyyy-MM-dd HH:mm:ss.fff}',logout_time)" +
+                         $" WHERE login_id='{dataToUpdate.LoginId}'");
+
     }
 
     public async Task RemoveById(Guid id)
