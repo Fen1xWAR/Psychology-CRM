@@ -22,6 +22,9 @@ builder.Services.AddSingleton<ILoginRepository, LoginRepository>();
 builder.Services.AddSingleton<IPaymentRepository, PaymentRepository>();
 builder.Services.AddSingleton<IPsychologistRepository, PsychologistRepository>();
 builder.Services.AddSingleton<IUserRepository, UserRepository>();
+builder.Services.AddSingleton<IServiceRepository, ServiceRepository>();
+builder.Services.AddSingleton<IScheduleRepository, ScheduleRepository>();
+
 
 
 

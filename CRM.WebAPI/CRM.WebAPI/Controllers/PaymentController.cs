@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using CRM.Domain.Models;
 using CRM.Infrastructure.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CRM.WebAPI.Controllers
