@@ -21,7 +21,7 @@ namespace CRM.WebAPI.Controllers
 
         // GET: api/Client
         [HttpGet]
-        public async Task<ActionResult> GetAll() // метод возвращает все
+        public async Task<IActionResult> GetAll() // метод возвращает все
         {
             return Ok(await _repository.GetAll());
         }
@@ -36,7 +36,7 @@ namespace CRM.WebAPI.Controllers
 
         // PUT: api/Client/5
         [HttpPut] //добавляет в базу новый
-        public async Task<ActionResult> Insert([FromBody] Client client)
+        public async Task<IActionResult> Insert([FromBody] Client client)
 
         {
             await _repository.Put(client);
