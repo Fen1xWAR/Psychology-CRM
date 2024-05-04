@@ -1,3 +1,4 @@
+using System.Data;
 using CRM.Domain.Models;
 using Npgsql;
 
@@ -9,9 +10,9 @@ public class PsychologistCreator : ICreator<Psychologist>
         return new Psychologist()
         {
             PsychologistId = reader.GetGuid(0),
-            Name = reader.GetString(1),
-            Lastname = reader.GetString(2),
-            ContactId = reader.GetGuid(3)
+            
+            ContactId = reader.GetGuid(1),
+            UserId = reader.GetGuid(2)
         };
     }
 }

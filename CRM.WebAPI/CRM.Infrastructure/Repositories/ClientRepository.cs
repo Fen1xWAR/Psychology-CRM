@@ -1,51 +1,76 @@
+using CRM.Core.Implement;
+using CRM.Core.Interfaces;
 using CRM.Domain.Models;
 using CRM.Infrastructure.CreationObjectFromSQL;
 using CRM.Infrastructure.Interfaces;
 using Microsoft.Extensions.Configuration;
+using Npgsql;
 
 namespace CRM.Infrastructure.Repositories;
 
-public class ClientRepository : RepositoryBase, IClientRepository //Репозиторий для работы с таблицей клиентов
+public class ClientRepository : RepositoryBase, IClientRepository
 {
-    public ClientRepository(IConfiguration configuration) :
-        base(configuration) // конфигурацию входа в бд - в класс родителя
+    public ClientRepository(IConfiguration configuration) : base(configuration)
     {
     }
 
-    public async Task<IEnumerable<Client>> GetAll()
+    public async Task<IOperationResult<IEnumerable<Client>>> GetAll()
     {
-        return
-            await GetDataSql<Client, ClientCreator>(
-                "SELECT * FROM clients"); // вызываем методы родителя (метод getdata для чтения и ExecuteSQL чтобы просто выполнить запрос и не вернуть данные )
+        return new Success<IEnumerable<Client>>(await GetDataSql<Client, ClientCreator>("SELECT * FROM clients"));
     }
 
-    public async Task<Client> GetById(Guid id)
+    public async Task<IOperationResult<Client?>> GetById(Guid id)
     {
-        return (await GetDataSql<Client, ClientCreator>($"SELECT * FROM clients WHERE client_id = '{id}'")).First();
+        var result = (await GetDataSql<Client, ClientCreator>("SELECT * FROM clients WHERE client_id = @id",
+            new NpgsqlParameter("@id", id))).FirstOrDefault();
+        if (result == null)
+        {
+            return new ElementNotFound<Client>(null, "Client not found");
+        }
+
+        return new Success<Client?>(result);
     }
 
-    public async Task Put(Client client)
+    public async Task<IOperationResult<Guid>> Put(Client client)
     {
-        var clientId = Guid.NewGuid(); //создаем новый гуидник каждый раз когда добавляем нового клиента
-        //выполняем запрос, кладем значения на нужные места
-        await ExecuteSql($"INSERT INTO clients (client_id, name, lastname,form, current_problem, contact_id " +
-                         $") VALUES ('{clientId}','{client.Name}','{client.Lastname}','{client.Form}','{client.CurrentProblem}','{client.ContactId}')");
+        var clientId = Guid.NewGuid();
+        await ExecuteSql(
+            "INSERT INTO clients (client_id, form, current_problem, contact_id, user_id) VALUES (@clientId, @form, @currentProblem, @contactId, @userId)",
+            new NpgsqlParameter("@clientId", clientId),
+            new NpgsqlParameter("@form", client.Form),
+            new NpgsqlParameter("@currentProblem", client.CurrentProblem ?? ""),
+            new NpgsqlParameter("@contactId", client.ContactId),
+            new NpgsqlParameter("@userId", client.UserId));
+        return new Success<Guid>(clientId);
     }
 
-    public async Task Update(Client dataToUpdate)
+    public async Task<IOperationResult> Update(Client dataToUpdate)
     {
-        // обновляем нужного клиента, если значение новое пришло - ставим его, если нет - оставляем старое
-        await ExecuteSql($"UPDATE clients SET name = coalesce('{dataToUpdate.Name}', name), " +
-                         $"lastname = coalesce('{dataToUpdate.Lastname}', lastname), " +
-                         $"form = coalesce('{dataToUpdate.Form}', form)," +
-                         $"current_problem = coalesce('{dataToUpdate.CurrentProblem}', current_problem), " +
-                         $"contact_id = coalesce('{dataToUpdate.ContactId}',contact_id) " +
-                         $"WHERE client_id = '{dataToUpdate.ClientId}'");
+        var clientToUpdate = await GetById(dataToUpdate.ClientId);
+        if (!clientToUpdate.Successful)
+        {
+            return new ElementNotFound("Not found client with current Id");
+        }
+
+        await ExecuteSql(
+            "UPDATE clients SET form = COALESCE(@form, form), current_problem = COALESCE(@currentProblem, current_problem), contact_id = COALESCE(@contactId, contact_id), user_id = COALESCE(@userId, user_id) WHERE client_id = @id",
+            new NpgsqlParameter("@form", dataToUpdate.Form),
+            new NpgsqlParameter("@currentProblem", dataToUpdate.CurrentProblem),
+            new NpgsqlParameter("@contactId", dataToUpdate.ContactId),
+            new NpgsqlParameter("@id", dataToUpdate.ClientId),
+            new NpgsqlParameter("@userId", dataToUpdate.UserId));
+        return new Success();
     }
 
-    public async Task RemoveById(Guid id)
+    public async Task<IOperationResult> RemoveById(Guid id)
     {
-        //удаляем из базы по id
-        await ExecuteSql($"DELETE FROM clients WHERE client_id = '{id}'");
+        var clientToDelete = await GetById(id);
+        if (!clientToDelete.Successful)
+        {
+            return new ElementNotFound("Not found client with current Id");
+        }
+
+        await ExecuteSql("DELETE FROM clients WHERE client_id = @id", new NpgsqlParameter("@id", id));
+        return new Success();
     }
 }

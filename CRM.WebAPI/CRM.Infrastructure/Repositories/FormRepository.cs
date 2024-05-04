@@ -1,7 +1,11 @@
-﻿using CRM.Domain.Models;
+﻿using System.Threading.Tasks;
+using CRM.Core.Implement;
+using CRM.Core.Interfaces;
+using CRM.Domain.Models;
 using CRM.Infrastructure.CreationObjectFromSQL;
 using CRM.Infrastructure.Interfaces;
 using Microsoft.Extensions.Configuration;
+using Npgsql;
 
 namespace CRM.Infrastructure.Repositories;
 
@@ -11,29 +15,49 @@ public class FormRepository : RepositoryBase, IFormRepository
     {
     }
 
-    public async Task<IEnumerable<Form>> GetAll()
+    public async Task<IOperationResult<IEnumerable<Form>>> GetAll()
     {
-        return await GetDataSql<Form, FormCreator>("SELECT * FROM forms");
+        return new Success<IEnumerable<Form>>(await GetDataSql<Form, FormCreator>("SELECT * FROM forms"));
     }
 
-    public async Task<Form> GetById(Guid id)
+    public async Task<IOperationResult<Form>> GetById(Guid id)
     {
-        return (await GetDataSql<Form, FormCreator>($"SELECT * FROM forms where form_id='{id}'")).First();
+        var result = (await GetDataSql<Form, FormCreator>("SELECT * FROM forms WHERE form_id = @id",
+            new NpgsqlParameter("@id", id))).FirstOrDefault();
+        if (result == null)
+            return new ElementNotFound<Form>(null, "Form not found ");
+        return new Success<Form>(result);
     }
 
-    public async Task Put(Form form)
+    public async Task<IOperationResult<Guid>> Put(Form form)
     {
         var id = Guid.NewGuid();
-        await ExecuteSql($"INSERT INTO forms (form_id, form_content) VALUES ('{id}','{form.FormContent}')");
+        await ExecuteSql(
+            "INSERT INTO forms (form_id, form_content) VALUES (@id, @formContent)",
+            new NpgsqlParameter("@id", id),
+            new NpgsqlParameter("@formContent", form.FormContent));
+        return new Success<Guid>(id);
     }
 
-    public async Task Update(Form dataToUpdate)
+    public async Task<IOperationResult> Update(Form dataToUpdate)
     {
-        await ExecuteSql($"UPDATE forms SET form_content=coalesce(form_content,'{dataToUpdate.FormContent}')  WHERE form_id='{dataToUpdate.FormId}'");
+        var formToUpdate = await GetById(dataToUpdate.FormId);
+        if (!formToUpdate.Successful)
+            return new ElementNotFound("Not found form with current id!");
+
+        await ExecuteSql(
+            "UPDATE forms SET form_content = COALESCE(@formContent,form_content) WHERE form_id = @id",
+            new NpgsqlParameter("@formContent", dataToUpdate.FormContent),
+            new NpgsqlParameter("@id", dataToUpdate.FormId));
+        return new Success();
     }
 
-    public async Task RemoveById(Guid id)
+    public async Task<IOperationResult> RemoveById(Guid id)
     {
-        await ExecuteSql($"DELETE FROM forms WHERE form_id='{id}'");
+        var formToDelete = await GetById(id);
+        if (!formToDelete.Successful)
+            return new ElementNotFound("Not found form with current id!");
+        await ExecuteSql("DELETE FROM forms WHERE form_id = @id", new NpgsqlParameter("@id", id));
+        return new Success();
     }
 }

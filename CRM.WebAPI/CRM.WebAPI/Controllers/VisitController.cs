@@ -1,5 +1,7 @@
 ﻿using CRM.Domain.Models;
 using CRM.Infrastructure.Interfaces;
+using CRM.WebAPI.ModelsToUpload;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -8,15 +10,53 @@ namespace CRM.WebAPI.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize]
     public class VisitController : ControllerBase
     {
         private IVisitRepository _repository;
-
+   
+       
         public VisitController(IVisitRepository repository)
         {
             _repository = repository ?? throw new ArgumentException(nameof(repository));
         }
+        
+        //Logic
+        [HttpPost]
+        public async Task<ActionResult> CreateVisit([FromForm] VisitModel visit)
+        {
+            try
+            {
 
+               await _repository.Put(new Visit()
+                {
+                    VisitId = new Guid(),
+                    ClientId = visit.ClientId,
+                    ClientNote = visit.ClientNote,
+                    DateTime = visit.DateTime,
+                    PsychologistDescription = visit.Description,
+                    PsychologistId = visit.PsychologistId,
+                    ServiceId = visit.ServiceId
+                });
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        //Cruds
+        
         // GET: api/Visit
         [HttpGet]
         public async Task<ActionResult> GetAll()

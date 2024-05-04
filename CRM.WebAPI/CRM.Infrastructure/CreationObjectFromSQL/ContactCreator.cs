@@ -10,8 +10,9 @@ public class ContactCreator : ICreator<Contact>
         return new Contact
         {
             ContactId = reader.GetGuid(0),
-            Email = reader.GetString(1),
-            PhoneNumber = reader.GetString(2)
+            PhoneNumber = reader.GetString(1),
+            Name = reader.GetString(2),
+            Lastname = reader.GetString(3)
         };
     }
 }

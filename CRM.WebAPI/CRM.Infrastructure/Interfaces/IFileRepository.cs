@@ -1,12 +1,14 @@
-﻿namespace CRM.Infrastructure.Interfaces;
+﻿using CRM.Core.Interfaces;
+
+namespace CRM.Infrastructure.Interfaces;
 
 using CRM.Domain.Models;
 
 public interface IFileRepository
 {
-    Task<IEnumerable<File>> GetAll();
-    Task<File> GetById(Guid id);
-    Task Put(File file);
-    Task Update(File dataToUpdate);
-    Task RemoveById(Guid id);
+    Task<IOperationResult<IEnumerable<File>>> GetAll();
+    Task<IOperationResult<File>> GetById(Guid id);
+    Task<IOperationResult<Guid>> Put(File file);
+    Task<IOperationResult> Update(File dataToUpdate);
+    Task<IOperationResult> RemoveById(Guid id);
 }

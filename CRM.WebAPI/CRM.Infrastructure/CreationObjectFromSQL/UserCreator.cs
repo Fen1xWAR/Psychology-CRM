@@ -11,10 +11,9 @@ public class UserCreator:ICreator<User>
         return new User()
         {
             UserId =reader.GetGuid(0),
-            UserName =reader.GetString(1),
+            Email = reader.GetString(1),
             Password =reader.GetString(2),
-            Role =reader.GetString(3),
-            DataId =reader.GetGuid(4)
+            Role =reader.GetString(3)
         };
 
     }

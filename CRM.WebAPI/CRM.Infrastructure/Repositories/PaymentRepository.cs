@@ -1,7 +1,9 @@
+using System.Threading.Tasks;
 using CRM.Domain.Models;
 using CRM.Infrastructure.CreationObjectFromSQL;
 using CRM.Infrastructure.Interfaces;
 using Microsoft.Extensions.Configuration;
+using Npgsql;
 
 namespace CRM.Infrastructure.Repositories;
 
@@ -18,31 +20,37 @@ public class PaymentRepository : RepositoryBase, IPaymentRepository
 
     public async Task<Payment> GetById(Guid id)
     {
-        return (await GetDataSql<Payment, PaymentCreator>($"SELECT * FROM payments WHERE payment_id='{id}'")).First();
+        return (await GetDataSql<Payment, PaymentCreator>("SELECT * FROM payments WHERE payment_id = @id",
+            new NpgsqlParameter("@id", id))).First();
     }
 
     public async Task Put(Payment payment)
     {
         var paymentId = Guid.NewGuid();
-         await ExecuteSql(
-            $"Insert into payments(payment_id, client_id, visit_id, payment_date, payment_amount, payment_method) VALUES " +
-            $" ('{paymentId}','{payment.ClientId}','{payment.VisitId}','{payment.PaymentDate:yyyy-MM-dd HH:mm:ss.fff}','{payment.PaymentAmount}','{payment.PaymentMethod}')");
+        await ExecuteSql(
+            "INSERT INTO payments (payment_id, client_id, visit_id, payment_date, payment_amount, payment_method) VALUES (@id, @clientId, @visitId, @paymentDate, @paymentAmount, @paymentMethod)",
+            new NpgsqlParameter("@id", paymentId),
+            new NpgsqlParameter("@clientId", payment.ClientId),
+            new NpgsqlParameter("@visitId", payment.VisitId),
+            new NpgsqlParameter("@paymentDate", payment.PaymentDate),
+            new NpgsqlParameter("@paymentAmount", payment.PaymentAmount),
+            new NpgsqlParameter("@paymentMethod", payment.PaymentMethod));
     }
 
     public async Task Update(Payment dataToUpdate)
     {
-        await ExecuteSql($"Update payments Set client_id=coalesce('{dataToUpdate.ClientId}',client_id )," +
-                         $"visit_id=coalesce('{dataToUpdate.VisitId}', visit_id)," +
-                         $"payment_date=coalesce('{dataToUpdate.PaymentDate:yyyy-MM-dd HH:mm:ss.fff}',payment_date)," +
-                         $"payment_amount=coalesce('{dataToUpdate.PaymentAmount}', payment_amount)," +
-                         $"payment_method=coalesce('{dataToUpdate.PaymentMethod}', payment_method)" +
-                         $"where payment_id='{dataToUpdate.PaymentId}'");
-
+        await ExecuteSql(
+            "UPDATE payments SET client_id = COALESCE(@clientId, client_id), visit_id = COALESCE(@visitId, visit_id), payment_date = COALESCE(@paymentDate, payment_date), payment_amount = COALESCE(@paymentAmount, payment_amount), payment_method = COALESCE(@paymentMethod, payment_method) WHERE payment_id = @id",
+            new NpgsqlParameter("@clientId", dataToUpdate.ClientId),
+            new NpgsqlParameter("@visitId", dataToUpdate.VisitId),
+            new NpgsqlParameter("@paymentDate", dataToUpdate.PaymentDate),
+            new NpgsqlParameter("@paymentAmount", dataToUpdate.PaymentAmount),
+            new NpgsqlParameter("@paymentMethod", dataToUpdate.PaymentMethod),
+            new NpgsqlParameter("@id", dataToUpdate.PaymentId));
     }
 
     public async Task RemoveById(Guid id)
     {
-        await ExecuteSql($"delete from payments where payment_id='{id}'");
-            
+        await ExecuteSql("DELETE FROM payments WHERE payment_id = @id", new NpgsqlParameter("@id", id));
     }
 }

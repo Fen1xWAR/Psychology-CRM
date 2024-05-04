@@ -1,47 +1,68 @@
+using System.Threading.Tasks;
+using CRM.Core.Implement;
+using CRM.Core.Interfaces;
 using CRM.Domain.Models;
 using CRM.Infrastructure.CreationObjectFromSQL;
 using CRM.Infrastructure.Interfaces;
 using Microsoft.Extensions.Configuration;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure.Internal;
+using Npgsql;
 
 namespace CRM.Infrastructure.Repositories;
 
-public class LoginRepository : RepositoryBase,ILoginRepository
+public class LoginRepository : RepositoryBase, ILoginRepository
 {
     public LoginRepository(IConfiguration configuration) : base(configuration)
     {
     }
 
-    public async Task<IEnumerable<Login>> GetAll()
+    public async Task<IOperationResult<IEnumerable<Login>>> GetAll()
     {
-        return await GetDataSql<Login, LoginCreator>(
-            "SELECT * FROM logins ");
+        return new Success<IEnumerable<Login>>(await GetDataSql<Login, LoginCreator>("SELECT * FROM logins"));
     }
 
-    public  async Task<Login> GetById(Guid id)
+    public async Task<IOperationResult<Login>> GetById(Guid id)
     {
-        return (await GetDataSql<Login, LoginCreator>($"Select * from logins where login_id='{id}'")).First();
+        var result = (await GetDataSql<Login, LoginCreator>("SELECT * FROM logins WHERE login_id = @id",
+            new NpgsqlParameter("@id", id))).FirstOrDefault();
+        if (result == null)
+            return new ElementNotFound<Login>(null, "LoginNotFound");
+
+
+        return new Success<Login>(result);
     }
 
-    public async Task Put(Login login)
+    public async Task<IOperationResult<Guid>> Put(Login login)
     {
         var loginId = Guid.NewGuid();
-        await ExecuteSql($"INSERT INTO  logins(login_id, user_id, login_time, logout_time)" +
-                         $" VALUES ('{loginId}','{login.UserId}','{login.LoginTime:yyyy-MM-dd HH:mm:ss.fff}','{login.LogoutTime:yyyy-MM-dd HH:mm:ss.fff}')");
+        await ExecuteSql(
+            "INSERT INTO logins (login_id, user_id, login_time, logout_time) VALUES (@id, @userId, @loginTime, @logoutTime)",
+            new NpgsqlParameter("@id", loginId),
+            new NpgsqlParameter("@userId", login.UserId),
+            new NpgsqlParameter("@loginTime", login.LoginTime),
+            new NpgsqlParameter("@logoutTime", login.LogoutTime));
+        return new Success<Guid>(loginId);
     }
 
-    public async Task Update(Login dataToUpdate)
+    public async Task<IOperationResult> Update(Login dataToUpdate)
     {
-        await ExecuteSql($"Update logins Set" +
-                         $" user_id=coalesce('{dataToUpdate.UserId}',user_id )," +
-                         $"login_time=coalesce('{dataToUpdate.LoginTime:yyyy-MM-dd HH:mm:ss.fff}',login_time)," +
-                         $"logout_time=coalesce('{dataToUpdate.LogoutTime:yyyy-MM-dd HH:mm:ss.fff}',logout_time)" +
-                         $" WHERE login_id='{dataToUpdate.LoginId}'");
-
+        var loginToUpdate = await GetById(dataToUpdate.LoginId);
+        if (!loginToUpdate.Successful)
+            return new ElementNotFound("Not found login with current id");
+        await ExecuteSql(
+            "UPDATE logins SET user_id = COALESCE(@userId, user_id), login_time = COALESCE(@loginTime, login_time), logout_time = COALESCE(@logoutTime, logout_time) WHERE login_id = @id",
+            new NpgsqlParameter("@userId", dataToUpdate.UserId),
+            new NpgsqlParameter("@loginTime", dataToUpdate.LoginTime),
+            new NpgsqlParameter("@logoutTime", dataToUpdate.LogoutTime),
+            new NpgsqlParameter("@id", dataToUpdate.LoginId));
+        return new Success();
     }
 
-    public async Task RemoveById(Guid id)
+    public async Task<IOperationResult> RemoveById(Guid id)
     {
-        await ExecuteSql($"DELETE FROM logins WHERE login_id='{id}'");
+        var loginToDelete = await GetById(id);
+        if (!loginToDelete.Successful)
+            return new ElementNotFound("Not found login");
+        await ExecuteSql("DELETE FROM logins WHERE login_id = @id", new NpgsqlParameter("@id", id));
+        return new Success();
     }
 }

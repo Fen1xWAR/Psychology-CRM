@@ -4,12 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using CRM.Domain.Models;
 using CRM.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CRM.WebAPI.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize]
     public class PaymentController : ControllerBase
     {
         private IPaymentRepository _repository;

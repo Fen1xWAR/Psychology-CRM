@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using CRM.Domain.Models;
 using CRM.Infrastructure.Interfaces;
 using CRM.WebAPI.ModelsToUpload;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using File = CRM.Domain.Models.File;
 
@@ -15,6 +16,7 @@ namespace CRM.WebAPI.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize]
     public class FileController : ControllerBase
     {
         private IFileRepository _repository;
@@ -35,7 +37,12 @@ namespace CRM.WebAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> GetById(Guid id)
         {
-            return Ok(await _repository.GetById(id));
+            if (id == Guid.Empty)
+                return BadRequest("Id is empty");
+            var result = await _repository.GetById(id);
+            if (result.Successful)
+                return Ok(result);
+            return NotFound($"File with id {id} does not exist");
         }
 
         // PUT api/File/5
@@ -45,7 +52,7 @@ namespace CRM.WebAPI.Controllers
         {
             if (file.ClientId == Guid.Empty || file.PsychologistId == Guid.Empty)
             {
-                return BadRequest(new { message = "Попытка передача пустого значения" });
+                return BadRequest("Empty value does not allowed");
             }
 
             byte[] fileBytes;
@@ -64,19 +71,26 @@ namespace CRM.WebAPI.Controllers
                 FileName = file.Files.FileName,
                 FileContent = fileBytes,
             };
-            await _repository.Put(fileToPut);
-            return Ok();
+            var result = await _repository.Put(fileToPut);
+            if (result.Successful)
+                return Ok(result);
+            return BadRequest(result.ErrorMessage);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Update([FromForm] Guid fileId,[FromForm] FileToUpload dataToUpdate)
+        public async Task<ActionResult> Update([FromForm] Guid fileId, [FromForm] FileToUpload dataToUpdate)
         {
+            if (fileId == Guid.Empty)
+                return BadRequest("File id is empty!");
+
+
             byte[] fileBytes;
             using (var ms = new MemoryStream())
             {
                 await dataToUpdate.Files.CopyToAsync(ms);
                 fileBytes = ms.ToArray();
             }
+
             var fileToUpdate = new File()
             {
                 FileId = fileId,
@@ -85,16 +99,22 @@ namespace CRM.WebAPI.Controllers
                 FileName = dataToUpdate.Files.FileName,
                 FileContent = fileBytes,
             };
-            await _repository.Update(fileToUpdate);
-            return Ok(StatusCodes.Status200OK);
+            var result = await _repository.Update(fileToUpdate);
+            if (!result.Successful)
+                return BadRequest(result.ErrorMessage);
+            return Ok();
         }
 
         // DELETE api/File/5
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(Guid id)
         {
-            await _repository.RemoveById(id);
-            return Ok(StatusCodes.Status200OK);
+            if (id == Guid.Empty)
+                return BadRequest("File id is empty!");
+            var result = await _repository.RemoveById(id);
+            if (!result.Successful)
+                return BadRequest(result.ErrorMessage);
+            return Ok();
         }
     }
 }

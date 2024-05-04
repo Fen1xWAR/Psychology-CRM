@@ -1,12 +1,13 @@
-﻿using CRM.Domain.Models;
+﻿using CRM.Core.Interfaces;
+using CRM.Domain.Models;
 
 namespace CRM.Infrastructure.Interfaces;
 
 public interface IContactRepository
 {
-    Task<IEnumerable<Contact>> GetAll();
-    Task<Contact> GetById(Guid id);
-    Task Put(Contact contact);
-    Task Update(Contact dataToUpdate);
-    Task RemoveById(Guid id);
+    Task<IOperationResult<IEnumerable<Contact>>> GetAll();
+    Task<IOperationResult<Contact>> GetById(Guid id);
+    Task<IOperationResult<Guid>> Put(Contact contact);
+    Task<IOperationResult> Update(Contact dataToUpdate);
+    Task<IOperationResult> RemoveById(Guid id);
 }

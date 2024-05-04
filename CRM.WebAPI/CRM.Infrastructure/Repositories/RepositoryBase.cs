@@ -18,7 +18,7 @@ public abstract class RepositoryBase
 
     //тут весело это я спер у Зорина:) метод делает так : он принимает тип возращаемого значения (например Client ) и класс, который способен из строки что вернет
     //база собрать нужный обьект, тобишь для клиента это сборщик клиента и тп...мб сложно согласен
-    protected async Task<IEnumerable<T>> GetDataSql<T, TCreator>(string sql)
+    protected async Task<IEnumerable<T>> GetDataSql<T, TCreator>(string sql, params NpgsqlParameter[] parameters)
         where T : class where TCreator : ICreator<T>, new()
     {
         var result = new List<T>(); //список результатов нужного типа
@@ -30,6 +30,7 @@ public abstract class RepositoryBase
              new NpgsqlCommand(sql,
                  connection)) //выполняем команду (она нам пришла аргументом при вызове метода из конкретного репозитория
         {
+            command.Parameters.AddRange(parameters); //add parameters here
             var reader = await command.ExecuteReaderAsync(); //запускаем чтение результата
             while (reader.Read()) //читаем его сколько ответов пришло раз )
             {
@@ -42,7 +43,7 @@ public abstract class RepositoryBase
         return result;
     }
 
-    protected async Task ExecuteSql(string sql) //тут тоже самое но не ждем результат и сборщик нам не нужен
+    protected async Task ExecuteSql(string sql, params object[] parameters) //тут тоже самое но не ждем результат и сборщик нам не нужен
     {
         if (string.IsNullOrEmpty(sql))
         {
@@ -53,6 +54,7 @@ public abstract class RepositoryBase
         await connection.OpenAsync();
         await using (var command = new NpgsqlCommand(sql, connection))
         {
+            command.Parameters.AddRange(parameters); //add parameters here
             await command.ExecuteNonQueryAsync(); //исполняем !
         }
 

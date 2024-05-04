@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CRM.Domain.Models;
 using CRM.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +12,7 @@ namespace CRM.WebAPI.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize]
     public class ContactController : ControllerBase
     {
         private IContactRepository _repository;
@@ -31,7 +33,13 @@ namespace CRM.WebAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> GetById(Guid id)
         {
-            return Ok(await _repository.GetById(id));
+            if (id == Guid.Empty)
+                return BadRequest("Id is empty");
+            var result = await _repository.GetById(id);
+            if (result.Successful)
+                return Ok(result);
+
+            return NotFound($"Contact with id {id} does not exist");
         }
 
         // PUT api/Contact/5
@@ -39,14 +47,21 @@ namespace CRM.WebAPI.Controllers
         public async Task<ActionResult> Insert([FromBody] Contact contact)
 
         {
-            await _repository.Put(contact);
-            return Ok();
+
+            var result = await _repository.Put(contact);
+            if (result.Successful)
+                return Ok(result);
+            return BadRequest(result.ErrorMessage);
         }
 
         [HttpPost]
         public async Task<ActionResult> Update([FromBody] Contact dataToUpdate)
         {
-            await _repository.Update(dataToUpdate);
+            var result =  await _repository.Update(dataToUpdate);
+            if (!result.Successful)
+            {
+                return BadRequest(result.ErrorMessage);
+            }
             return Ok();
         }
 
@@ -54,7 +69,12 @@ namespace CRM.WebAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(Guid id)
         {
-            await _repository.RemoveById(id);
+            var result =  await _repository.RemoveById(id);
+            if (!result.Successful)
+            {
+                return BadRequest(result.ErrorMessage);
+            }
+           
             return Ok();
         }
     }
