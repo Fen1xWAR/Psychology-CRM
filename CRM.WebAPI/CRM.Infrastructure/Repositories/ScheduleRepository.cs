@@ -1,4 +1,6 @@
 using System.Threading.Tasks;
+using CRM.Core.Implement;
+using CRM.Core.Interfaces;
 using CRM.Domain.Models;
 using CRM.Infrastructure.CreationObjectFromSQL;
 using CRM.Infrastructure.Interfaces;
@@ -13,18 +15,22 @@ public class ScheduleRepository : RepositoryBase, IScheduleRepository
     {
     }
 
-    public async Task<IEnumerable<Schedule>> GetAll()
+    public async Task<IOperationResult< IEnumerable<Schedule>>> GetAll()
     {
-        return await GetDataSql<Schedule, ScheduleCreator>("SELECT * FROM schedules");
+        return new Success<IEnumerable<Schedule>>( await GetDataSql<Schedule, ScheduleCreator>("SELECT * FROM schedules"));
     }
 
-    public async Task<Schedule> GetById(Guid id)
+    public async Task<IOperationResult< Schedule>> GetById(Guid id)
     {
-        return (await GetDataSql<Schedule, ScheduleCreator>("SELECT * FROM schedules WHERE schedule_id = @id",
-            new NpgsqlParameter("@id", id))).First();
+        
+        var result = (await GetDataSql<Schedule, ScheduleCreator>("SELECT * FROM schedules WHERE schedule_id = @id",
+            new NpgsqlParameter("@id", id))).FirstOrDefault();
+        if (result == null)
+            return new ElementNotFound<Schedule>(null, $"Not found schedule with id {id}!");
+        return new Success<Schedule>(result);
     }
 
-    public async Task Put(Schedule schedule)
+    public async Task<IOperationResult<Guid>> Put(Schedule schedule)
     {
         var scheduleId = Guid.NewGuid();
         await ExecuteSql(
@@ -34,10 +40,15 @@ public class ScheduleRepository : RepositoryBase, IScheduleRepository
             new NpgsqlParameter("@workDay", schedule.WorkDay),
             new NpgsqlParameter("@startTime", schedule.StartTime),
             new NpgsqlParameter("@endTime", schedule.EndTime));
+        return new Success<Guid>(scheduleId);
     }
 
-    public async Task Update(Schedule dataToUpdate)
+    public async Task<IOperationResult> Update(Schedule dataToUpdate)
     {
+        var scheduleToUpdate = await GetById(dataToUpdate.ScheduleId);
+        if (!scheduleToUpdate.Successful)
+            return new ElementNotFound("Not found schedule with current id");
+        
         await ExecuteSql(
             "UPDATE schedules SET psychologist_id = COALESCE(@psychologistId, psychologist_id), work_day = COALESCE(@workDay, work_day), start_time = COALESCE(@startTime, start_time), end_time = COALESCE(@endTime, end_time) WHERE schedule_id = @id",
             new NpgsqlParameter("@psychologistId", dataToUpdate.PsychologistId),
@@ -45,10 +56,16 @@ public class ScheduleRepository : RepositoryBase, IScheduleRepository
             new NpgsqlParameter("@startTime", dataToUpdate.StartTime),
             new NpgsqlParameter("@endTime", dataToUpdate.EndTime),
             new NpgsqlParameter("@id", dataToUpdate.ScheduleId));
+        return new Success();
     }
 
-    public async Task RemoveById(Guid id)
+    public async Task<IOperationResult> RemoveById(Guid id)
     {
+        var scheduleToUpdate = await GetById(id);
+        if (!scheduleToUpdate.Successful)
+            return new ElementNotFound("Not found schedule with current id");
+
         await ExecuteSql("DELETE FROM schedules WHERE schedule_id = @id", new NpgsqlParameter("@id", id));
+        return new Success();
     }
 }

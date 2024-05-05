@@ -1,12 +1,13 @@
+using CRM.Core.Interfaces;
 using CRM.Domain.Models;
 
 namespace CRM.Infrastructure.Interfaces;
 
 public interface IPsychologistRepository
 {
-    Task<IEnumerable<Psychologist>> GetAll();
-    Task<Psychologist> GetById(Guid id);
-    Task Put(Psychologist psychologist);
-    Task Update(Psychologist dataToUpdate);
-    Task RemoveById(Guid id);
+    Task<IOperationResult< IEnumerable<Psychologist>>> GetAll();
+    Task<IOperationResult< Psychologist>> GetById(Guid id);
+    Task<IOperationResult<Guid>> Put(Psychologist psychologist);
+    Task<IOperationResult> Update(Psychologist dataToUpdate);
+    Task<IOperationResult> RemoveById(Guid id);
 }

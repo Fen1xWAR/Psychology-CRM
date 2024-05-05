@@ -39,7 +39,7 @@ namespace CRM.WebAPI.Controllers
             var result = await _repository.GetById(id);
             if (result.Successful)
                 return Ok(result);
-            return NotFound($"Login with id {id} does not exist");
+            return NotFound(result.ErrorMessage);
         }
 
 

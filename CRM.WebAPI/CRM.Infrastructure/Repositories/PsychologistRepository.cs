@@ -1,4 +1,6 @@
 using System.Threading.Tasks;
+using CRM.Core.Implement;
+using CRM.Core.Interfaces;
 using CRM.Domain.Models;
 using CRM.Infrastructure.CreationObjectFromSQL;
 using CRM.Infrastructure.Interfaces;
@@ -13,37 +15,52 @@ public class PsychologistRepository : RepositoryBase, IPsychologistRepository
     {
     }
 
-    public async Task<IEnumerable<Psychologist>> GetAll()
+    public async Task<IOperationResult<IEnumerable<Psychologist>>> GetAll()
     {
-        return await GetDataSql<Psychologist, PsychologistCreator>("SELECT * FROM psychologists");
+        return new Success<IEnumerable<Psychologist>>( await GetDataSql<Psychologist, PsychologistCreator>("SELECT * FROM psychologists"));
     }
 
-    public async Task<Psychologist> GetById(Guid id)
+    public async Task<IOperationResult< Psychologist>> GetById(Guid id)
     {
-        return (await GetDataSql<Psychologist, PsychologistCreator>(
+        
+        var result =  (await GetDataSql<Psychologist, PsychologistCreator>(
             "SELECT * FROM psychologists WHERE psychologist_id = @id",
-            new NpgsqlParameter("@id", id))).First();
+            new NpgsqlParameter("@id", id))).FirstOrDefault();
+        if (result == null)
+            return new ElementNotFound<Psychologist>(null, $"Not found psychologist with id {id}");
+        return new Success<Psychologist>(result);
     }
 
-    public async Task Put(Psychologist psychologist)
+    public async Task<IOperationResult<Guid>> Put(Psychologist psychologist)
     {
         var psychologistId = Guid.NewGuid();
         await ExecuteSql(
             "INSERT INTO psychologists (psychologist_id, contact_id) VALUES (@id, @contactId)",
             new NpgsqlParameter("@id", psychologistId),
             new NpgsqlParameter("@contactId", psychologist.ContactId));
+        return new Success<Guid>(psychologistId);
     }
 
-    public async Task Update(Psychologist dataToUpdate)
+    public async Task<IOperationResult> Update(Psychologist dataToUpdate)
     {
+        var psychologistToUpdate = await GetById(dataToUpdate.PsychologistId);
+        if (!psychologistToUpdate.Successful)
+            return new ElementNotFound("Not found psychologist with current id");
+        
         await ExecuteSql(
             "UPDATE psychologists SET contact_id = COALESCE(@contactId, contact_id) WHERE psychologist_id = @id",
             new NpgsqlParameter("@contactId", dataToUpdate.ContactId),
             new NpgsqlParameter("@id", dataToUpdate.PsychologistId));
+        return new Success();
     }
 
-    public async Task RemoveById(Guid id)
+    public async Task<IOperationResult> RemoveById(Guid id)
     {
+        var psychologistToDelete = await GetById(id);
+        if (!psychologistToDelete.Successful)
+            return new ElementNotFound("Not found psychologist with current id");
+
         await ExecuteSql("DELETE FROM psychologists WHERE psychologist_id = @id", new NpgsqlParameter("@id", id));
+        return new Success();
     }
 }

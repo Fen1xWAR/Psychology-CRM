@@ -1,8 +1,11 @@
 using System.Linq;
 using System.Threading.Tasks;
+using CRM.Core.Implement;
+using CRM.Core.Interfaces;
 using CRM.Domain.Models;
 using CRM.Infrastructure.CreationObjectFromSQL;
 using CRM.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 
@@ -14,30 +17,36 @@ public class UserRepository : RepositoryBase, IUserRepository
     {
     }
 
-    public async Task<User?> CreateUser(UserAuth model)
+    public async Task<IOperationResult> CreateUser(UserAuth model)
     {
         // TODO: Implement user creation logic
         return null;
     }
 
-    public async Task<User?> GetUserByEmail(string email)
+    public async Task<IOperationResult<User>> GetUserByEmail(string email)
     {
-        return (await GetDataSql<User, UserCreator>("SELECT * FROM users WHERE email = @email",
+        var result = (await GetDataSql<User, UserCreator>("SELECT * FROM users WHERE email = @email",
             new NpgsqlParameter("@email", email))).FirstOrDefault();
+        if (result == null)
+            return new ElementNotFound<User>(null, "User not found");
+        return new Success<User>(result);
     }
 
-    public async Task<IEnumerable<User>> GetAll()
+    public async Task<IOperationResult<IEnumerable<User>>> GetAll()
     {
-        return await GetDataSql<User, UserCreator>("SELECT * FROM users");
+        return new Success<IEnumerable<User>>(await GetDataSql<User, UserCreator>("SELECT * FROM users"));
     }
 
-    public async Task<User?> GetById(Guid id)
+    public async Task<IOperationResult<User>> GetById(Guid id)
     {
-        return (await GetDataSql<User, UserCreator>("SELECT * FROM users WHERE user_id = @id",
+        var result =  (await GetDataSql<User, UserCreator>("SELECT * FROM users WHERE user_id = @id",
             new NpgsqlParameter("@id", id))).FirstOrDefault();
+        if (result == null)
+            return new ElementNotFound<User>(null, $"User with id {id} not found");
+        return new Success<User>(result);
     }
 
-    public async Task Put(User user)
+    public async Task<IOperationResult<Guid>> Put(User user)
     {
         var userId = Guid.NewGuid();
         await ExecuteSql(
@@ -46,20 +55,30 @@ public class UserRepository : RepositoryBase, IUserRepository
             new NpgsqlParameter("@email", user.Email),
             new NpgsqlParameter("@password", user.Password),
             new NpgsqlParameter("@role", user.Role));
+        return new Success<Guid>(userId);
     }
 
-    public async Task Update(User dataToUpdate)
+    public async Task<IOperationResult> Update(User dataToUpdate)
     {
+        var userToUpdate = await GetById(dataToUpdate.UserId);
+        if (!userToUpdate.Successful)
+            return new ElementNotFound("Not found user with current Id");
         await ExecuteSql(
             "UPDATE users SET email = COALESCE(@email, email), password = COALESCE(@password, password), role = COALESCE(@role, role) WHERE user_id = @id",
             new NpgsqlParameter("@email", dataToUpdate.Email),
             new NpgsqlParameter("@password", dataToUpdate.Password),
             new NpgsqlParameter("@role", dataToUpdate.Role),
             new NpgsqlParameter("@id", dataToUpdate.UserId));
+        return new Success();
     }
 
-    public async Task RemoveById(Guid id)
+    public async Task<IOperationResult> RemoveById(Guid id)
     {
+        var userToDelete = await GetById(id);
+        if (!userToDelete.Successful)
+            return new ElementNotFound("Not found user with current id");
+        
         await ExecuteSql("DELETE FROM users WHERE user_id = @id", new NpgsqlParameter("@id", id));
+        return new Success();
     }
 }

@@ -1,4 +1,6 @@
 using System.Threading.Tasks;
+using CRM.Core.Implement;
+using CRM.Core.Interfaces;
 using CRM.Domain.Models;
 using CRM.Infrastructure.CreationObjectFromSQL;
 using CRM.Infrastructure.Interfaces;
@@ -13,18 +15,21 @@ public class ServiceRepository : RepositoryBase, IServiceRepository
     {
     }
 
-    public async Task<IEnumerable<Service>> GetAll()
+    public async Task<IOperationResult<IEnumerable<Service>>> GetAll()
     {
-        return await GetDataSql<Service, ServiceCreator>("SELECT * FROM services");
+        return new Success<IEnumerable<Service>>(await GetDataSql<Service, ServiceCreator>("SELECT * FROM services"));
     }
 
-    public async Task<Service> GetById(Guid id)
+    public async Task<IOperationResult<Service>> GetById(Guid id)
     {
-        return (await GetDataSql<Service, ServiceCreator>("SELECT * FROM services WHERE service_id = @id",
-            new NpgsqlParameter("@id", id))).First();
+        var result = (await GetDataSql<Service, ServiceCreator>("SELECT * FROM services WHERE service_id = @id",
+            new NpgsqlParameter("@id", id))).FirstOrDefault();
+        if (result == null)
+            return new ElementNotFound<Service>(null, "Service not found");
+        return new Success<Service>(result);
     }
 
-    public async Task Put(Service service)
+    public async Task<IOperationResult<Guid>> Put(Service service)
     {
         var serviceId = Guid.NewGuid();
         await ExecuteSql(
@@ -33,20 +38,31 @@ public class ServiceRepository : RepositoryBase, IServiceRepository
             new NpgsqlParameter("@name", service.ServiceName),
             new NpgsqlParameter("@price", service.ServicePrice),
             new NpgsqlParameter("@description", service.ServiceDescription));
+        return new Success<Guid>(serviceId);
     }
 
-    public async Task Update(Service dataToUpdate)
+    public async Task<IOperationResult> Update(Service dataToUpdate)
     {
+        var serviceToUpdate = await GetById(dataToUpdate.ServiceId);
+        if (!serviceToUpdate.Successful)
+            return new ElementNotFound("Not found service with current id");
+
         await ExecuteSql(
             "UPDATE services SET service_name = COALESCE(@name, service_name), service_price = COALESCE(@price, service_price), service_description = COALESCE(@description, service_description) WHERE service_id = @id",
             new NpgsqlParameter("@name", dataToUpdate.ServiceName),
             new NpgsqlParameter("@price", dataToUpdate.ServicePrice),
             new NpgsqlParameter("@description", dataToUpdate.ServiceDescription),
             new NpgsqlParameter("@id", dataToUpdate.ServiceId));
+        return new Success();
     }
 
-    public async Task RemoveById(Guid id)
+    public async Task<IOperationResult> RemoveById(Guid id)
     {
+        var serviceToDelete = await GetById(id);
+        if (!serviceToDelete.Successful)
+            return new ElementNotFound("Not found service with current id");
+
         await ExecuteSql("DELETE FROM services WHERE service_id = @id", new NpgsqlParameter("@id", id));
+        return new Success();
     }
 }

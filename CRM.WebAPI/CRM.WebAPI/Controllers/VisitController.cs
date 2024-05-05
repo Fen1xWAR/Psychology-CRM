@@ -22,30 +22,30 @@ namespace CRM.WebAPI.Controllers
         }
         
         //Logic
-        [HttpPost]
-        public async Task<ActionResult> CreateVisit([FromForm] VisitModel visit)
-        {
-            try
-            {
-
-               await _repository.Put(new Visit()
-                {
-                    VisitId = new Guid(),
-                    ClientId = visit.ClientId,
-                    ClientNote = visit.ClientNote,
-                    DateTime = visit.DateTime,
-                    PsychologistDescription = visit.Description,
-                    PsychologistId = visit.PsychologistId,
-                    ServiceId = visit.ServiceId
-                });
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-        }
+        // [HttpPost]
+        // public async Task<ActionResult> CreateVisit([FromForm] VisitModel visit)
+        // {
+        //     try
+        //     {
+        //
+        //        await _repository.Put(new Visit()
+        //         {
+        //             VisitId = new Guid(),
+        //             ClientId = visit.ClientId,
+        //             ClientNote = visit.ClientNote,
+        //             DateTime = visit.DateTime,
+        //             PsychologistDescription = visit.Description,
+        //             PsychologistId = visit.PsychologistId,
+        //             ServiceId = visit.ServiceId
+        //         });
+        //         return Ok();
+        //     }
+        //     catch (Exception e)
+        //     {
+        //         Console.WriteLine(e);
+        //         throw;
+        //     }
+        // }
         
         
         
@@ -68,14 +68,12 @@ namespace CRM.WebAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> GetById(Guid id)
         {
-            try
-            {
-                return Ok(await _repository.GetById(id));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(StatusCodes.Status404NotFound);
-            }
+            if (id == Guid.Empty)
+                return BadRequest("Id is empty");
+            var result = await _repository.GetById(id);
+            if (result.Successful)
+                return Ok(result);
+            return NotFound(result.ErrorMessage);
         }
 
 
@@ -84,23 +82,29 @@ namespace CRM.WebAPI.Controllers
         public async Task<ActionResult> Insert([FromBody] Visit visit)
 
         {
-            await _repository.Put(visit);
-            return Ok();
+            var result = await _repository.Put(visit);
+            if (result.Successful)
+                return Ok(result);
+            return BadRequest(result.ErrorMessage);
         }
 
         [HttpPost]
         public async Task<ActionResult> Update([FromBody] Visit dataToUpdate)
         {
-            await _repository.Update(dataToUpdate);
-            return Ok();
+            var result = await _repository.Update(dataToUpdate);
+            if (result.Successful)
+                return Ok(result);
+            return BadRequest(result.ErrorMessage);
         }
 
         // DELETE api/Visit/5
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(Guid id)
         {
-            await _repository.RemoveById(id);
-            return Ok();
+            var result = await _repository.RemoveById(id);
+            if (result.Successful)
+                return Ok(result);
+            return BadRequest(result.ErrorMessage);
         }
     }
 }

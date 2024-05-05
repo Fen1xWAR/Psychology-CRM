@@ -1,15 +1,16 @@
+using CRM.Core.Interfaces;
 using CRM.Domain.Models;
 
 namespace CRM.Infrastructure.Interfaces;
 
 public interface IUserRepository
 {
-    Task<User?> GetUserByEmail(string email);
+    Task<IOperationResult<User>> GetUserByEmail(string email);
 
-    Task<User?> CreateUser(UserAuth model);
-    Task<IEnumerable<User>> GetAll();
-    Task<User?> GetById(Guid id);
-    Task Put(User user);
-    Task Update(User dataToUpdate);
-    Task RemoveById(Guid id); 
+    Task<IOperationResult> CreateUser(UserAuth model);
+    Task<IOperationResult< IEnumerable<User>>> GetAll();
+    Task<IOperationResult< User>> GetById(Guid id);
+    Task<IOperationResult<Guid>> Put(User user);
+    Task<IOperationResult> Update(User dataToUpdate);
+    Task<IOperationResult> RemoveById(Guid id); 
 }

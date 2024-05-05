@@ -6,6 +6,7 @@ using CRM.Core.Implement;
 using CRM.Core.Interfaces;
 using CRM.Infrastructure.Interfaces;
 using Microsoft.IdentityModel.Tokens;
+using NuGet.Protocol;
 
 namespace CRM.WebAPI.Services;
 
@@ -24,15 +25,14 @@ public class AuthService : IAuthService
     {
         var user = await _repository.GetUserByEmail(model.Email);
        
-        if (user == null || (user.Password != model.Password))
-        {
+        if (!user.Successful || (user.Result.Password != model.Password))
             return new ConflictResult<string>(null,"Invalid login or password") ;
-        }
+        var userData = user.Result;
         var claims = new[]
         {
-            new Claim("user_id", user.UserId.ToString()),
-            new Claim("email", user.Email),
-            new Claim("role", user.Role)
+            new Claim("user_id", userData.UserId.ToString()),
+            new Claim("email", userData.Email),
+            new Claim("role", userData.Role)
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["AuthOptions:Key"]));

@@ -1,12 +1,13 @@
+using CRM.Core.Interfaces;
 using CRM.Domain.Models;
 
 namespace CRM.Infrastructure.Interfaces;
 
 public interface IServiceRepository
 {
-    Task<IEnumerable<Service>> GetAll();
-    Task<Service> GetById(Guid id);
-    Task Put(Service service);
-    Task Update(Service service);
-    Task RemoveById(Guid id);
+    Task<IOperationResult< IEnumerable<Service>>> GetAll();
+    Task<IOperationResult< Service>> GetById(Guid id);
+    Task<IOperationResult<Guid>> Put(Service service);
+    Task<IOperationResult> Update(Service service);
+    Task<IOperationResult> RemoveById(Guid id);
 }

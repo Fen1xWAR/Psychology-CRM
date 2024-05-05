@@ -32,7 +32,12 @@ namespace CRM.WebAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> GetById(Guid id)
         {
-            return Ok(await _repository.GetById(id));
+            if (id == Guid.Empty)
+                return BadRequest("Id is empty");
+            var result = await _repository.GetById(id);
+            if (result.Successful)
+                return Ok(result);
+            return NotFound(result.ErrorMessage);
         }
         
 
@@ -40,16 +45,20 @@ namespace CRM.WebAPI.Controllers
         [HttpPut]
         public async Task<ActionResult>Insert([FromBody]Service service)
         {
-            await _repository.Put(service);
-            return Ok();
+            var result = await _repository.Put(service);
+            if (result.Successful)
+                return Ok(result);
+            return BadRequest(result.ErrorMessage);
         }
         // POST: api/Service
         [HttpPost]
         public async Task<ActionResult>
             Update([FromBody]Service dataToUpdate)
         {
-            await _repository.Update(dataToUpdate);
-            return Ok();
+            var result = await _repository.Update(dataToUpdate);
+            if (result.Successful)
+                return Ok(result);
+            return BadRequest(result.ErrorMessage);
 
         }
 
@@ -57,8 +66,10 @@ namespace CRM.WebAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(Guid id) //удаляет по id
         {
-            await _repository.RemoveById(id);
-            return Ok();
+            var result = await _repository.RemoveById(id);
+            if (result.Successful)
+                return Ok(result);
+            return BadRequest(result.ErrorMessage);
         }
     }
 }
