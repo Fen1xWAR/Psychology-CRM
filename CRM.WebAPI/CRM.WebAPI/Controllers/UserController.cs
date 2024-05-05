@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using CRM.Domain.Models;
+using CRM.Domain.ModelsToUpload;
 using CRM.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -32,6 +33,17 @@ namespace CRM.WebAPI.Controllers
         // }
 
         // POST: api/User/Login
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<ActionResult> Register([FromBody] UserRegModel regModel)
+        {
+            if (regModel.Email == "" || regModel.Password == "" || regModel.LastName == "" || regModel.Name == "" || regModel.Role == "")
+                return BadRequest(new ConflictResult("Empty input is not allowed!"));
+            if (!(regModel.Role is "Admin" or "Client" or "Psychologist"))
+                return BadRequest(new ConflictResult($"Cant create user with role {regModel.Role}"));
+            var result = await _authService.Register(regModel);
+            return Ok(result);
+        }
         [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult> Login([FromBody] UserAuth model)
@@ -68,7 +80,7 @@ namespace CRM.WebAPI.Controllers
 
         // PUT: api/User/5
         [HttpPut]
-        public async Task<ActionResult> Insert([FromBody] User user)
+        public async Task<ActionResult> Insert([FromBody] UserModel user)
         {
             var result = await _repository.Put(user);
             if (result.Successful)

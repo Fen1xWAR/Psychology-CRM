@@ -1,4 +1,4 @@
-namespace CRM.Domain.Models;
+namespace CRM.Domain.ModelsToUpload;
 
 public class UserAuth
 {

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using CRM.Core.Implement;
 using CRM.Core.Interfaces;
 using CRM.Domain.Models;
+using CRM.Domain.ModelsToUpload;
 using CRM.Infrastructure.CreationObjectFromSQL;
 using CRM.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -41,7 +42,7 @@ public class UserRepository : RepositoryBase, IUserRepository
         return new Success<User>(result);
     }
 
-    public async Task<IOperationResult<Guid>> Put(User user)
+    public async Task<IOperationResult<Guid>> Put(UserModel user)
     {
         var userId = Guid.NewGuid();
         await ExecuteSql(
