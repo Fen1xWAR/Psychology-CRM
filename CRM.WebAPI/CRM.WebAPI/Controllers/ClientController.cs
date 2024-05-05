@@ -50,7 +50,7 @@ namespace CRM.WebAPI.Controllers
         public async Task<IActionResult> Insert([FromBody] ClientModel client)
 
         {
-            if (client.ContactId == Guid.Empty || client.FormId == Guid.Empty || client.UserId == Guid.Empty)
+            if (client.FormId == Guid.Empty || client.UserId == Guid.Empty)
                 return BadRequest(new ConflictResult("Empty input is not allowed!"));
             var result = await _repository.Put(client);
             if (result.Successful)

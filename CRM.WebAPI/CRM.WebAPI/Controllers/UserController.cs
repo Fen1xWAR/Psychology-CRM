@@ -45,8 +45,6 @@ namespace CRM.WebAPI.Controllers
             return BadRequest(result);
         }
 
-
-        [Authorize(Policy = "Admin")]
         // GET: api/User
         [HttpGet]
         public async Task<ActionResult> GetAll()
@@ -102,9 +100,5 @@ namespace CRM.WebAPI.Controllers
                 return Ok(result);
             return BadRequest(result);
         }
-        
-
-        
-       
     }
 }

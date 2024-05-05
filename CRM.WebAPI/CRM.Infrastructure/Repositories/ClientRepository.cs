@@ -36,11 +36,10 @@ public class ClientRepository : RepositoryBase, IClientRepository
     {
         var clientId = Guid.NewGuid();
            await ExecuteSql(
-            "INSERT INTO clients (client_id, form_id, current_problem, contact_id, user_id) VALUES (@clientId, @formId, @currentProblem, @contactId, @userId)",
+            "INSERT INTO clients (client_id, form_id, current_problem, user_id) VALUES (@clientId, @formId, @currentProblem, @userId)",
             new NpgsqlParameter("@clientId", clientId),
             new NpgsqlParameter("@formId", client.FormId),
             new NpgsqlParameter("@currentProblem", client.CurrentProblem),
-            new NpgsqlParameter("@contactId", client.ContactId),
             new NpgsqlParameter("@userId", client.UserId));
         return new Success<Guid>(clientId);
     }
@@ -54,10 +53,9 @@ public class ClientRepository : RepositoryBase, IClientRepository
         }
 
         await ExecuteSql(
-            "UPDATE clients SET form_id = COALESCE(@form, form_id), current_problem = COALESCE(@currentProblem, current_problem), contact_id = COALESCE(@contactId, contact_id), user_id = COALESCE(@userId, user_id) WHERE client_id = @id",
+            "UPDATE clients SET form_id = COALESCE(@form, form_id), current_problem = COALESCE(@currentProblem, current_problem),  user_id = COALESCE(@userId, user_id) WHERE client_id = @id",
             new NpgsqlParameter("@form", dataToUpdate.FormId),
             new NpgsqlParameter("@currentProblem", dataToUpdate.CurrentProblem),
-            new NpgsqlParameter("@contactId", dataToUpdate.ContactId),
             new NpgsqlParameter("@id", dataToUpdate.ClientId),
             new NpgsqlParameter("@userId", dataToUpdate.UserId));
         return new Success();

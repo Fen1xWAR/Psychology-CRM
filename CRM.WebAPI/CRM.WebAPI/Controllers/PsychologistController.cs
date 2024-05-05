@@ -49,8 +49,7 @@ namespace CRM.WebAPI.Controllers
         [HttpPut]
         public async Task<ActionResult> Insert([FromBody] PsychologistModel psychologist)
         {
-            if (psychologist.ContactId == Guid.Empty || psychologist.ContactId == Guid.Empty ||
-                psychologist.UserId == Guid.Empty)
+            if (psychologist.UserId == Guid.Empty)
                 return BadRequest(new ConflictResult("Empty input is not allowed!"));
             var result = await _repository.Put(psychologist);
             if (result.Successful)

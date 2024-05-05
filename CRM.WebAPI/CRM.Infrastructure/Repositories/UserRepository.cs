@@ -17,13 +17,8 @@ public class UserRepository : RepositoryBase, IUserRepository
     {
     }
 
-    public async Task<IOperationResult> CreateUser(UserAuth model)
-    {
-        // TODO: Implement user creation logic
-        return null;
-    }
 
-    public async Task<IOperationResult<User>> GetUserByEmail(string email)
+    public async Task<IOperationResult<User>> GetUserByEmail(string? email)
     {
         var result = (await GetDataSql<User, UserCreator>("SELECT * FROM users WHERE email = @email",
             new NpgsqlParameter("@email", email))).FirstOrDefault();
@@ -39,7 +34,7 @@ public class UserRepository : RepositoryBase, IUserRepository
 
     public async Task<IOperationResult<User>> GetById(Guid id)
     {
-        var result =  (await GetDataSql<User, UserCreator>("SELECT * FROM users WHERE user_id = @id",
+        var result = (await GetDataSql<User, UserCreator>("SELECT * FROM users WHERE user_id = @id",
             new NpgsqlParameter("@id", id))).FirstOrDefault();
         if (result == null)
             return new ElementNotFound<User>(null, $"User with id {id} not found");
@@ -50,11 +45,12 @@ public class UserRepository : RepositoryBase, IUserRepository
     {
         var userId = Guid.NewGuid();
         await ExecuteSql(
-            "INSERT INTO users (user_id, email, password, role) VALUES (@id, @email, @password, @role)",
+            "INSERT INTO users (user_id, email, password, role, contact_id) VALUES (@id, @email, @password, @role, @contactId)",
             new NpgsqlParameter("@id", userId),
             new NpgsqlParameter("@email", user.Email),
             new NpgsqlParameter("@password", user.Password),
-            new NpgsqlParameter("@role", user.Role));
+            new NpgsqlParameter("@role", user.Role),
+            new NpgsqlParameter("@contactId", user.ContactId));
         return new Success<Guid>(userId);
     }
 
@@ -64,10 +60,11 @@ public class UserRepository : RepositoryBase, IUserRepository
         if (!userToUpdate.Successful)
             return new ElementNotFound("Not found user with current Id");
         await ExecuteSql(
-            "UPDATE users SET email = COALESCE(@email, email), password = COALESCE(@password, password), role = COALESCE(@role, role) WHERE user_id = @id",
+            "UPDATE users SET email = COALESCE(@email, email), password = COALESCE(@password, password), role = COALESCE(@role, role), contact_id = COALESCE(@contactId, contact_id) WHERE user_id = @id",
             new NpgsqlParameter("@email", dataToUpdate.Email),
             new NpgsqlParameter("@password", dataToUpdate.Password),
             new NpgsqlParameter("@role", dataToUpdate.Role),
+            new NpgsqlParameter("@contactId", dataToUpdate.ContactId),
             new NpgsqlParameter("@id", dataToUpdate.UserId));
         return new Success();
     }
@@ -77,7 +74,7 @@ public class UserRepository : RepositoryBase, IUserRepository
         var userToDelete = await GetById(id);
         if (!userToDelete.Successful)
             return new ElementNotFound("Not found user with current id");
-        
+
         await ExecuteSql("DELETE FROM users WHERE user_id = @id", new NpgsqlParameter("@id", id));
         return new Success();
     }

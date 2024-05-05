@@ -11,8 +11,7 @@ public class PsychologistCreator : ICreator<Psychologist>
         {
             PsychologistId = reader.GetGuid(0),
             
-            ContactId = reader.GetGuid(1),
-            UserId = reader.GetGuid(2)
+            UserId = reader.GetGuid(1)
         };
     }
 }

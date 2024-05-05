@@ -13,7 +13,8 @@ public class UserCreator:ICreator<User>
             UserId =reader.GetGuid(0),
             Email = reader.GetString(1),
             Password =reader.GetString(2),
-            Role =reader.GetString(3)
+            Role =reader.GetString(3),
+            ContactId = reader.GetGuid(4)
         };
 
     }

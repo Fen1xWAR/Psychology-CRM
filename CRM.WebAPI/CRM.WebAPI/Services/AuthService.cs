@@ -30,8 +30,12 @@ public class AuthService : IAuthService
         return new Success<string>(GenerateTokenAsync(user.Result));
 
     }
-    
-     // public async Task<IOperationResult<string>> Register()
+
+    public async Task<IOperationResult<string>> Register()
+    {
+        
+        return new Success<string>("");
+    }
 
     private string GenerateTokenAsync(User userData)
     {

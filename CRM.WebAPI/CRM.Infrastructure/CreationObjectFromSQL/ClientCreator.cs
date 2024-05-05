@@ -14,8 +14,7 @@ public class ClientCreator : ICreator<Client>
             ClientId = reader.GetGuid(0),
             FormId = reader.GetGuid(1),
             CurrentProblem = reader.GetString(2),
-            ContactId = reader.GetGuid(3),
-            UserId = reader.GetGuid(4)
+            UserId = reader.GetGuid(3)
         };
     }
 }
