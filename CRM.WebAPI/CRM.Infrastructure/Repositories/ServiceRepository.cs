@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using CRM.Core.Implement;
 using CRM.Core.Interfaces;
 using CRM.Domain.Models;
+using CRM.Domain.ModelsToUpload;
 using CRM.Infrastructure.CreationObjectFromSQL;
 using CRM.Infrastructure.Interfaces;
 using Microsoft.Extensions.Configuration;
@@ -29,7 +30,7 @@ public class ServiceRepository : RepositoryBase, IServiceRepository
         return new Success<Service>(result);
     }
 
-    public async Task<IOperationResult<Guid>> Put(Service service)
+    public async Task<IOperationResult<Guid>> Put(ServiceModel service)
     {
         var serviceId = Guid.NewGuid();
         await ExecuteSql(

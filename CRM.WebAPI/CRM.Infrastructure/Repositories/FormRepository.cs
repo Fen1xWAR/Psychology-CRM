@@ -2,6 +2,7 @@
 using CRM.Core.Implement;
 using CRM.Core.Interfaces;
 using CRM.Domain.Models;
+using CRM.Domain.ModelsToUpload;
 using CRM.Infrastructure.CreationObjectFromSQL;
 using CRM.Infrastructure.Interfaces;
 using Microsoft.Extensions.Configuration;
@@ -29,7 +30,7 @@ public class FormRepository : RepositoryBase, IFormRepository
         return new Success<Form>(result);
     }
 
-    public async Task<IOperationResult<Guid>> Put(Form form)
+    public async Task<IOperationResult<Guid>> Put(FormModel form)
     {
         var id = Guid.NewGuid();
         await ExecuteSql(

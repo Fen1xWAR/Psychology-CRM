@@ -1,6 +1,7 @@
 ﻿using CRM.Core.Implement;
 using CRM.Core.Interfaces;
 using CRM.Domain.Models;
+using CRM.Domain.ModelsToUpload;
 using CRM.Infrastructure.CreationObjectFromSQL;
 using CRM.Infrastructure.Interfaces;
 using Microsoft.Extensions.Configuration;
@@ -30,7 +31,7 @@ public class ContactRepository : RepositoryBase, IContactRepository
         return new Success<Contact>(result);
     }
 
-    public async Task<IOperationResult<Guid>> Put(Contact contact)
+    public async Task<IOperationResult<Guid>> Put(ContactModel contact)
     {
         var contactId = Guid.NewGuid();
         await ExecuteSql(

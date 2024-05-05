@@ -11,8 +11,7 @@ public class LoginCreator: ICreator<Login>
         {
             LoginId = reader.GetGuid(0),
             UserId = reader.GetGuid(1),
-            LoginTime = reader.GetDateTime(2),
-            LogoutTime = reader.GetDateTime(3)
+            LoginTime = reader.GetDateTime(2)
         };
     }
 }

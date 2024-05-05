@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using CRM.Core.Implement;
 using CRM.Core.Interfaces;
 using CRM.Domain.Models;
+using CRM.Domain.ModelsToUpload;
 using CRM.Infrastructure.CreationObjectFromSQL;
 using CRM.Infrastructure.Interfaces;
 using Microsoft.Extensions.Configuration;
@@ -29,7 +30,7 @@ public class PaymentRepository : RepositoryBase, IPaymentRepository
         return new Success<Payment>(result);
     }
 
-    public async Task<IOperationResult<Guid>> Put(Payment payment)
+    public async Task<IOperationResult<Guid>> Put(PaymentModel payment)
     {
         var paymentId = Guid.NewGuid();
         await ExecuteSql(

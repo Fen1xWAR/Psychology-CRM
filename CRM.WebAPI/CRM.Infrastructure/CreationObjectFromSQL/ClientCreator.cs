@@ -12,8 +12,8 @@ public class ClientCreator : ICreator<Client>
         {
             //читаем собираем обьект:) ридер просим взять строку гуид или еще что то с определенного места (это номера колонок)
             ClientId = reader.GetGuid(0),
-            Form = reader.GetGuid(1),
-            CurrentProblem = reader.GetString(2)?? null,
+            FormId = reader.GetGuid(1),
+            CurrentProblem = reader.GetString(2),
             ContactId = reader.GetGuid(3),
             UserId = reader.GetGuid(4)
         };

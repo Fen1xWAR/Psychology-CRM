@@ -3,6 +3,7 @@ using CRM.Domain.Models;
 using CRM.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ConflictResult = CRM.Core.Implement.ConflictResult;
 
 namespace CRM.WebAPI.Controllers
 {
@@ -35,13 +36,13 @@ namespace CRM.WebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> Login([FromBody] UserAuth model)
         {
+            if (model.Email == null || model.Password == null)
+                return BadRequest(new ConflictResult("Empty input is not allowed!"));
             var result = await _authService.Login(model);
             if (result.Successful)
-            {
                 return Ok(result);
-            }
 
-            return BadRequest(result.ErrorMessage);
+            return BadRequest(result);
         }
 
 
@@ -58,11 +59,12 @@ namespace CRM.WebAPI.Controllers
         public async Task<ActionResult> GetById(Guid id)
         {
             if (id == Guid.Empty)
-                return BadRequest("Id is empty");
+                return BadRequest(new ConflictResult("Empty input is not allowed!"));
             var result = await _repository.GetById(id);
             if (result.Successful)
                 return Ok(result);
-            return NotFound(result.ErrorMessage);
+
+            return NotFound(result);
         }
 
 
@@ -73,7 +75,7 @@ namespace CRM.WebAPI.Controllers
             var result = await _repository.Put(user);
             if (result.Successful)
                 return Ok(result);
-            return BadRequest(result.ErrorMessage);
+            return BadRequest(result);
         }
 
         // POST: api/User
@@ -81,20 +83,24 @@ namespace CRM.WebAPI.Controllers
         public async Task<ActionResult>
             Update([FromBody] User dataToUpdate)
         {
+            if (dataToUpdate.UserId == Guid.Empty)
+                return BadRequest(new ConflictResult("Empty input is not allowed!"));
             var result = await _repository.Update(dataToUpdate);
             if (result.Successful)
                 return Ok(result);
-            return BadRequest(result.ErrorMessage);
+            return BadRequest(result);
         }
 
         // DELETE: api/User/5
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(Guid id)
         {
+            if (id == Guid.Empty)
+                return BadRequest(new ConflictResult("Empty input is not allowed!"));
             var result = await _repository.RemoveById(id);
             if (result.Successful)
                 return Ok(result);
-            return BadRequest(result.ErrorMessage);
+            return BadRequest(result);
         }
         
 

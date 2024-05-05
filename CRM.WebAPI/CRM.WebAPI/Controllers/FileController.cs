@@ -1,16 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CRM.Infrastructure.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using CRM.Domain.Models;
-using CRM.Infrastructure.Interfaces;
-using CRM.WebAPI.ModelsToUpload;
+using CRM.Domain.ModelsToUpload;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using File = CRM.Domain.Models.File;
+using ConflictResult = CRM.Core.Implement.ConflictResult;
 
 namespace CRM.WebAPI.Controllers
 {
@@ -38,34 +31,32 @@ namespace CRM.WebAPI.Controllers
         public async Task<ActionResult> GetById(Guid id)
         {
             if (id == Guid.Empty)
-                return BadRequest("Id is empty");
+                return BadRequest(new ConflictResult("Empty input is not allowed!"));
             var result = await _repository.GetById(id);
             if (result.Successful)
                 return Ok(result);
-            return NotFound($"File with id {id} does not exist");
+            return NotFound(result);
         }
 
         // PUT api/File/5
         [HttpPut]
-        public async Task<ActionResult> Insert([FromForm] FileToUpload file)
+        public async Task<ActionResult> Insert([FromForm] FileModel file)
 
         {
-            if (file.ClientId == Guid.Empty || file.PsychologistId == Guid.Empty)
-            {
-                return BadRequest("Empty value does not allowed");
-            }
+            if (file.ClientId == Guid.Empty || file.PsychologistId == Guid.Empty || file.Files == null)
+                return BadRequest(new ConflictResult("Empty input is not allowed!"));
 
             byte[] fileBytes;
             using (var ms = new MemoryStream())
             {
-                await file.Files.CopyToAsync(ms);
+                await file.Files?.CopyToAsync(ms)!;
                 fileBytes = ms.ToArray();
             }
 
 
             var fileToPut = new File()
             {
-                FileId = Guid.NewGuid(),
+                FileId = Guid.Empty,
                 ClientId = file.ClientId,
                 PsychologistId = file.PsychologistId,
                 FileName = file.Files.FileName,
@@ -74,14 +65,14 @@ namespace CRM.WebAPI.Controllers
             var result = await _repository.Put(fileToPut);
             if (result.Successful)
                 return Ok(result);
-            return BadRequest(result.ErrorMessage);
+            return BadRequest(result);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Update([FromForm] Guid fileId, [FromForm] FileToUpload dataToUpdate)
+        public async Task<ActionResult> Update([FromForm] Guid fileId, [FromForm] FileModel dataToUpdate)
         {
-            if (fileId == Guid.Empty)
-                return BadRequest("File id is empty!");
+            if (fileId == Guid.Empty || dataToUpdate.Files == null)
+                return BadRequest(new ConflictResult("Empty input is not allowed!"));
 
 
             byte[] fileBytes;
@@ -100,9 +91,9 @@ namespace CRM.WebAPI.Controllers
                 FileContent = fileBytes,
             };
             var result = await _repository.Update(fileToUpdate);
-            if (!result.Successful)
-                return BadRequest(result.ErrorMessage);
-            return Ok();
+            if (result.Successful)
+                return Ok(result);
+            return BadRequest(result);
         }
 
         // DELETE api/File/5
@@ -110,11 +101,11 @@ namespace CRM.WebAPI.Controllers
         public async Task<ActionResult> Delete(Guid id)
         {
             if (id == Guid.Empty)
-                return BadRequest("File id is empty!");
+                return BadRequest(new ConflictResult("Empty input is not allowed!"));
             var result = await _repository.RemoveById(id);
-            if (!result.Successful)
-                return BadRequest(result.ErrorMessage);
-            return Ok();
+            if (result.Successful)
+                return Ok(result);
+            return BadRequest(result);
         }
     }
 }

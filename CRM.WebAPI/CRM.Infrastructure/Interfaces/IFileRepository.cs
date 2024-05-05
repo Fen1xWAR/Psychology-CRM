@@ -1,9 +1,9 @@
 ﻿using CRM.Core.Interfaces;
+using CRM.Domain.Models;
+using File = CRM.Domain.Models.File;
+
 
 namespace CRM.Infrastructure.Interfaces;
-
-using CRM.Domain.Models;
-
 public interface IFileRepository
 {
     Task<IOperationResult<IEnumerable<File>>> GetAll();

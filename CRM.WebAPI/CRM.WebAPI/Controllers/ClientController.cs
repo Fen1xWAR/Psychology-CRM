@@ -1,7 +1,10 @@
+using CRM.Core.Implement;
 using Microsoft.AspNetCore.Mvc;
 using CRM.Domain.Models;
+using CRM.Domain.ModelsToUpload;
 using CRM.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using ConflictResult = CRM.Core.Implement.ConflictResult;
 
 namespace CRM.WebAPI.Controllers
 {
@@ -34,31 +37,25 @@ namespace CRM.WebAPI.Controllers
         public async Task<ActionResult> GetById(Guid id)
         {
             if (id == Guid.Empty)
-                return BadRequest("Id is empty");
+                return BadRequest(new ConflictResult("Empty input is not allowed!"));
             var result = await _repository.GetById(id);
             if (result.Successful)
-            {
                 return Ok(result);
-            }
-
-            return NotFound($"Client with id {id} does not exist");
+            return NotFound(result);
         }
 
 
         // PUT: api/Client/5
         [HttpPut] //добавляет в базу новый
-        public async Task<IActionResult> Insert([FromBody] Client client)
+        public async Task<IActionResult> Insert([FromBody] ClientModel client)
 
         {
-            if (client.ContactId == Guid.Empty)
-            {
-                return BadRequest("ContactId is empty");
-            }
-
+            if (client.ContactId == Guid.Empty || client.FormId == Guid.Empty || client.UserId == Guid.Empty)
+                return BadRequest(new ConflictResult("Empty input is not allowed!"));
             var result = await _repository.Put(client);
             if (result.Successful)
                 return Ok(result);
-            return BadRequest(result.ErrorMessage);
+            return BadRequest(result);
         }
 
         [HttpPost]
@@ -66,14 +63,11 @@ namespace CRM.WebAPI.Controllers
             Update([FromBody] Client dataToUpdate) //обновляет данные (что угодно можно поменять в клиенте кроме id)
         {
             if (dataToUpdate.ClientId == Guid.Empty)
-                return BadRequest("Client id is empty!");
+                return BadRequest(new ConflictResult("Empty input is not allowed!"));
             var result = await _repository.Update(dataToUpdate);
-            if (!result.Successful)
-            {
-                return BadRequest(result.ErrorMessage);
-            }
-
-            return Ok();
+            if (result.Successful)
+                return Ok(result);
+            return BadRequest(result);
         }
 
         // DELETE api/Client/5
@@ -81,17 +75,11 @@ namespace CRM.WebAPI.Controllers
         public async Task<ActionResult> Delete(Guid id) //удаляет по id
         {
             if (id == Guid.Empty)
-            {
-                return BadRequest("Client id is empty!");
-            }
-
+                return BadRequest(new ConflictResult("Empty input is not allowed!"));
             var result = await _repository.RemoveById(id);
-            if (!result.Successful)
-            {
-                return BadRequest(result.ErrorMessage);
-            }
-
-            return Ok();
+            if (result.Successful)
+                return Ok(result);
+            return BadRequest(result);
         }
     }
 }

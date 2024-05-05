@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using CRM.Core.Implement;
 using CRM.Core.Interfaces;
 using CRM.Domain.Models;
+using CRM.Domain.ModelsToUpload;
 using CRM.Infrastructure.CreationObjectFromSQL;
 using CRM.Infrastructure.Interfaces;
 using Microsoft.Extensions.Configuration;
@@ -30,7 +31,7 @@ public class ScheduleRepository : RepositoryBase, IScheduleRepository
         return new Success<Schedule>(result);
     }
 
-    public async Task<IOperationResult<Guid>> Put(Schedule schedule)
+    public async Task<IOperationResult<Guid>> Put(ScheduleModel schedule)
     {
         var scheduleId = Guid.NewGuid();
         await ExecuteSql(

@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using CRM.Core.Implement;
 using CRM.Core.Interfaces;
 using CRM.Domain.Models;
+using CRM.Domain.ModelsToUpload;
 using CRM.Infrastructure.CreationObjectFromSQL;
 using CRM.Infrastructure.Interfaces;
 using Microsoft.Extensions.Configuration;
@@ -31,15 +32,14 @@ public class LoginRepository : RepositoryBase, ILoginRepository
         return new Success<Login>(result);
     }
 
-    public async Task<IOperationResult<Guid>> Put(Login login)
+    public async Task<IOperationResult<Guid>> Put(LoginModel login)
     {
         var loginId = Guid.NewGuid();
         await ExecuteSql(
-            "INSERT INTO logins (login_id, user_id, login_time, logout_time) VALUES (@id, @userId, @loginTime, @logoutTime)",
+            "INSERT INTO logins (login_id, user_id, login_time) VALUES (@id, @userId, @loginTime)",
             new NpgsqlParameter("@id", loginId),
             new NpgsqlParameter("@userId", login.UserId),
-            new NpgsqlParameter("@loginTime", login.LoginTime),
-            new NpgsqlParameter("@logoutTime", login.LogoutTime));
+            new NpgsqlParameter("@loginTime", login.LoginTime));
         return new Success<Guid>(loginId);
     }
 
@@ -49,10 +49,9 @@ public class LoginRepository : RepositoryBase, ILoginRepository
         if (!loginToUpdate.Successful)
             return new ElementNotFound("Not found login with current id");
         await ExecuteSql(
-            "UPDATE logins SET user_id = COALESCE(@userId, user_id), login_time = COALESCE(@loginTime, login_time), logout_time = COALESCE(@logoutTime, logout_time) WHERE login_id = @id",
+            "UPDATE logins SET user_id = COALESCE(@userId, user_id), login_time = COALESCE(@loginTime, login_time) WHERE login_id = @id",
             new NpgsqlParameter("@userId", dataToUpdate.UserId),
             new NpgsqlParameter("@loginTime", dataToUpdate.LoginTime),
-            new NpgsqlParameter("@logoutTime", dataToUpdate.LogoutTime),
             new NpgsqlParameter("@id", dataToUpdate.LoginId));
         return new Success();
     }

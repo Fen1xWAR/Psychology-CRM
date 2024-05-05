@@ -31,7 +31,7 @@ public class AuthService : IAuthService
 
     }
     
-     public async Task<IOperationResult<string>> Register
+     // public async Task<IOperationResult<string>> Register()
 
     private string GenerateTokenAsync(User userData)
     {

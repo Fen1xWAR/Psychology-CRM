@@ -1,7 +1,8 @@
-using System.Threading.Tasks;
+
 using CRM.Core.Implement;
 using CRM.Core.Interfaces;
 using CRM.Domain.Models;
+using CRM.Domain.ModelsToUpload;
 using CRM.Infrastructure.CreationObjectFromSQL;
 using CRM.Infrastructure.Interfaces;
 using Microsoft.Extensions.Configuration;
@@ -31,12 +32,13 @@ public class PsychologistRepository : RepositoryBase, IPsychologistRepository
         return new Success<Psychologist>(result);
     }
 
-    public async Task<IOperationResult<Guid>> Put(Psychologist psychologist)
+    public async Task<IOperationResult<Guid>> Put(PsychologistModel psychologist)
     {
         var psychologistId = Guid.NewGuid();
         await ExecuteSql(
-            "INSERT INTO psychologists (psychologist_id, contact_id) VALUES (@id, @contactId)",
+            "INSERT INTO psychologists (psychologist_id, contact_id, user_id) VALUES (@id, @contactId, @userId)",
             new NpgsqlParameter("@id", psychologistId),
+            new NpgsqlParameter("@userId", psychologist.UserId),
             new NpgsqlParameter("@contactId", psychologist.ContactId));
         return new Success<Guid>(psychologistId);
     }
@@ -48,8 +50,9 @@ public class PsychologistRepository : RepositoryBase, IPsychologistRepository
             return new ElementNotFound("Not found psychologist with current id");
         
         await ExecuteSql(
-            "UPDATE psychologists SET contact_id = COALESCE(@contactId, contact_id) WHERE psychologist_id = @id",
+            "UPDATE psychologists SET contact_id = COALESCE(@contactId, contact_id),user_id = COALESCE(@userId, user_id) WHERE psychologist_id = @id",
             new NpgsqlParameter("@contactId", dataToUpdate.ContactId),
+            new NpgsqlParameter("@userId", dataToUpdate.UserId),
             new NpgsqlParameter("@id", dataToUpdate.PsychologistId));
         return new Success();
     }

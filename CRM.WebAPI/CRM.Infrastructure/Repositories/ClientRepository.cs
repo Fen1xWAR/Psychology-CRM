@@ -1,6 +1,7 @@
 using CRM.Core.Implement;
 using CRM.Core.Interfaces;
 using CRM.Domain.Models;
+using CRM.Domain.ModelsToUpload;
 using CRM.Infrastructure.CreationObjectFromSQL;
 using CRM.Infrastructure.Interfaces;
 using Microsoft.Extensions.Configuration;
@@ -31,14 +32,14 @@ public class ClientRepository : RepositoryBase, IClientRepository
         return new Success<Client?>(result);
     }
 
-    public async Task<IOperationResult<Guid>> Put(Client client)
+    public async Task<IOperationResult<Guid>> Put(ClientModel client)
     {
         var clientId = Guid.NewGuid();
-        await ExecuteSql(
-            "INSERT INTO clients (client_id, form, current_problem, contact_id, user_id) VALUES (@clientId, @form, @currentProblem, @contactId, @userId)",
+           await ExecuteSql(
+            "INSERT INTO clients (client_id, form_id, current_problem, contact_id, user_id) VALUES (@clientId, @formId, @currentProblem, @contactId, @userId)",
             new NpgsqlParameter("@clientId", clientId),
-            new NpgsqlParameter("@form", client.Form),
-            new NpgsqlParameter("@currentProblem", client.CurrentProblem ?? ""),
+            new NpgsqlParameter("@formId", client.FormId),
+            new NpgsqlParameter("@currentProblem", client.CurrentProblem),
             new NpgsqlParameter("@contactId", client.ContactId),
             new NpgsqlParameter("@userId", client.UserId));
         return new Success<Guid>(clientId);
@@ -53,8 +54,8 @@ public class ClientRepository : RepositoryBase, IClientRepository
         }
 
         await ExecuteSql(
-            "UPDATE clients SET form = COALESCE(@form, form), current_problem = COALESCE(@currentProblem, current_problem), contact_id = COALESCE(@contactId, contact_id), user_id = COALESCE(@userId, user_id) WHERE client_id = @id",
-            new NpgsqlParameter("@form", dataToUpdate.Form),
+            "UPDATE clients SET form_id = COALESCE(@form, form_id), current_problem = COALESCE(@currentProblem, current_problem), contact_id = COALESCE(@contactId, contact_id), user_id = COALESCE(@userId, user_id) WHERE client_id = @id",
+            new NpgsqlParameter("@form", dataToUpdate.FormId),
             new NpgsqlParameter("@currentProblem", dataToUpdate.CurrentProblem),
             new NpgsqlParameter("@contactId", dataToUpdate.ContactId),
             new NpgsqlParameter("@id", dataToUpdate.ClientId),

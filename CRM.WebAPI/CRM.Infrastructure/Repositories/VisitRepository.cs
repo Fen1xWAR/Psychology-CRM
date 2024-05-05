@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using CRM.Core.Implement;
 using CRM.Core.Interfaces;
 using CRM.Domain.Models;
+using CRM.Domain.ModelsToUpload;
 using CRM.Infrastructure.CreationObjectFromSQL;
 using CRM.Infrastructure.Interfaces;
 using Microsoft.Extensions.Configuration;
@@ -30,7 +31,7 @@ public class VisitRepository : RepositoryBase, IVisitRepository
         return new Success<Visit>(result);
     }
 
-    public async Task<IOperationResult<Guid>> Put(Visit visit)
+    public async Task<IOperationResult<Guid>> Put(VisitModel visit)
     {
         var visitId = Guid.NewGuid();
         await ExecuteSql(
@@ -39,8 +40,8 @@ public class VisitRepository : RepositoryBase, IVisitRepository
             new NpgsqlParameter("@id", visitId),
             new NpgsqlParameter("@clientId", visit.ClientId),
             new NpgsqlParameter("@dateTime", visit.DateTime),
-            new NpgsqlParameter("@psychologistDescription", visit.PsychologistDescription),
-            new NpgsqlParameter("@clientNote", visit.ClientNote),
+            new NpgsqlParameter("@psychologistDescription", visit.PsychologistDescription ?? ""),
+            new NpgsqlParameter("@clientNote", visit.ClientNote ?? ""),
             new NpgsqlParameter("@serviceId", visit.ServiceId),
             new NpgsqlParameter("@psychologistId", visit.PsychologistId));
         return new Success<Guid>(visitId);
