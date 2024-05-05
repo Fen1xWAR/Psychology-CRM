@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using CRM.Domain.Models;
 using CRM.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -34,7 +35,7 @@ namespace CRM.WebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> Login([FromBody] UserAuth model)
         {
-            var result = await _authService.GenerateTokenAsync(model);
+            var result = await _authService.Login(model);
             if (result.Successful)
             {
                 return Ok(result);
@@ -95,5 +96,9 @@ namespace CRM.WebAPI.Controllers
                 return Ok(result);
             return BadRequest(result.ErrorMessage);
         }
+        
+
+        
+       
     }
 }

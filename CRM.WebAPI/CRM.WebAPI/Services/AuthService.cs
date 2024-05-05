@@ -12,27 +12,35 @@ namespace CRM.WebAPI.Services;
 
 public class AuthService : IAuthService
 {
-    private IUserRepository _repository;
+    private IUserRepository _userRepository;
     private IConfiguration _configuration;
 
-    public AuthService(IUserRepository repository, IConfiguration configuration)
+    public AuthService(IUserRepository userRepository, IConfiguration configuration)
     {
-        _repository = repository;
+        _userRepository = userRepository;
         _configuration = configuration;
     }
 
-    public async Task<IOperationResult<string>> GenerateTokenAsync(UserAuth model)
+    public async Task<IOperationResult<string>> Login(UserAuth model)
     {
-        var user = await _repository.GetUserByEmail(model.Email);
-       
+        var user = await _userRepository.GetUserByEmail(model.Email);
+
         if (!user.Successful || (user.Result.Password != model.Password))
-            return new ConflictResult<string>(null,"Invalid login or password") ;
-        var userData = user.Result;
+            return new ConflictResult<string>(null, "Invalid login or password");
+        return new Success<string>(GenerateTokenAsync(user.Result));
+
+    }
+    
+     public async Task<IOperationResult<string>> Register
+
+    private string GenerateTokenAsync(User userData)
+    {
+        
+        
         var claims = new[]
         {
-            new Claim("user_id", userData.UserId.ToString()),
-            new Claim("email", userData.Email),
-            new Claim("role", userData.Role)
+            new Claim(ClaimTypes.NameIdentifier, userData.UserId.ToString()),
+            new Claim(ClaimTypes.Role, userData.Role)
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["AuthOptions:Key"]));
@@ -46,6 +54,20 @@ public class AuthService : IAuthService
             signingCredentials: creds
         );
 
-        return new Success<string>( new JwtSecurityTokenHandler().WriteToken(token));
+        return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+    public UserBase? GetCurrentUser(HttpContext user)
+    {
+        var userIdClaim = user.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier);
+        var roleClaim = user.User.FindFirst(c => c.Type == ClaimTypes.Role);
+
+        if (userIdClaim == null || roleClaim == null)
+            return null;
+        return new UserBase()
+        {
+            UserId = Guid.Parse(userIdClaim.Value),
+            Role = roleClaim.Value,
+        };
+
     }
 }
