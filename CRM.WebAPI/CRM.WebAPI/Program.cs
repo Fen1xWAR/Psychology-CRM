@@ -1,4 +1,4 @@
-using System.Configuration;
+
 using System.Text;
 using CRM.Infrastructure.Interfaces;
 using CRM.Infrastructure.Repositories;
@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using CRM.WebAPI;
 using CRM.WebAPI.Services;
 using Microsoft.OpenApi.Models;
+using Serilog;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -59,7 +60,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             ValidIssuer = configuration["AuthOptions:Issuer"],
             ValidAudience = configuration["AuthOptions:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["AuthOptions:Key"]))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["AuthOptions:Key"])),
+#if DEBUG
+            ClockSkew = TimeSpan.Zero,
+#else
+            ClockSkew = TimeSpan.FromMinutes(10),
+#endif
         };
     });
 
@@ -76,15 +82,17 @@ builder.Services.AddSingleton<IServiceRepository, ServiceRepository>();
 builder.Services.AddSingleton<IScheduleRepository, ScheduleRepository>();
 
 
-
 builder.Services.AddSingleton<IAuthService, AuthService>();
 builder.Services.AddSingleton<ITokenRepository, TokenRepository>();
 
 builder.Services.AddSingleton<ExceptionMiddleware>();
 
 
-var app = builder.Build();
-
+var app = builder.Build(); 
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .WriteTo.File("test.txt")
+    .CreateLogger();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -100,7 +108,7 @@ app.UseCors(x => x
     .AllowAnyHeader());
 app.UseAuthentication();
 app.UseAuthorization();
-// app.UseMiddleware<ExceptionMiddleware>();
+app.UseMiddleware<ExceptionMiddleware>();
 app.MapControllers();
 
 app.Run();

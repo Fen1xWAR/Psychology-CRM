@@ -60,7 +60,7 @@ namespace CRM.WebAPI.Controllers
 
         [HttpPost]
         public async Task<ActionResult>
-            Update([FromBody] Client dataToUpdate) //обновляет данные (что угодно можно поменять в клиенте кроме id)
+                Update([FromBody] Client dataToUpdate) //обновляет данные (что угодно можно поменять в клиенте кроме id)
         {
             if (dataToUpdate.ClientId == Guid.Empty)
                 return BadRequest(new ConflictResult("Empty input is not allowed!"));

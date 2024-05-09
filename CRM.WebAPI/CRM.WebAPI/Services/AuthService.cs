@@ -155,7 +155,7 @@ public class AuthService : IAuthService
             issuer: _configuration["AuthOptions:Issuer"],
             audience: _configuration["AuthOptions:Audience"],
             claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(30),
+            expires: DateTime.UtcNow.AddSeconds(30),
             signingCredentials: creds
         );
         return new JwtSecurityTokenHandler().WriteToken(token);
@@ -168,19 +168,51 @@ public class AuthService : IAuthService
         _rngCryptoServiceProvider.GetBytes(tokenBuffer);
         return Convert.ToBase64String(tokenBuffer);
     }
+    
 
+    public JwtSecurityToken GetJwtToken(string token)
+    {
+        var handler = new JwtSecurityTokenHandler();
+        JwtSecurityToken jwtToken;
 
+        try
+        {
+            jwtToken = handler.ReadJwtToken(token);
+        }
+        catch (Exception)
+        {
+            // If the token is not in a valid format, return null
+            return null;
+        }
+
+        if (jwtToken == null)
+        {
+            return null;
+        }
+
+        return jwtToken;
+    }
+    
     public UserBase? GetCurrentUser(HttpContext user)
     {
-        var userIdClaim = user.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier);
-        var roleClaim = user.User.FindFirst(c => c.Type == ClaimTypes.Role);
-
-        if (userIdClaim == null || roleClaim == null)
-            return null;
-        return new UserBase()
+        var token = GetJwtToken(user.Request.Headers["Authorization"].ToString().Replace("Bearer ", ""));
+        if (token != null)
         {
-            UserId = Guid.Parse(userIdClaim.Value),
-            Role = roleClaim.Value,
-        };
+
+
+            var userIdClaim = token.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = token.Claims.First(c => c.Type == ClaimTypes.Role);
+            return new UserBase()
+            {
+                UserId = Guid.Parse(userIdClaim.Value),
+                Role = roleClaim.Value,
+            };
+        }
+        else
+        {
+            return null;
+        }
+          
+       
     }
 }
