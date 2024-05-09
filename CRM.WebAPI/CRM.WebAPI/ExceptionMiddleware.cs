@@ -1,4 +1,5 @@
 using CRM.Core.Implement;
+using Serilog;
 
 namespace CRM.WebApi
 {
@@ -15,6 +16,7 @@ namespace CRM.WebApi
             catch (Exception ex) // если случилось что то
             {
                 await HandleExceptionAsync(context, ex); //тогда обрабатываем ошибку
+                Log.Logger.Error(ex, ex.Message);
             }
         }
 
