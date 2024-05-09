@@ -76,8 +76,9 @@ builder.Services.AddSingleton<IServiceRepository, ServiceRepository>();
 builder.Services.AddSingleton<IScheduleRepository, ScheduleRepository>();
 
 
-builder.Services.AddSingleton<IAuthService, AuthService>();
 
+builder.Services.AddSingleton<IAuthService, AuthService>();
+builder.Services.AddSingleton<ITokenRepository, TokenRepository>();
 
 builder.Services.AddSingleton<ExceptionMiddleware>();
 
@@ -99,7 +100,7 @@ app.UseCors(x => x
     .AllowAnyHeader());
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseMiddleware<ExceptionMiddleware>();
+// app.UseMiddleware<ExceptionMiddleware>();
 app.MapControllers();
 
 app.Run();

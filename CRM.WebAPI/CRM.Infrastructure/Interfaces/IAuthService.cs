@@ -7,7 +7,8 @@ namespace CRM.Infrastructure.Interfaces;
 
 public interface IAuthService
 {
-    Task<IOperationResult<string>> Login(UserAuth model);
-    Task<IOperationResult<string>> Register(UserRegModel regModel);
+    Task<IOperationResult<Tokens>> Login(UserAuth model);
+    Task<IOperationResult<Tokens>> Register(UserRegModel regModel);
+    Task<IOperationResult<Tokens>> RefreshTokens(string token, HttpContext context);
     UserBase? GetCurrentUser(HttpContext user);
 }

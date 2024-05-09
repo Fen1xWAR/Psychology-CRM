@@ -1,4 +1,6 @@
 using System.Security.Claims;
+using System.Web;
+using CRM.Core.Implement;
 using CRM.Domain.Models;
 using CRM.Domain.ModelsToUpload;
 using CRM.Infrastructure.Interfaces;
@@ -37,24 +39,55 @@ namespace CRM.WebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> Register([FromBody] UserRegModel regModel)
         {
-            if (regModel.Email == "" || regModel.Password == "" || regModel.LastName == "" || regModel.Name == "" || regModel.Role == "")
+            if (regModel.Email == "" || regModel.Password == "" || regModel.LastName == "" || regModel.Name == "" ||
+                regModel.Role == "")
                 return BadRequest(new ConflictResult("Empty input is not allowed!"));
             if (!(regModel.Role is "Admin" or "Client" or "Psychologist"))
                 return BadRequest(new ConflictResult($"Cant create user with role {regModel.Role}"));
-            var result = await _authService.Register(regModel);
-            return Ok(result);
+            var tokens = await _authService.Register(regModel);
+            if (!tokens.Successful)
+                return BadRequest(tokens);
+            var refreshToken = tokens.Result.RefreshToken;
+            WriteRefreshToCookie(refreshToken);
+            return Ok(tokens);
         }
+
+
         [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult> Login([FromBody] UserAuth model)
         {
             if (model.Email == null || model.Password == null)
                 return BadRequest(new ConflictResult("Empty input is not allowed!"));
-            var result = await _authService.Login(model);
-            if (result.Successful)
-                return Ok(result);
+            var tokens = await _authService.Login(model);
+            if (!tokens.Successful)
+                return BadRequest(tokens);
+            var refreshToken = tokens.Result.RefreshToken;
+            
+            WriteRefreshToCookie(refreshToken);
+            return Ok(tokens);
+        }
 
-            return BadRequest(result);
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> RefreshToken()
+        {
+            var refreshToken = HttpUtility.UrlDecode(Request.Cookies["refreshToken"]);
+            if (string.IsNullOrEmpty(refreshToken))
+            {
+                return BadRequest(new ConflictResult("Refresh token not found"));
+            }
+
+            var result = await _authService.RefreshTokens(refreshToken, HttpContext);
+            if (!result.Successful)
+            {
+                return Unauthorized(result);
+            }
+
+            WriteRefreshToCookie(result.Result.RefreshToken);
+
+            return Ok(result);
         }
 
         // GET: api/User
@@ -111,6 +144,19 @@ namespace CRM.WebAPI.Controllers
             if (result.Successful)
                 return Ok(result);
             return BadRequest(result);
+        }
+
+        private void WriteRefreshToCookie(string refreshToken)
+        {
+            HttpContext.Response.Cookies.Delete("refreshToken");
+            var encodedRefreshToken = HttpUtility.UrlEncode(refreshToken);
+            HttpContext.Response.Cookies.Append("refreshToken", encodedRefreshToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddDays(7)
+            });
         }
     }
 }
