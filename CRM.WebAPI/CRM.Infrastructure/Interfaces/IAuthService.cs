@@ -9,6 +9,6 @@ public interface IAuthService
 {
     Task<IOperationResult<Tokens>> Login(UserAuth model);
     Task<IOperationResult<Tokens>> Register(UserRegModel regModel);
-    Task<IOperationResult<Tokens>> RefreshTokens(string token, HttpContext context);
+    Task<IOperationResult<Tokens>> RefreshTokens(RefreshToken token, HttpContext context);
     UserBase? GetCurrentUser(HttpContext user);
 }

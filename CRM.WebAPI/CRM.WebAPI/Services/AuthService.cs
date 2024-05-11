@@ -8,6 +8,7 @@ using CRM.Core.Interfaces;
 using CRM.Domain.ModelsToUpload;
 using CRM.Infrastructure.Interfaces;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 
 
 namespace CRM.WebAPI.Services;
@@ -38,40 +39,58 @@ public class AuthService : IAuthService
 
     public async Task<IOperationResult<Tokens>> Login(UserAuth model)
     {
+        Log.Logger.Error(model.DeviceId.ToString());
         var user = await _userRepository.GetUserByEmail(model.Email);
 
-        if (!user.Successful || (user.Result.Password != model.Password))
+        if (!user.Successful || user.Result.Password != model.Password)
             return new ConflictResult<Tokens>(null, "Invalid login or password");
-        var userId = user.Result.UserId;
+        Guid userId = user.Result.UserId;
+
+        if (model.DeviceId != Guid.Empty)
+        {
+            Log.Logger.Error("Deleting token");
+            await _tokenRepository.RemoveTokenByUserAndDeviceId(userId, model.DeviceId);
+        }
+
+        var deviceId = Guid.NewGuid();
         var tokens = GenerateTokensAsync(new UserBase()
         {
             UserId = userId,
             Role = user.Result.Role
-        });
-        await _tokenRepository.UpdateToken(new TokenModel()
+        }, deviceId);
+        await _tokenRepository.WriteTokenAsync(new TokenModel()
         {
-            userId = userId,
-            RefreshToken = tokens.RefreshToken
+            UserId = userId,
+            RefreshToken = tokens.RefreshToken.Token,
+            DeviceId = deviceId,
+            ExpiredDateTime = DateTime.Now.AddDays(7)
         });
+
         return new Success<Tokens>(tokens);
     }
 
-    public async Task<IOperationResult<Tokens>> RefreshTokens(string token, HttpContext context)
+    public async Task<IOperationResult<Tokens>> RefreshTokens(RefreshToken token, HttpContext context)
     {
         var user = GetCurrentUser(context);
         if (user == null)
             return new ElementNotFound<Tokens>(null, "JWT Token not found!");
 
-        var existingToken = await _tokenRepository.GetTokenByUserId(user.UserId);
+        var existingToken = await _tokenRepository.GetTokenByUserAndDeviceId(user.UserId, token.DeviceId);
         if (!existingToken.Successful)
             return new ElementNotFound<Tokens>(null, "RefreshToken not found in base!");
-        if (existingToken.Result.RefreshToken != token)
-            return new ElementNotFound<Tokens>(null, "Invalid refresh token!");
-        var tokens = GenerateTokensAsync(user);
-        await _tokenRepository.UpdateToken(new TokenModel()
+        if (existingToken.Result.RefreshToken != token.Token || (existingToken.Result.ExpiredDateTime < DateTime.Now))
         {
-            userId = user.UserId,
-            RefreshToken = tokens.RefreshToken
+            await _tokenRepository.RemoveAllUserTokens(user.UserId);
+            return new ElementNotFound<Tokens>(null, "Invalid refresh token!");
+        }
+
+        var tokens = GenerateTokensAsync(user, token.DeviceId);
+        await _tokenRepository.RemoveTokenByUserAndDeviceId(user.UserId, token.DeviceId);
+        await _tokenRepository.WriteTokenAsync(new TokenModel()
+        {
+            UserId = user.UserId,
+            RefreshToken = tokens.RefreshToken.Token,
+            DeviceId = Guid.NewGuid()
         });
         return new Success<Tokens>(tokens);
     }
@@ -116,25 +135,27 @@ public class AuthService : IAuthService
                 throw new ArgumentException("CurrentRoleNotImplement!");
         }
 
+        var deviceId = Guid.NewGuid();
         var tokens = GenerateTokensAsync(new UserBase
         {
             UserId = userId,
             Role = userRegModel.Role
-        });
+        }, deviceId);
         await _tokenRepository.WriteTokenAsync(new TokenModel()
         {
-            userId = userId,
-            RefreshToken = tokens.RefreshToken
+            UserId = userId,
+            RefreshToken = tokens.RefreshToken.Token,
+            DeviceId = deviceId
         });
         return new Success<Tokens>(tokens);
     }
 
-    private Tokens GenerateTokensAsync(UserBase userData)
+    private Tokens GenerateTokensAsync(UserBase userData, Guid deviceId)
     {
         return new Tokens
         {
             JWTToken = GenerateJwtToken(userData),
-            RefreshToken = GenerateRefreshToken()
+            RefreshToken = GenerateRefreshToken(deviceId)
         };
     }
 
@@ -161,14 +182,18 @@ public class AuthService : IAuthService
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
-    private string GenerateRefreshToken()
+    private RefreshToken GenerateRefreshToken(Guid deviceId)
     {
         var _rngCryptoServiceProvider = new RNGCryptoServiceProvider();
         byte[] tokenBuffer = new byte[64];
         _rngCryptoServiceProvider.GetBytes(tokenBuffer);
-        return Convert.ToBase64String(tokenBuffer);
+        return new RefreshToken()
+        {
+            Token = Convert.ToBase64String(tokenBuffer),
+            DeviceId = deviceId
+        };
     }
-    
+
 
     public JwtSecurityToken GetJwtToken(string token)
     {
@@ -192,14 +217,12 @@ public class AuthService : IAuthService
 
         return jwtToken;
     }
-    
+
     public UserBase? GetCurrentUser(HttpContext user)
     {
         var token = GetJwtToken(user.Request.Headers["Authorization"].ToString().Replace("Bearer ", ""));
         if (token != null)
         {
-
-
             var userIdClaim = token.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
             var roleClaim = token.Claims.First(c => c.Type == ClaimTypes.Role);
             return new UserBase()
@@ -212,7 +235,5 @@ public class AuthService : IAuthService
         {
             return null;
         }
-          
-       
     }
 }

@@ -6,8 +6,7 @@ public class Tokens
 {
     public string JWTToken { get; set; }
     
-    [JsonIgnore]
-    public string RefreshToken { get; set; }
+    public RefreshToken RefreshToken { get; set; }
 
     
 }

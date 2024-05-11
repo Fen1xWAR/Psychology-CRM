@@ -12,7 +12,9 @@ public class TokenCreator : ICreator<Token>
         {
             TokenId = reader.GetGuid(0),
             UserId = reader.GetGuid(1),
-            RefreshToken = reader.GetString(2)
+            RefreshToken = reader.GetString(2),
+            ExpiredDateTime = reader.GetDateTime(3),
+            DeviceId = reader.GetGuid(4)
         };
     }
 }

@@ -48,7 +48,7 @@ namespace CRM.WebAPI.Controllers
             if (!tokens.Successful)
                 return BadRequest(tokens);
             var refreshToken = tokens.Result.RefreshToken;
-            WriteRefreshToCookie(refreshToken);
+            // WriteRefreshToCookie(refreshToken);
             return Ok(tokens);
         }
 
@@ -64,28 +64,29 @@ namespace CRM.WebAPI.Controllers
                 return BadRequest(tokens);
             var refreshToken = tokens.Result.RefreshToken;
             
-            WriteRefreshToCookie(refreshToken);
+            // WriteRefreshToCookie(refreshToken);
             return Ok(tokens);
         }
 
 
         [AllowAnonymous]
-        [HttpGet]
-        public async Task<IActionResult> RefreshToken()
+        [HttpPost]
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshToken token)
         {
-            var refreshToken = HttpUtility.UrlDecode(Request.Cookies["refreshToken"]);
-            if (string.IsNullOrEmpty(refreshToken))
-            {
-                return BadRequest(new ConflictResult("Refresh token not found"));
-            }
-
-            var result = await _authService.RefreshTokens(refreshToken, HttpContext);
+            // var refreshToken = HttpUtility.UrlDecode(Request.Cookies["refreshToken"]);
+            // if (string.IsNullOrEmpty(refreshToken))
+            // {
+            //     return BadRequest(new ConflictResult("Refresh token not found"));
+            // }
+            if(token.Token == ""  || token.DeviceId == Guid.Empty)
+                return Unauthorized("Invalid Input");
+            var result = await _authService.RefreshTokens(token, HttpContext);
             if (!result.Successful)
             {
                 return Unauthorized(result);
             }
 
-            WriteRefreshToCookie(result.Result.RefreshToken);
+            // WriteRefreshToCookie(result.Result.RefreshToken);
 
             return Ok(result);
         }
