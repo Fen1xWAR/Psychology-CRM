@@ -69,28 +69,30 @@ public class AuthService : IAuthService
         return new Success<Tokens>(tokens);
     }
 
-    public async Task<IOperationResult<Tokens>> RefreshTokens(RefreshToken token, HttpContext context)
+    public async Task<IOperationResult<Tokens>> RefreshTokens(Tokens token)
     {
-        var user = GetCurrentUser(context);
-        if (user == null)
-            return new ElementNotFound<Tokens>(null, "JWT Token not found!");
-
-        var existingToken = await _tokenRepository.GetTokenByUserAndDeviceId(user.UserId, token.DeviceId);
+        var user = ParseJwtToken(token.JWTToken);
+        if (user == null || token.RefreshToken == null)
+            return new ElementNotFound<Tokens>(null, "Some token is null!");
+        var existingToken = await _tokenRepository.GetTokenByUserAndDeviceId(user.UserId, token.RefreshToken.DeviceId);
         if (!existingToken.Successful)
             return new ElementNotFound<Tokens>(null, "RefreshToken not found in base!");
-        if (existingToken.Result.RefreshToken != token.Token || (existingToken.Result.ExpiredDateTime < DateTime.Now))
+        if (existingToken.Result.RefreshToken != token.RefreshToken.Token ||
+            (existingToken.Result.ExpiredDateTime < DateTime.Now))
         {
+            Log.Logger.Fatal($"Было:{existingToken.Result.RefreshToken} ==  С фронта:{token.RefreshToken.Token}");
             await _tokenRepository.RemoveAllUserTokens(user.UserId);
             return new ElementNotFound<Tokens>(null, "Invalid refresh token!");
         }
 
-        var tokens = GenerateTokensAsync(user, token.DeviceId);
-        await _tokenRepository.RemoveTokenByUserAndDeviceId(user.UserId, token.DeviceId);
+        var deviceId = Guid.NewGuid();
+        var tokens = GenerateTokensAsync(user, deviceId);
+        await _tokenRepository.RemoveTokenByUserAndDeviceId(user.UserId, token.RefreshToken.DeviceId);
         await _tokenRepository.WriteTokenAsync(new TokenModel()
         {
             UserId = user.UserId,
             RefreshToken = tokens.RefreshToken.Token,
-            DeviceId = Guid.NewGuid()
+            DeviceId = deviceId
         });
         return new Success<Tokens>(tokens);
     }
@@ -176,7 +178,7 @@ public class AuthService : IAuthService
             issuer: _configuration["AuthOptions:Issuer"],
             audience: _configuration["AuthOptions:Audience"],
             claims: claims,
-            expires: DateTime.UtcNow.AddSeconds(30),
+            expires: DateTime.UtcNow.AddMinutes(30),
             signingCredentials: creds
         );
         return new JwtSecurityTokenHandler().WriteToken(token);
@@ -218,11 +220,12 @@ public class AuthService : IAuthService
         return jwtToken;
     }
 
-    public UserBase? GetCurrentUser(HttpContext user)
+    public UserBase? ParseJwtToken(string jwtToken)
     {
-        var token = GetJwtToken(user.Request.Headers["Authorization"].ToString().Replace("Bearer ", ""));
-        if (token != null)
+        var handler = new JwtSecurityTokenHandler();
+        try
         {
+            var token = handler.ReadJwtToken(jwtToken);
             var userIdClaim = token.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
             var roleClaim = token.Claims.First(c => c.Type == ClaimTypes.Role);
             return new UserBase()
@@ -231,9 +234,28 @@ public class AuthService : IAuthService
                 Role = roleClaim.Value,
             };
         }
-        else
+        catch
         {
             return null;
+        }
+    }
+
+    public IOperationResult<UserBase> GetCurrentUser(HttpContext user)
+    {
+        var token = GetJwtToken(user.Request.Headers["Authorization"].ToString().Replace("Bearer ", ""));
+        if (token != null)
+        {
+            var userIdClaim = token.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = token.Claims.First(c => c.Type == ClaimTypes.Role);
+            return new Success<UserBase>(new UserBase()
+            {
+                UserId = Guid.Parse(userIdClaim.Value),
+                Role = roleClaim.Value,
+            });
+        }
+        else
+        {
+            return new ConflictResult<UserBase>(null, "TokenNotFound");
         }
     }
 }

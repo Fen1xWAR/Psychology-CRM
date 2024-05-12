@@ -4,9 +4,9 @@ namespace CRM.Domain.ModelsToUpload;
 
 public class Tokens
 {
-    public string JWTToken { get; set; }
-    
-    public RefreshToken RefreshToken { get; set; }
+    public string JWTToken { get; set; } = "";
 
-    
+    public RefreshToken? RefreshToken { get; set; } = null;
+
+
 }
