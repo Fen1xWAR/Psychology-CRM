@@ -12,31 +12,49 @@ namespace CRM.WebAPI.Controllers
     [Authorize]
     public class ContactController : ControllerBase
     {
-        private IContactRepository _repository;
+        private IContactRepository _contactRepository;
+        private IUserRepository _userRepository;
 
-        public ContactController(IContactRepository repository)
+        public ContactController(IContactRepository contactRepository, IUserRepository userRepository)
         {
-            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _contactRepository = contactRepository ?? throw new ArgumentNullException(nameof(contactRepository));
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         }
 
         // GET: api/Contact
         [HttpGet]
         public async Task<ActionResult> GetAll()
         {
-            return Ok(await _repository.GetAll());
+            return Ok(await _contactRepository.GetAll());
         }
-
+        
         // GET: api/Contact/5
         [HttpGet("{id}")]
         public async Task<ActionResult> GetById(Guid id)
         {
             if (id == Guid.Empty)
                 return BadRequest(new ConflictResult("Empty input is not allowed!"));
-            var result = await _repository.GetById(id);
+            var result = await _contactRepository.GetById(id);
             if (result.Successful)
                 return Ok(result);
 
             return NotFound(result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetByUserId(Guid id)
+        {
+            if(id == Guid.Empty)
+                return BadRequest(new ConflictResult("Empty input is not allowed!"));
+            var client = await _userRepository.GetById(id);
+            if (!client.Successful)
+                return BadRequest(client);
+            var result = await _contactRepository.GetById(client.Result.ContactId);
+            if (result.Successful)
+                return Ok(result);
+
+            return NotFound(result);
+            
         }
 
         // PUT api/Contact/5
@@ -46,7 +64,7 @@ namespace CRM.WebAPI.Controllers
         {
             if (contact.Name == "" || contact.Lastname == "")
                 return BadRequest(new ConflictResult("Empty input is not allowed!"));
-            var result = await _repository.Put(contact);
+            var result = await _contactRepository.Put(contact);
             if (result.Successful)
                 return Ok(result);
             return BadRequest(result);
@@ -57,7 +75,7 @@ namespace CRM.WebAPI.Controllers
         {
             if (dataToUpdate.ContactId == Guid.Empty)
                 return BadRequest(new ConflictResult("Empty input is not allowed!"));
-            var result = await _repository.Update(dataToUpdate);
+            var result = await _contactRepository.Update(dataToUpdate);
             if (result.Successful)
                 return Ok(result);
             return BadRequest(result);
@@ -69,7 +87,7 @@ namespace CRM.WebAPI.Controllers
         {
             if (id == Guid.Empty)
                 return BadRequest(new ConflictResult("Empty input is not allowed!"));
-            var result = await _repository.RemoveById(id);
+            var result = await _contactRepository.RemoveById(id);
             if (result.Successful)
                 return Ok(result);
             return BadRequest(result);

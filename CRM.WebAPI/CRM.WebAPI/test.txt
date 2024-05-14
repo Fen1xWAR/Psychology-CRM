@@ -1206,3 +1206,57 @@ Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
    at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
    at CRM.WebApi.ExceptionMiddleware.InvokeAsync(HttpContext context, RequestDelegate next) in C:\Users\PC\Desktop\Psychology-CRM\CRM.WebAPI\CRM.WebAPI\ExceptionMiddleware.cs:line 14
 2024-05-14 18:15:37.011 +03:00 [WRN] Deleting with 7f961a5a-9223-456d-8b9e-faf64be29545 and ca694a28-fea1-4266-aaa2-4349297cfeb6
+2024-05-14 21:58:25.117 +03:00 [WRN] Deleting with 7f961a5a-9223-456d-8b9e-faf64be29545 and e512abcb-537e-4438-bb2c-aa41c354d347
+2024-05-14 22:17:59.140 +03:00 [ERR] b66f87bd-c759-4c65-89a1-bd4121128f82
+2024-05-14 22:18:07.211 +03:00 [ERR] b66f87bd-c759-4c65-89a1-bd4121128f82
+2024-05-14 22:18:07.215 +03:00 [ERR] Deleting token
+2024-05-14 22:18:07.217 +03:00 [WRN] Deleting with 7f961a5a-9223-456d-8b9e-faf64be29545 and b66f87bd-c759-4c65-89a1-bd4121128f82
+2024-05-14 22:51:16.376 +03:00 [ERR] Exception while reading from stream
+Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
+ ---> System.IO.IOException: Unable to read data from the transport connection: Удаленный хост принудительно разорвал существующее подключение..
+ ---> System.Net.Sockets.SocketException (10054): Удаленный хост принудительно разорвал существующее подключение.
+   --- End of inner exception stack trace ---
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource<System.Int32>.GetResult(Int16 token)
+   at System.Net.Security.SslStream.EnsureFullTlsFrameAsync[TIOAdapter](TIOAdapter adapter)
+   at System.Net.Security.SslStream.ReadAsyncInternal[TIOAdapter](TIOAdapter adapter, Memory`1 buffer)
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|54_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|54_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in C:\Users\PC\Desktop\Psychology-CRM\CRM.WebAPI\CRM.Infrastructure\Repositories\RepositoryBase.cs:line 34
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in C:\Users\PC\Desktop\Psychology-CRM\CRM.WebAPI\CRM.Infrastructure\Repositories\RepositoryBase.cs:line 39
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in C:\Users\PC\Desktop\Psychology-CRM\CRM.WebAPI\CRM.Infrastructure\Repositories\RepositoryBase.cs:line 43
+   at CRM.Infrastructure.Repositories.TokenRepository.GetTokenByUserAndDeviceId(Guid userId, Guid deviceId) in C:\Users\PC\Desktop\Psychology-CRM\CRM.WebAPI\CRM.Infrastructure\Repositories\TokenRepository.cs:line 22
+   at CRM.WebAPI.Services.AuthService.RefreshTokens(Tokens token) in C:\Users\PC\Desktop\Psychology-CRM\CRM.WebAPI\CRM.WebAPI\Services\AuthService.cs:line 77
+   at CRM.WebAPI.Controllers.UserController.RefreshToken(Tokens token) in C:\Users\PC\Desktop\Psychology-CRM\CRM.WebAPI\CRM.WebAPI\Controllers\UserController.cs:line 80
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.WebApi.ExceptionMiddleware.InvokeAsync(HttpContext context, RequestDelegate next) in C:\Users\PC\Desktop\Psychology-CRM\CRM.WebAPI\CRM.WebAPI\ExceptionMiddleware.cs:line 14
+2024-05-14 22:51:24.579 +03:00 [WRN] Deleting with 7f961a5a-9223-456d-8b9e-faf64be29545 and f3a65be1-cde6-4a2d-a39f-14188ac5d28e
+2024-05-14 23:21:55.361 +03:00 [WRN] Deleting with 7f961a5a-9223-456d-8b9e-faf64be29545 and 535ef948-905f-4436-81cf-6017a4e950f8
+2024-05-14 23:44:48.074 +03:00 [ERR] 21955840-e3cb-472e-bcba-7f2804cb8fac
+2024-05-14 23:44:48.078 +03:00 [ERR] Deleting token
+2024-05-14 23:44:48.078 +03:00 [WRN] Deleting with 7f961a5a-9223-456d-8b9e-faf64be29545 and 21955840-e3cb-472e-bcba-7f2804cb8fac
+2024-05-14 23:51:18.627 +03:00 [ERR] 2cb0ece9-f506-4352-b60d-d3bc53983e34
+2024-05-14 23:51:27.439 +03:00 [ERR] 2cb0ece9-f506-4352-b60d-d3bc53983e34
+2024-05-14 23:51:41.756 +03:00 [ERR] 2cb0ece9-f506-4352-b60d-d3bc53983e34
+2024-05-14 23:51:41.759 +03:00 [ERR] Deleting token
+2024-05-14 23:51:41.759 +03:00 [WRN] Deleting with 7f961a5a-9223-456d-8b9e-faf64be29545 and 2cb0ece9-f506-4352-b60d-d3bc53983e34
+2024-05-14 23:54:53.769 +03:00 [ERR] 00000000-0000-0000-0000-000000000000
+2024-05-14 23:56:31.336 +03:00 [ERR] 00000000-0000-0000-0000-000000000000

@@ -25,16 +25,7 @@ namespace CRM.WebAPI.Controllers
         }
 
 
-        // POST: api/User/Register
-        // [AllowAnonymous]
-        // [HttpPost]
-        // public async Task<ActionResult> RegisterAsync([FromBody] UserAuth model)
-        // {
-        //     var user = await _repository.CreateUser(model);
-        //     return CreatedAtAction(nameof(GetById), new { id = user.UserId }, user);
-        // }
 
-        // POST: api/User/Login
         [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult> Register([FromBody] UserRegModel regModel)
