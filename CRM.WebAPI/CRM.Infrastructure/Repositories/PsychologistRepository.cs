@@ -32,6 +32,16 @@ public class PsychologistRepository : RepositoryBase, IPsychologistRepository
         return new Success<Psychologist>(result);
     }
 
+    public async Task<IOperationResult<Psychologist>> GetByUserId(Guid userId)
+    {
+        var result =  (await GetDataSql<Psychologist, PsychologistCreator>(
+            "SELECT * FROM psychologists WHERE user_id = @id",
+            new NpgsqlParameter("@id", userId))).FirstOrDefault();
+        if (result == null)
+            return new ElementNotFound<Psychologist>(null, $"Not found psychologist with user id {userId}");
+        return new Success<Psychologist>(result);
+    }
+
     public async Task<IOperationResult<Guid>> Put(PsychologistModel psychologist)
     {
         var psychologistId = Guid.NewGuid();

@@ -20,6 +20,18 @@ public class ClientRepository : RepositoryBase, IClientRepository
         return new Success<IEnumerable<Client>>(await GetDataSql<Client, ClientCreator>("SELECT * FROM clients"));
     }
 
+    public async Task<IOperationResult<Client>> GetByUserId(Guid userId)
+    {
+        var result = (await GetDataSql<Client, ClientCreator>("SELECT * FROM clients WHERE user_id = @id",
+            new NpgsqlParameter("@id", userId))).FirstOrDefault();
+        if (result == null)
+        {
+            return new ElementNotFound<Client>(null, "Client not found");
+        }
+
+        return new Success<Client>(result);
+    }
+
     public async Task<IOperationResult<Client?>> GetById(Guid id)
     {
         var result = (await GetDataSql<Client, ClientCreator>("SELECT * FROM clients WHERE client_id = @id",

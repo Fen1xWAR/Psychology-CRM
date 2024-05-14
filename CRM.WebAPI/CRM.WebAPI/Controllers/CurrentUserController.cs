@@ -1,15 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CRM.Core.Implement;
-using CRM.Domain.Models;
 using CRM.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CRM.WebAPI
+namespace CRM.WebAPI.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
@@ -20,14 +13,19 @@ namespace CRM.WebAPI
         private IContactRepository _contactRepository;
         private IUserRepository _userRepository;
         private IVisitRepository _visitRepository;
+        private IClientRepository _clientRepository;
+        private IPsychologistRepository _psychologistRepository;
 
         public CurrentUserController(IAuthService authService, IContactRepository contactRepository,
-            IUserRepository userRepository, IVisitRepository visitRepository)
+            IUserRepository userRepository, IVisitRepository visitRepository, IClientRepository clientRepository,
+            IPsychologistRepository psychologistRepository)
         {
             _authService = authService;
             _contactRepository = contactRepository;
             _userRepository = userRepository;
             _visitRepository = visitRepository;
+            _clientRepository = clientRepository;
+            _psychologistRepository = psychologistRepository;
         }
 
         [HttpGet]
@@ -53,21 +51,31 @@ namespace CRM.WebAPI
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetVisits()
+        public async Task<ActionResult> GetVisits()
         {
             var currentUser = await _authService.GetCurrentUserIternal(HttpContext);
             if (!currentUser.Successful)
                 return BadRequest(currentUser);
-            if (currentUser.Result.Role == "Client")
-            {
-                return Ok(_visitRepository.GetAllByClientId(currentUser.Result.UserId));
-            }
-            else if (currentUser.Result.Role == "Psychologist")
-            {
-                return Ok(_visitRepository.GetAllByPsychologistId(currentUser.Result.UserId));
-            }
 
-            throw new Exception("Invalid role to find visits!");
+            switch (currentUser.Result.Role)
+            {
+                case "Client":
+                {
+                    var client = await _clientRepository.GetByUserId(currentUser.Result.UserId);
+                    if (!client.Successful)
+                        return BadRequest(client);
+                    var clientId = client.Result.ClientId;
+                    return Ok(await _visitRepository.GetAllByClientId(clientId));
+                }
+                case "Psychologist":
+                    var psychologist = await _psychologistRepository.GetByUserId(currentUser.Result.UserId);
+                    if (!psychologist.Successful)
+                        return BadRequest(psychologist);
+                    var psychologistId = psychologist.Result.PsychologistId;
+                    return Ok(await _visitRepository.GetAllByPsychologistId(psychologistId));
+                default:
+                    throw new Exception("Invalid role to find visits!");
+            }
         }
 
         // GET: api/CurrentUser/5

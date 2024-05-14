@@ -24,6 +24,8 @@ public class VisitRepository : RepositoryBase, IVisitRepository
 
     public async Task<IOperationResult<IEnumerable<Visit>>> GetAllByClientId(Guid id)
     {
+
+        // return new Success<IEnumerable<Visit>>(await GetDataSql<Visit, VisitCreator>("SELECT * FROM visits"));
         return new Success<IEnumerable<Visit>>(
             await GetDataSql<Visit, VisitCreator>("SELECT * FROM visits WHERE client_id=@clientId",
                 new NpgsqlParameter("@clientId", id)));

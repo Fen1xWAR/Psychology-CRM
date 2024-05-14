@@ -8,6 +8,7 @@ namespace CRM.Infrastructure.Interfaces;
 public interface IClientRepository //интерфейс для репозитория (мало ли поменяем)
 {
     Task<IOperationResult<IEnumerable<Client>>> GetAll();
+    Task<IOperationResult<Client>> GetByUserId(Guid userId);
     Task<IOperationResult<Client?>> GetById(Guid id);
     Task<IOperationResult<Guid>> Put(ClientModel client);
     Task<IOperationResult> Update(Client dataToUpdate);
