@@ -240,6 +240,14 @@ public class AuthService : IAuthService
         }
     }
 
+    public async Task<IOperationResult<User>> GetCurrentUserIternal(HttpContext context)
+    {
+        var userBase = GetCurrentUser(context);
+        if (!userBase.Successful)
+            return new ConflictResult<User>(null, userBase.ErrorMessage);
+        return  await _userRepository.GetById(userBase.Result.UserId);
+
+    }
     public IOperationResult<UserBase> GetCurrentUser(HttpContext user)
     {
         var token = GetJwtToken(user.Request.Headers["Authorization"].ToString().Replace("Bearer ", ""));

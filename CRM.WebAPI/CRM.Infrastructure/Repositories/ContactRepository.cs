@@ -14,7 +14,7 @@ public class ContactRepository : RepositoryBase, IContactRepository
     public ContactRepository(IConfiguration configuration) : base(configuration)
     {
     }
-
+    
     public async Task<IOperationResult<IEnumerable<Contact>>> GetAll()
     {
         return new Success<IEnumerable<Contact>>(await GetDataSql<Contact, ContactCreator>("SELECT * FROM contacts"));
@@ -30,6 +30,7 @@ public class ContactRepository : RepositoryBase, IContactRepository
 
         return new Success<Contact>(result);
     }
+    
 
     public async Task<IOperationResult<Guid>> Put(ContactModel contact)
     {

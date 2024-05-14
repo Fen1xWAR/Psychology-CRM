@@ -406,3 +406,462 @@ Microsoft.AspNetCore.Server.Kestrel.Core.BadHttpRequestException: Unexpected end
 2024-05-13 01:12:35.556 +03:00 [WRN] Deleting with d7b33204-463f-4636-b8df-ae43da0d844b and ce408c19-9c28-49dc-8442-677fc03edfb7
 2024-05-13 01:12:47.245 +03:00 [WRN] Deleting with d7b33204-463f-4636-b8df-ae43da0d844b and 439bea3b-86c6-4bbc-9b1a-edcab09886ce
 2024-05-13 01:13:08.655 +03:00 [WRN] Deleting with d7b33204-463f-4636-b8df-ae43da0d844b and 25442315-09f4-4bf5-87df-ae9ef287002f
+2024-05-13 11:08:03.943 +03:00 [ERR] 7c7924c8-dfff-4be5-913f-b7ef8d4a1b6c
+2024-05-13 11:08:07.758 +03:00 [ERR] 7c7924c8-dfff-4be5-913f-b7ef8d4a1b6c
+2024-05-13 11:08:17.251 +03:00 [ERR] 7c7924c8-dfff-4be5-913f-b7ef8d4a1b6c
+2024-05-13 11:08:19.145 +03:00 [ERR] Failed to connect to 94.143.46.65:5432
+Npgsql.NpgsqlException (0x80004005): Failed to connect to 94.143.46.65:5432
+ ---> System.TimeoutException: The operation has timed out.
+   at Npgsql.TaskTimeoutAndCancellation.ExecuteAsync(Func`2 getTaskFunc, NpgsqlTimeout timeout, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.ConnectAsync(NpgsqlTimeout timeout, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.ConnectAsync(NpgsqlTimeout timeout, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.RawOpen(SslMode sslMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken, Boolean isFirstAttempt)
+   at Npgsql.Internal.NpgsqlConnector.<Open>g__OpenCore|212_1(NpgsqlConnector conn, SslMode sslMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken, Boolean isFirstAttempt)
+   at Npgsql.Internal.NpgsqlConnector.Open(NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.OpenNewConnector(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.<Get>g__RentAsync|34_0(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlConnection.<Open>g__OpenAsync|42_0(Boolean async, CancellationToken cancellationToken)
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 27
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 43
+   at CRM.Infrastructure.Repositories.UserRepository.GetUserByEmail(String email) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/UserRepository.cs:line 24
+   at CRM.WebAPI.Services.AuthService.Login(UserAuth model) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/Services/AuthService.cs:line 43
+   at CRM.WebAPI.Controllers.UserController.Login(UserAuth model) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/Controllers/UserController.cs:line 62
+   at lambda_method6(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.WebApi.ExceptionMiddleware.InvokeAsync(HttpContext context, RequestDelegate next) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/ExceptionMiddleware.cs:line 14
+2024-05-13 11:08:22.772 +03:00 [ERR] Failed to connect to 94.143.46.65:5432
+Npgsql.NpgsqlException (0x80004005): Failed to connect to 94.143.46.65:5432
+ ---> System.TimeoutException: The operation has timed out.
+   at Npgsql.TaskTimeoutAndCancellation.ExecuteAsync(Func`2 getTaskFunc, NpgsqlTimeout timeout, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.ConnectAsync(NpgsqlTimeout timeout, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.ConnectAsync(NpgsqlTimeout timeout, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.RawOpen(SslMode sslMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken, Boolean isFirstAttempt)
+   at Npgsql.Internal.NpgsqlConnector.<Open>g__OpenCore|212_1(NpgsqlConnector conn, SslMode sslMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken, Boolean isFirstAttempt)
+   at Npgsql.Internal.NpgsqlConnector.Open(NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.OpenNewConnector(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.<Get>g__RentAsync|34_0(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlConnection.<Open>g__OpenAsync|42_0(Boolean async, CancellationToken cancellationToken)
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 27
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 43
+   at CRM.Infrastructure.Repositories.UserRepository.GetUserByEmail(String email) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/UserRepository.cs:line 24
+   at CRM.WebAPI.Services.AuthService.Login(UserAuth model) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/Services/AuthService.cs:line 43
+   at CRM.WebAPI.Controllers.UserController.Login(UserAuth model) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/Controllers/UserController.cs:line 62
+   at lambda_method6(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.WebApi.ExceptionMiddleware.InvokeAsync(HttpContext context, RequestDelegate next) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/ExceptionMiddleware.cs:line 14
+2024-05-13 11:08:32.265 +03:00 [ERR] Failed to connect to 94.143.46.65:5432
+Npgsql.NpgsqlException (0x80004005): Failed to connect to 94.143.46.65:5432
+ ---> System.TimeoutException: The operation has timed out.
+   at Npgsql.TaskTimeoutAndCancellation.ExecuteAsync(Func`2 getTaskFunc, NpgsqlTimeout timeout, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.ConnectAsync(NpgsqlTimeout timeout, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.ConnectAsync(NpgsqlTimeout timeout, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.RawOpen(SslMode sslMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken, Boolean isFirstAttempt)
+   at Npgsql.Internal.NpgsqlConnector.<Open>g__OpenCore|212_1(NpgsqlConnector conn, SslMode sslMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken, Boolean isFirstAttempt)
+   at Npgsql.Internal.NpgsqlConnector.Open(NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.OpenNewConnector(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.<Get>g__RentAsync|34_0(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlConnection.<Open>g__OpenAsync|42_0(Boolean async, CancellationToken cancellationToken)
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 27
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 43
+   at CRM.Infrastructure.Repositories.UserRepository.GetUserByEmail(String email) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/UserRepository.cs:line 24
+   at CRM.WebAPI.Services.AuthService.Login(UserAuth model) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/Services/AuthService.cs:line 43
+   at CRM.WebAPI.Controllers.UserController.Login(UserAuth model) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/Controllers/UserController.cs:line 62
+   at lambda_method6(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.WebApi.ExceptionMiddleware.InvokeAsync(HttpContext context, RequestDelegate next) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/ExceptionMiddleware.cs:line 14
+2024-05-13 11:08:55.106 +03:00 [ERR] 7c7924c8-dfff-4be5-913f-b7ef8d4a1b6c
+2024-05-13 11:09:10.117 +03:00 [ERR] Failed to connect to 94.143.46.65:5432
+Npgsql.NpgsqlException (0x80004005): Failed to connect to 94.143.46.65:5432
+ ---> System.TimeoutException: The operation has timed out.
+   at Npgsql.TaskTimeoutAndCancellation.ExecuteAsync(Func`2 getTaskFunc, NpgsqlTimeout timeout, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.ConnectAsync(NpgsqlTimeout timeout, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.ConnectAsync(NpgsqlTimeout timeout, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.RawOpen(SslMode sslMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken, Boolean isFirstAttempt)
+   at Npgsql.Internal.NpgsqlConnector.<Open>g__OpenCore|212_1(NpgsqlConnector conn, SslMode sslMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken, Boolean isFirstAttempt)
+   at Npgsql.Internal.NpgsqlConnector.Open(NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.OpenNewConnector(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.<Get>g__RentAsync|34_0(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlConnection.<Open>g__OpenAsync|42_0(Boolean async, CancellationToken cancellationToken)
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 27
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 43
+   at CRM.Infrastructure.Repositories.UserRepository.GetUserByEmail(String email) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/UserRepository.cs:line 24
+   at CRM.WebAPI.Services.AuthService.Login(UserAuth model) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/Services/AuthService.cs:line 43
+   at CRM.WebAPI.Controllers.UserController.Login(UserAuth model) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/Controllers/UserController.cs:line 62
+   at lambda_method6(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.WebApi.ExceptionMiddleware.InvokeAsync(HttpContext context, RequestDelegate next) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/ExceptionMiddleware.cs:line 14
+2024-05-13 11:09:20.521 +03:00 [ERR] 7c7924c8-dfff-4be5-913f-b7ef8d4a1b6c
+2024-05-13 11:09:35.408 +03:00 [ERR] 3fa85f64-5717-4562-b3fc-2c963f66afa6
+2024-05-13 11:09:35.536 +03:00 [ERR] Failed to connect to 94.143.46.65:5432
+Npgsql.NpgsqlException (0x80004005): Failed to connect to 94.143.46.65:5432
+ ---> System.TimeoutException: The operation has timed out.
+   at Npgsql.TaskTimeoutAndCancellation.ExecuteAsync(Func`2 getTaskFunc, NpgsqlTimeout timeout, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.ConnectAsync(NpgsqlTimeout timeout, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.ConnectAsync(NpgsqlTimeout timeout, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.RawOpen(SslMode sslMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken, Boolean isFirstAttempt)
+   at Npgsql.Internal.NpgsqlConnector.<Open>g__OpenCore|212_1(NpgsqlConnector conn, SslMode sslMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken, Boolean isFirstAttempt)
+   at Npgsql.Internal.NpgsqlConnector.Open(NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.OpenNewConnector(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.<Get>g__RentAsync|34_0(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlConnection.<Open>g__OpenAsync|42_0(Boolean async, CancellationToken cancellationToken)
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 27
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 43
+   at CRM.Infrastructure.Repositories.UserRepository.GetUserByEmail(String email) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/UserRepository.cs:line 24
+   at CRM.WebAPI.Services.AuthService.Login(UserAuth model) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/Services/AuthService.cs:line 43
+   at CRM.WebAPI.Controllers.UserController.Login(UserAuth model) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/Controllers/UserController.cs:line 62
+   at lambda_method6(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.WebApi.ExceptionMiddleware.InvokeAsync(HttpContext context, RequestDelegate next) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/ExceptionMiddleware.cs:line 14
+2024-05-13 11:09:50.411 +03:00 [ERR] Failed to connect to 94.143.46.65:5432
+Npgsql.NpgsqlException (0x80004005): Failed to connect to 94.143.46.65:5432
+ ---> System.TimeoutException: The operation has timed out.
+   at Npgsql.TaskTimeoutAndCancellation.ExecuteAsync(Func`2 getTaskFunc, NpgsqlTimeout timeout, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.ConnectAsync(NpgsqlTimeout timeout, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.ConnectAsync(NpgsqlTimeout timeout, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.RawOpen(SslMode sslMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken, Boolean isFirstAttempt)
+   at Npgsql.Internal.NpgsqlConnector.<Open>g__OpenCore|212_1(NpgsqlConnector conn, SslMode sslMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken, Boolean isFirstAttempt)
+   at Npgsql.Internal.NpgsqlConnector.Open(NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.OpenNewConnector(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.<Get>g__RentAsync|34_0(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlConnection.<Open>g__OpenAsync|42_0(Boolean async, CancellationToken cancellationToken)
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 27
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 43
+   at CRM.Infrastructure.Repositories.UserRepository.GetUserByEmail(String email) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/UserRepository.cs:line 24
+   at CRM.WebAPI.Services.AuthService.Login(UserAuth model) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/Services/AuthService.cs:line 43
+   at CRM.WebAPI.Controllers.UserController.Login(UserAuth model) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/Controllers/UserController.cs:line 62
+   at lambda_method6(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.WebApi.ExceptionMiddleware.InvokeAsync(HttpContext context, RequestDelegate next) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/ExceptionMiddleware.cs:line 14
+2024-05-13 11:11:15.034 +03:00 [ERR] 7c7924c8-dfff-4be5-913f-b7ef8d4a1b6c
+2024-05-13 11:11:17.769 +03:00 [ERR] Deleting token
+2024-05-13 11:11:17.770 +03:00 [WRN] Deleting with d7b33204-463f-4636-b8df-ae43da0d844b and 7c7924c8-dfff-4be5-913f-b7ef8d4a1b6c
+2024-05-13 11:22:37.454 +03:00 [ERR] 2f940653-2966-4c60-b2e2-45a5ed0e44d4
+2024-05-13 11:24:40.544 +03:00 [ERR] 2f940653-2966-4c60-b2e2-45a5ed0e44d4
+2024-05-13 11:24:40.612 +03:00 [ERR] Deleting token
+2024-05-13 11:24:40.612 +03:00 [WRN] Deleting with d7b33204-463f-4636-b8df-ae43da0d844b and 2f940653-2966-4c60-b2e2-45a5ed0e44d4
+2024-05-13 11:55:49.795 +03:00 [WRN] Deleting with d7b33204-463f-4636-b8df-ae43da0d844b and a159847d-9099-4088-8ed2-15312819c69b
+2024-05-13 12:11:11.355 +03:00 [ERR] 79eca489-049e-4eee-a9ac-522d4a366b31
+2024-05-13 12:11:11.738 +03:00 [ERR] Deleting token
+2024-05-13 12:11:11.740 +03:00 [WRN] Deleting with d7b33204-463f-4636-b8df-ae43da0d844b and 79eca489-049e-4eee-a9ac-522d4a366b31
+2024-05-13 13:16:43.536 +03:00 [WRN] Deleting with d7b33204-463f-4636-b8df-ae43da0d844b and 9c296cbe-1284-499c-8992-817b7fe96c75
+2024-05-13 14:16:00.683 +03:00 [ERR] 930ebd29-a00a-4e78-9301-2d10c561b598
+2024-05-13 14:16:00.935 +03:00 [ERR] Deleting token
+2024-05-13 14:16:00.935 +03:00 [WRN] Deleting with d7b33204-463f-4636-b8df-ae43da0d844b and 930ebd29-a00a-4e78-9301-2d10c561b598
+2024-05-13 14:16:16.186 +03:00 [ERR] fd5175ff-d454-4484-a9df-ba43c0ff995c
+2024-05-13 14:16:16.248 +03:00 [ERR] Deleting token
+2024-05-13 14:16:16.248 +03:00 [WRN] Deleting with d7b33204-463f-4636-b8df-ae43da0d844b and fd5175ff-d454-4484-a9df-ba43c0ff995c
+2024-05-13 14:17:45.841 +03:00 [ERR] 22fa40a8-2478-4a1e-9b25-ff6659263399
+2024-05-13 14:17:47.106 +03:00 [ERR] 22fa40a8-2478-4a1e-9b25-ff6659263399
+2024-05-13 14:17:47.626 +03:00 [ERR] Deleting token
+2024-05-13 14:17:47.626 +03:00 [ERR] Deleting token
+2024-05-13 14:17:47.627 +03:00 [WRN] Deleting with d7b33204-463f-4636-b8df-ae43da0d844b and 22fa40a8-2478-4a1e-9b25-ff6659263399
+2024-05-13 14:17:47.627 +03:00 [WRN] Deleting with d7b33204-463f-4636-b8df-ae43da0d844b and 22fa40a8-2478-4a1e-9b25-ff6659263399
+2024-05-13 14:17:55.753 +03:00 [ERR] 50832e35-4df5-48c7-a78d-e03a2542419e
+2024-05-13 14:17:55.815 +03:00 [ERR] Deleting token
+2024-05-13 14:17:55.815 +03:00 [WRN] Deleting with d7b33204-463f-4636-b8df-ae43da0d844b and 50832e35-4df5-48c7-a78d-e03a2542419e
+2024-05-13 14:18:11.078 +03:00 [ERR] cbb86a5b-d4eb-4a25-8ed9-669abe3d646b
+2024-05-13 14:18:11.138 +03:00 [ERR] Deleting token
+2024-05-13 14:18:11.139 +03:00 [WRN] Deleting with d7b33204-463f-4636-b8df-ae43da0d844b and cbb86a5b-d4eb-4a25-8ed9-669abe3d646b
+2024-05-13 14:28:28.336 +03:00 [ERR] 78a54a6d-113a-405a-9f9c-d2e97f0f2927
+2024-05-13 14:28:28.656 +03:00 [ERR] Deleting token
+2024-05-13 14:28:28.658 +03:00 [WRN] Deleting with d7b33204-463f-4636-b8df-ae43da0d844b and 78a54a6d-113a-405a-9f9c-d2e97f0f2927
+2024-05-13 14:46:09.576 +03:00 [ERR] 7258fa13-0bf4-4340-b3d2-cee4406319b5
+2024-05-13 14:46:09.881 +03:00 [ERR] Deleting token
+2024-05-13 14:46:09.882 +03:00 [WRN] Deleting with d7b33204-463f-4636-b8df-ae43da0d844b and 7258fa13-0bf4-4340-b3d2-cee4406319b5
+2024-05-13 14:47:04.567 +03:00 [ERR] 3aa11f24-8195-4da9-b53e-a6cb8600c6d5
+2024-05-13 14:47:08.030 +03:00 [ERR] 3aa11f24-8195-4da9-b53e-a6cb8600c6d5
+2024-05-13 14:47:08.408 +03:00 [ERR] Deleting token
+2024-05-13 14:47:08.409 +03:00 [WRN] Deleting with d7b33204-463f-4636-b8df-ae43da0d844b and 3aa11f24-8195-4da9-b53e-a6cb8600c6d5
+2024-05-13 14:51:17.297 +03:00 [ERR] 2f9333f9-ad10-46ad-b91b-c5745d15f559
+2024-05-13 14:51:17.587 +03:00 [ERR] Deleting token
+2024-05-13 14:51:17.587 +03:00 [WRN] Deleting with 39723bce-8fbc-41cd-acc1-680fffaa40a6 and 2f9333f9-ad10-46ad-b91b-c5745d15f559
+2024-05-13 14:51:19.658 +03:00 [ERR] 14360479-54fc-4cf1-99d5-6b97181c77f3
+2024-05-13 14:51:19.716 +03:00 [ERR] Deleting token
+2024-05-13 14:51:19.717 +03:00 [WRN] Deleting with 39723bce-8fbc-41cd-acc1-680fffaa40a6 and 14360479-54fc-4cf1-99d5-6b97181c77f3
+2024-05-13 14:53:14.731 +03:00 [ERR] a1d06b28-6006-4488-92f2-3dead5e99a9f
+2024-05-13 14:53:28.250 +03:00 [ERR] a1d06b28-6006-4488-92f2-3dead5e99a9f
+2024-05-13 14:53:28.424 +03:00 [ERR] Deleting token
+2024-05-13 14:53:28.425 +03:00 [WRN] Deleting with d7b33204-463f-4636-b8df-ae43da0d844b and a1d06b28-6006-4488-92f2-3dead5e99a9f
+2024-05-13 15:28:05.071 +03:00 [WRN] Deleting with d7b33204-463f-4636-b8df-ae43da0d844b and 24c6bd66-d865-4c07-a75e-4b67c5fc9c03
+2024-05-13 15:28:05.071 +03:00 [WRN] Deleting with d7b33204-463f-4636-b8df-ae43da0d844b and 24c6bd66-d865-4c07-a75e-4b67c5fc9c03
+2024-05-13 15:33:58.850 +03:00 [ERR] 8ebcf922-73d0-4176-a2e3-5a5041dd2bba
+2024-05-13 15:34:05.047 +03:00 [ERR] 8ebcf922-73d0-4176-a2e3-5a5041dd2bba
+2024-05-13 15:34:06.944 +03:00 [ERR] 8ebcf922-73d0-4176-a2e3-5a5041dd2bba
+2024-05-13 15:34:06.998 +03:00 [ERR] Deleting token
+2024-05-13 15:34:06.998 +03:00 [WRN] Deleting with d7b33204-463f-4636-b8df-ae43da0d844b and 8ebcf922-73d0-4176-a2e3-5a5041dd2bba
+2024-05-13 15:46:54.762 +03:00 [ERR] af75e310-0843-4a16-8640-9416b4bee6a1
+2024-05-13 15:46:55.081 +03:00 [ERR] Deleting token
+2024-05-13 15:46:55.082 +03:00 [WRN] Deleting with 39723bce-8fbc-41cd-acc1-680fffaa40a6 and af75e310-0843-4a16-8640-9416b4bee6a1
+2024-05-13 16:02:36.774 +03:00 [ERR] 71e132b4-b76f-451f-b97b-92ef5120de8a
+2024-05-13 16:02:37.114 +03:00 [ERR] Deleting token
+2024-05-13 16:02:37.115 +03:00 [WRN] Deleting with d7b33204-463f-4636-b8df-ae43da0d844b and 71e132b4-b76f-451f-b97b-92ef5120de8a
+2024-05-13 16:08:30.497 +03:00 [ERR] Exception while reading from stream
+Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
+ ---> System.TimeoutException: Timeout during reading attempt
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|54_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.AuthenticateSASL(List`1 mechanisms, String username, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.Authenticate(String username, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.<Open>g__OpenCore|212_1(NpgsqlConnector conn, SslMode sslMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken, Boolean isFirstAttempt)
+   at Npgsql.Internal.NpgsqlConnector.Open(NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.OpenNewConnector(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.<Get>g__RentAsync|34_0(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlConnection.<Open>g__OpenAsync|42_0(Boolean async, CancellationToken cancellationToken)
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 27
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 43
+   at CRM.Infrastructure.Repositories.TokenRepository.GetTokenByUserAndDeviceId(Guid userId, Guid deviceId) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/TokenRepository.cs:line 22
+   at CRM.WebAPI.Services.AuthService.RefreshTokens(Tokens token) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/Services/AuthService.cs:line 77
+   at CRM.WebAPI.Controllers.UserController.RefreshToken(Tokens token) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/Controllers/UserController.cs:line 80
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.WebApi.ExceptionMiddleware.InvokeAsync(HttpContext context, RequestDelegate next) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/ExceptionMiddleware.cs:line 14
+2024-05-13 16:10:22.762 +03:00 [ERR] ce518952-ac58-4b14-971d-93428e2d1320
+2024-05-13 16:10:22.832 +03:00 [ERR] Exception while reading from stream
+Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
+ ---> System.IO.IOException: Unable to read data from the transport connection: Connection reset by peer.
+ ---> System.Net.Sockets.SocketException (54): Connection reset by peer
+   --- End of inner exception stack trace ---
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource<System.Int32>.GetResult(Int16 token)
+   at System.Net.Security.SslStream.EnsureFullTlsFrameAsync[TIOAdapter](TIOAdapter adapter)
+   at System.Net.Security.SslStream.ReadAsyncInternal[TIOAdapter](TIOAdapter adapter, Memory`1 buffer)
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|54_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|54_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 34
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 39
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 43
+   at CRM.Infrastructure.Repositories.UserRepository.GetUserByEmail(String email) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/UserRepository.cs:line 24
+   at CRM.WebAPI.Services.AuthService.Login(UserAuth model) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/Services/AuthService.cs:line 43
+   at CRM.WebAPI.Controllers.UserController.Login(UserAuth model) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/Controllers/UserController.cs:line 62
+   at lambda_method6(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.WebApi.ExceptionMiddleware.InvokeAsync(HttpContext context, RequestDelegate next) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/ExceptionMiddleware.cs:line 14
+2024-05-13 16:10:33.813 +03:00 [ERR] ce518952-ac58-4b14-971d-93428e2d1320
+2024-05-13 16:10:49.170 +03:00 [ERR] ce518952-ac58-4b14-971d-93428e2d1320
+2024-05-13 16:11:04.181 +03:00 [ERR] Exception while reading from stream
+Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
+ ---> System.TimeoutException: Timeout during reading attempt
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|54_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.RawOpen(SslMode sslMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken, Boolean isFirstAttempt)
+   at Npgsql.Internal.NpgsqlConnector.<Open>g__OpenCore|212_1(NpgsqlConnector conn, SslMode sslMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken, Boolean isFirstAttempt)
+   at Npgsql.Internal.NpgsqlConnector.Open(NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.OpenNewConnector(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.<Get>g__RentAsync|34_0(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlConnection.<Open>g__OpenAsync|42_0(Boolean async, CancellationToken cancellationToken)
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 27
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 43
+   at CRM.Infrastructure.Repositories.UserRepository.GetUserByEmail(String email) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/UserRepository.cs:line 24
+   at CRM.WebAPI.Services.AuthService.Login(UserAuth model) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/Services/AuthService.cs:line 43
+   at CRM.WebAPI.Controllers.UserController.Login(UserAuth model) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/Controllers/UserController.cs:line 62
+   at lambda_method6(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.WebApi.ExceptionMiddleware.InvokeAsync(HttpContext context, RequestDelegate next) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/ExceptionMiddleware.cs:line 14
+2024-05-13 16:11:13.868 +03:00 [ERR] 38b3c3c7-30ca-495f-a958-9e7042de980a
+2024-05-13 16:11:21.921 +03:00 [ERR] Deleting token
+2024-05-13 16:11:21.922 +03:00 [WRN] Deleting with 39723bce-8fbc-41cd-acc1-680fffaa40a6 and 38b3c3c7-30ca-495f-a958-9e7042de980a
+2024-05-13 16:11:21.926 +03:00 [ERR] 38b3c3c7-30ca-495f-a958-9e7042de980a
+2024-05-13 16:11:23.370 +03:00 [ERR] Deleting token
+2024-05-13 16:11:23.371 +03:00 [WRN] Deleting with 39723bce-8fbc-41cd-acc1-680fffaa40a6 and 38b3c3c7-30ca-495f-a958-9e7042de980a
+2024-05-13 16:11:30.819 +03:00 [ERR] ce518952-ac58-4b14-971d-93428e2d1320
+2024-05-13 16:11:32.068 +03:00 [ERR] Deleting token
+2024-05-13 16:11:32.069 +03:00 [WRN] Deleting with 39723bce-8fbc-41cd-acc1-680fffaa40a6 and ce518952-ac58-4b14-971d-93428e2d1320
+2024-05-13 16:11:40.855 +03:00 [ERR] Exception while performing SSL handshake
+Npgsql.NpgsqlException (0x80004005): Exception while performing SSL handshake
+ ---> System.IO.IOException:  Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.<FillHandshakeBufferAsync>g__InternalFillHandshakeBufferAsync|189_0[TIOAdapter](TIOAdapter adap, ValueTask`1 task, Int32 minSize)
+   at System.Net.Security.SslStream.ReceiveBlobAsync[TIOAdapter](TIOAdapter adapter)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](TIOAdapter adapter, Boolean receiveFirst, Byte[] reAuthenticationData, Boolean isApm)
+   at Npgsql.Internal.NpgsqlConnector.NegotiateEncryption(SslMode sslMode, NpgsqlTimeout timeout, Boolean async, Boolean isFirstAttempt)
+   at Npgsql.Internal.NpgsqlConnector.NegotiateEncryption(SslMode sslMode, NpgsqlTimeout timeout, Boolean async, Boolean isFirstAttempt)
+   at Npgsql.Internal.NpgsqlConnector.RawOpen(SslMode sslMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken, Boolean isFirstAttempt)
+   at Npgsql.Internal.NpgsqlConnector.<Open>g__OpenCore|212_1(NpgsqlConnector conn, SslMode sslMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken, Boolean isFirstAttempt)
+   at Npgsql.Internal.NpgsqlConnector.Open(NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.OpenNewConnector(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.<Get>g__RentAsync|34_0(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlConnection.<Open>g__OpenAsync|42_0(Boolean async, CancellationToken cancellationToken)
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 27
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 43
+   at CRM.Infrastructure.Repositories.UserRepository.GetUserByEmail(String email) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/UserRepository.cs:line 24
+   at CRM.WebAPI.Services.AuthService.Login(UserAuth model) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/Services/AuthService.cs:line 43
+   at CRM.WebAPI.Controllers.UserController.Login(UserAuth model) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/Controllers/UserController.cs:line 62
+   at lambda_method6(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.WebApi.ExceptionMiddleware.InvokeAsync(HttpContext context, RequestDelegate next) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/ExceptionMiddleware.cs:line 14
+2024-05-13 16:11:46.093 +03:00 [ERR] a9246104-aadf-4e64-81ab-dd8a275037e8
+2024-05-13 16:11:47.573 +03:00 [ERR] Deleting token
+2024-05-13 16:11:47.574 +03:00 [WRN] Deleting with 39723bce-8fbc-41cd-acc1-680fffaa40a6 and a9246104-aadf-4e64-81ab-dd8a275037e8
+2024-05-13 16:12:17.905 +03:00 [ERR] 4bc22c2c-459f-41f7-9b89-582d269ffeef
+2024-05-13 16:12:17.933 +03:00 [ERR] Deleting token
+2024-05-13 16:12:17.933 +03:00 [WRN] Deleting with 39723bce-8fbc-41cd-acc1-680fffaa40a6 and 4bc22c2c-459f-41f7-9b89-582d269ffeef
+2024-05-13 16:12:25.537 +03:00 [ERR] 32d26b71-66f0-4dfa-a97e-7fd2d0802af2
+2024-05-13 16:12:25.584 +03:00 [ERR] Deleting token
+2024-05-13 16:12:25.584 +03:00 [WRN] Deleting with d7b33204-463f-4636-b8df-ae43da0d844b and 32d26b71-66f0-4dfa-a97e-7fd2d0802af2
+2024-05-14 11:10:41.963 +03:00 [WRN] Deleting with d7b33204-463f-4636-b8df-ae43da0d844b and bab27bca-744d-4d3f-9dc2-4265e689bdad
+2024-05-14 11:11:29.839 +03:00 [ERR] 00000000-0000-0000-0000-000000000000
+2024-05-14 11:14:35.769 +03:00 [WRN] Deleting with 39723bce-8fbc-41cd-acc1-680fffaa40a6 and adc1489c-2dc6-47e4-83e2-37e96209480e
+2024-05-14 11:14:58.507 +03:00 [ERR] 00000000-0000-0000-0000-000000000000
+2024-05-14 11:15:36.369 +03:00 [ERR] 00000000-0000-0000-0000-000000000000
+2024-05-14 11:16:02.448 +03:00 [ERR] 92710331-2185-4447-a026-e458e68874e1
+2024-05-14 11:16:02.510 +03:00 [ERR] Deleting token
+2024-05-14 11:16:02.510 +03:00 [WRN] Deleting with d7b33204-463f-4636-b8df-ae43da0d844b and 92710331-2185-4447-a026-e458e68874e1
+2024-05-14 11:47:14.702 +03:00 [WRN] Deleting with 39723bce-8fbc-41cd-acc1-680fffaa40a6 and 72a3768b-8842-49a7-9dc9-6a72bf0898ae
+2024-05-14 12:17:41.427 +03:00 [WRN] Deleting with 39723bce-8fbc-41cd-acc1-680fffaa40a6 and 15969c90-19f7-49a1-a7b2-6121cdfdbbae
+2024-05-14 12:17:42.502 +03:00 [ERR] Unexpected end of request content.
+Microsoft.AspNetCore.Server.Kestrel.Core.BadHttpRequestException: Unexpected end of request content.
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.Http1ContentLengthMessageBody.ReadAsyncInternal(CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpRequestStream.ReadAsyncInternal(Memory`1 destination, CancellationToken cancellationToken)
+   at System.Text.Json.Serialization.ReadBufferState.ReadFromStreamAsync(Stream utf8Json, CancellationToken cancellationToken, Boolean fillBuffer)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsync(Stream utf8Json, CancellationToken cancellationToken)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsObjectAsync(Stream utf8Json, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonInputFormatter.ReadRequestBodyAsync(InputFormatterContext context, Encoding encoding)
+   at Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonInputFormatter.ReadRequestBodyAsync(InputFormatterContext context, Encoding encoding)
+   at Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinder.BindModelAsync(ModelBindingContext bindingContext)
+   at Microsoft.AspNetCore.Mvc.ModelBinding.ParameterBinder.BindModelAsync(ActionContext actionContext, IModelBinder modelBinder, IValueProvider valueProvider, ParameterDescriptor parameter, ModelMetadata metadata, Object value, Object container)
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerBinderDelegateProvider.<>c__DisplayClass0_0.<<CreateBinderDelegate>g__Bind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.WebApi.ExceptionMiddleware.InvokeAsync(HttpContext context, RequestDelegate next) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/ExceptionMiddleware.cs:line 14
+2024-05-14 12:17:42.628 +03:00 [ERR] Unexpected end of request content.
+Microsoft.AspNetCore.Server.Kestrel.Core.BadHttpRequestException: Unexpected end of request content.
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.Http1ContentLengthMessageBody.ReadAsyncInternal(CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpRequestStream.ReadAsyncInternal(Memory`1 destination, CancellationToken cancellationToken)
+   at System.Text.Json.Serialization.ReadBufferState.ReadFromStreamAsync(Stream utf8Json, CancellationToken cancellationToken, Boolean fillBuffer)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsync(Stream utf8Json, CancellationToken cancellationToken)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsObjectAsync(Stream utf8Json, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonInputFormatter.ReadRequestBodyAsync(InputFormatterContext context, Encoding encoding)
+   at Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonInputFormatter.ReadRequestBodyAsync(InputFormatterContext context, Encoding encoding)
+   at Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinder.BindModelAsync(ModelBindingContext bindingContext)
+   at Microsoft.AspNetCore.Mvc.ModelBinding.ParameterBinder.BindModelAsync(ActionContext actionContext, IModelBinder modelBinder, IValueProvider valueProvider, ParameterDescriptor parameter, ModelMetadata metadata, Object value, Object container)
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerBinderDelegateProvider.<>c__DisplayClass0_0.<<CreateBinderDelegate>g__Bind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.WebApi.ExceptionMiddleware.InvokeAsync(HttpContext context, RequestDelegate next) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/ExceptionMiddleware.cs:line 14
+2024-05-14 12:17:53.670 +03:00 [ERR] 15969c90-19f7-49a1-a7b2-6121cdfdbbae
+2024-05-14 12:17:53.675 +03:00 [ERR] Deleting token
+2024-05-14 12:17:53.675 +03:00 [WRN] Deleting with d7b33204-463f-4636-b8df-ae43da0d844b and 15969c90-19f7-49a1-a7b2-6121cdfdbbae
+2024-05-14 12:54:46.780 +03:00 [WRN] Deleting with d7b33204-463f-4636-b8df-ae43da0d844b and f7c75a37-1dfb-439b-a026-5943aa18b4cc
+2024-05-14 12:55:08.935 +03:00 [ERR] 477a1e7b-ac36-42e4-9f15-efe5228b351f
+2024-05-14 12:55:08.942 +03:00 [ERR] Deleting token
+2024-05-14 12:55:08.943 +03:00 [WRN] Deleting with d7b33204-463f-4636-b8df-ae43da0d844b and 477a1e7b-ac36-42e4-9f15-efe5228b351f
+2024-05-14 12:59:15.611 +03:00 [ERR] 6e80f32f-6fc9-418a-86af-065bdd2530fe
+2024-05-14 12:59:15.660 +03:00 [ERR] Deleting token
+2024-05-14 12:59:15.660 +03:00 [WRN] Deleting with 39723bce-8fbc-41cd-acc1-680fffaa40a6 and 6e80f32f-6fc9-418a-86af-065bdd2530fe
+2024-05-14 12:59:28.573 +03:00 [ERR] 1c71e3dd-c9d0-49f7-ae5e-9a02ec84f1cf
+2024-05-14 12:59:28.581 +03:00 [ERR] Deleting token
+2024-05-14 12:59:28.581 +03:00 [WRN] Deleting with d7b33204-463f-4636-b8df-ae43da0d844b and 1c71e3dd-c9d0-49f7-ae5e-9a02ec84f1cf
+2024-05-14 13:30:07.055 +03:00 [WRN] Deleting with d7b33204-463f-4636-b8df-ae43da0d844b and 57fc1d4b-4497-4fe8-a32f-382698e74df8
+2024-05-14 13:50:38.227 +03:00 [ERR] 6dae8970-ba3d-46e7-a1cd-72b1bfc97184
+2024-05-14 13:50:38.251 +03:00 [ERR] Deleting token
+2024-05-14 13:50:38.252 +03:00 [WRN] Deleting with d7b33204-463f-4636-b8df-ae43da0d844b and 6dae8970-ba3d-46e7-a1cd-72b1bfc97184
+2024-05-14 14:24:21.182 +03:00 [WRN] Deleting with d7b33204-463f-4636-b8df-ae43da0d844b and ce641e2f-735d-4878-9891-1fb020d81f8d

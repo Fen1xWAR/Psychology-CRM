@@ -144,15 +144,7 @@ namespace CRM.WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet]
-
-        public ActionResult GetCurrentUserData()
-        {
-            var result =  _authService.GetCurrentUser(HttpContext);
-            if (result.Successful)
-                return Ok(result);
-            return Unauthorized(result);
-        }
+       
 
         private void WriteRefreshToCookie(string refreshToken)
         {

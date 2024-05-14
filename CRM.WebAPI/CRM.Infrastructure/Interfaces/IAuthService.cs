@@ -11,4 +11,5 @@ public interface IAuthService
     Task<IOperationResult<Tokens>> Register(UserRegModel regModel);
     Task<IOperationResult<Tokens>> RefreshTokens(Tokens token);
     IOperationResult<UserBase> GetCurrentUser(HttpContext user);
+    Task<IOperationResult<User>> GetCurrentUserIternal(HttpContext user);
 }

@@ -17,14 +17,27 @@ public class VisitRepository : RepositoryBase, IVisitRepository
     {
     }
 
-    public async Task<IOperationResult< IEnumerable<Visit>>> GetAll()
+    public async Task<IOperationResult<IEnumerable<Visit>>> GetAll()
     {
         return new Success<IEnumerable<Visit>>(await GetDataSql<Visit, VisitCreator>("SELECT * FROM visits"));
     }
 
-    public async Task<IOperationResult< Visit>> GetById(Guid id)
+    public async Task<IOperationResult<IEnumerable<Visit>>> GetAllByClientId(Guid id)
     {
-        var result =  (await GetDataSql<Visit, VisitCreator>("SELECT * FROM visits WHERE visit_id = @id",
+        return new Success<IEnumerable<Visit>>(
+            await GetDataSql<Visit, VisitCreator>("SELECT * FROM visits WHERE client_id=@clientId",
+                new NpgsqlParameter("@clientId", id)));
+    }
+    public async Task<IOperationResult<IEnumerable<Visit>>> GetAllByPsychologistId(Guid id)
+    {
+        return new Success<IEnumerable<Visit>>(
+            await GetDataSql<Visit, VisitCreator>("SELECT * FROM visits WHERE visits.psychologist_id=@psychologistId",
+                new NpgsqlParameter("@psychologistId", id)));
+    }
+
+    public async Task<IOperationResult<Visit>> GetById(Guid id)
+    {
+        var result = (await GetDataSql<Visit, VisitCreator>("SELECT * FROM visits WHERE visit_id = @id",
             new NpgsqlParameter("@id", id))).FirstOrDefault();
         if (result == null)
             return new ElementNotFound<Visit>(null, $"Not found visit with id {id}");
@@ -52,7 +65,7 @@ public class VisitRepository : RepositoryBase, IVisitRepository
         var visitToUpdate = await GetById(dataToUpdate.VisitId);
         if (!visitToUpdate.Successful)
             return new ElementNotFound("Not found visit with current id");
-        
+
         await ExecuteSql(
             "UPDATE visits SET client_id = COALESCE(@clientId, client_id), date_time = COALESCE(@dateTime, date_time), " +
             "client_note = COALESCE(@clientNote, client_note), psychologist_description = COALESCE(@psychologistDescription, psychologist_description), " +
@@ -73,7 +86,7 @@ public class VisitRepository : RepositoryBase, IVisitRepository
         var visitToDelete = await GetById(id);
         if (!visitToDelete.Successful)
             return new ElementNotFound("Not found visit with current id");
-        
+
         await ExecuteSql("DELETE FROM visits WHERE visit_id = @id", new NpgsqlParameter("@id", id));
         return new Success();
     }
