@@ -43,7 +43,16 @@ namespace CRM.WebAPI.Controllers
                 return Ok(result);
             return NotFound(result);
         }
-
+        [HttpGet("{id}")] // ищет по id
+        public async Task<ActionResult> GetByUserId(Guid id)
+        {
+            if (id == Guid.Empty)
+                return BadRequest(new ConflictResult("Empty input is not allowed!"));
+            var result = await _repository.GetByUserId(id);
+            if (result.Successful)
+                return Ok(result);
+            return NotFound(result);
+        }
 
         // PUT: api/Client/5
         [HttpPut] //добавляет в базу новый
