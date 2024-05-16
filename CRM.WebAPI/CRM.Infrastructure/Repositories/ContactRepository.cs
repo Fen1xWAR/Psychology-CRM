@@ -36,11 +36,14 @@ public class ContactRepository : RepositoryBase, IContactRepository
     {
         var contactId = Guid.NewGuid();
         await ExecuteSql(
-            "INSERT INTO contacts (contact_id, phone_number, name, lastname) VALUES (@contactId, @phoneNumber, @name, @lastname)",
+            "INSERT INTO contacts (contact_id, phone_number, name, lastname,middlename,date_of_birth) VALUES (@contactId, @phoneNumber, @name, @lastname, @middlename, @date_of_birth)",
             new NpgsqlParameter("@contactId", contactId),
             new NpgsqlParameter("@phoneNumber", contact.PhoneNumber),
             new NpgsqlParameter("@name", contact.Name),
-            new NpgsqlParameter("@lastname", contact.Lastname));
+            new NpgsqlParameter("@lastname", contact.Lastname),
+            new NpgsqlParameter("@middlename",contact.Middlename ),
+            new NpgsqlParameter("@date_of_birth",contact.DateOfBirth)
+            );
         return new Success<Guid>(contactId);
     }
 
@@ -50,10 +53,12 @@ public class ContactRepository : RepositoryBase, IContactRepository
         if (!contactToUpdate.Successful)
             return new ElementNotFound("Not found contact with current Id");
         await ExecuteSql(
-            "UPDATE contacts SET phone_number = COALESCE(@phoneNumber, phone_number), name = COALESCE(@name, name), lastname = COALESCE(@lastname, lastname) WHERE contact_id = @id",
+            "UPDATE contacts SET phone_number = COALESCE(@phoneNumber, phone_number), name = COALESCE(@name, name), lastname = COALESCE(@lastname, lastname),  middlename = COALESCE(@middlename,  middlename), date_of_birth = COALESCE(@date_of_birth,  date_of_birth) WHERE contact_id = @id",
             new NpgsqlParameter("@phoneNumber", dataToUpdate.PhoneNumber),
             new NpgsqlParameter("@name", dataToUpdate.Name),
             new NpgsqlParameter("@lastname", dataToUpdate.Lastname),
+            new NpgsqlParameter("@middlename",dataToUpdate.Middlename ),
+            new NpgsqlParameter("@date_of_birth",dataToUpdate.DateOfBirth),
             new NpgsqlParameter("@id", dataToUpdate.ContactId));
         return new Success();
     }

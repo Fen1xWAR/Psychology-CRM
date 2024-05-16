@@ -14,7 +14,7 @@ namespace CRM.WebAPI.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [Authorize]
+    [Authorize] 
     public class ScheduleController : ControllerBase
     {
         private IScheduleRepository _repository;

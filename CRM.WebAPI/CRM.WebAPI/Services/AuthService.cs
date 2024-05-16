@@ -105,7 +105,8 @@ public class AuthService : IAuthService
         var contactId = (await _contactRepository.Put(new ContactModel
         {
             Name = userRegModel.Name,
-            Lastname = userRegModel.LastName
+            Lastname = userRegModel.LastName,
+            DateOfBirth= userRegModel.DateOfBirth
         })).Result;
         var userId = (await _userRepository.Put(new UserModel
         {

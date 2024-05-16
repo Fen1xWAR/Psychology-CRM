@@ -10,6 +10,7 @@ public class UserRegModel
     //В таблицу Contacts
     public string Name { get; set; }
     public string LastName { get; set; }
+    public DateOnly DateOfBirth { get; set; }
     
     //В таблицу Clients/Psychologist
     //А ничего сюда не идет KekW

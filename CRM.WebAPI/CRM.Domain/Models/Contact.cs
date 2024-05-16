@@ -7,4 +7,8 @@ public class Contact
     
     public string Name { get; set; }
     public string Lastname { get; set; }
+    
+    public string Middlename { get; set; }
+    
+    public DateOnly DateOfBirth { get; set; }
 }

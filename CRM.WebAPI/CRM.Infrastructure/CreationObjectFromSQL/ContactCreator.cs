@@ -12,7 +12,9 @@ public class ContactCreator : ICreator<Contact>
             ContactId = reader.GetGuid(0),
             PhoneNumber = reader.GetString(1),
             Name = reader.GetString(2),
-            Lastname = reader.GetString(3)
+            Lastname = reader.GetString(3),
+            Middlename = reader.GetString(4),
+            DateOfBirth=reader.GetFieldValue<DateOnly>(5)
         };
     }
 }

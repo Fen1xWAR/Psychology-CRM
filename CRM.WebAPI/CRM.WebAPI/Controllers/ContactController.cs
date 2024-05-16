@@ -62,7 +62,7 @@ namespace CRM.WebAPI.Controllers
         public async Task<ActionResult> Insert([FromBody] ContactModel contact)
 
         {
-            if (contact.Name == "" || contact.Lastname == "")
+            if (contact.Name == "" || contact.Lastname == ""|| contact.DateOfBirth==new DateOnly())
                 return BadRequest(new ConflictResult("Empty input is not allowed!"));
             var result = await _contactRepository.Put(contact);
             if (result.Successful)

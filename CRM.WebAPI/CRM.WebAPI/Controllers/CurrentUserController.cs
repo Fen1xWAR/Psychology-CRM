@@ -20,12 +20,12 @@ namespace CRM.WebAPI.Controllers
             IUserRepository userRepository, IVisitRepository visitRepository, IClientRepository clientRepository,
             IPsychologistRepository psychologistRepository)
         {
-            _authService = authService;
-            _contactRepository = contactRepository;
-            _userRepository = userRepository;
-            _visitRepository = visitRepository;
-            _clientRepository = clientRepository;
-            _psychologistRepository = psychologistRepository;
+            _authService = authService ?? throw new ArgumentException(nameof(authService));
+            _contactRepository = contactRepository ?? throw new ArgumentException(nameof(contactRepository));
+            _userRepository = userRepository ?? throw new ArgumentException(nameof(userRepository));
+            _visitRepository = visitRepository ?? throw new ArgumentException(nameof(visitRepository));
+            _clientRepository = clientRepository ?? throw new ArgumentException(nameof(clientRepository));
+            _psychologistRepository = psychologistRepository ?? throw new ArgumentException(nameof(psychologistRepository));
         }
 
         [HttpGet]
