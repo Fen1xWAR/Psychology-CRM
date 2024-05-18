@@ -3,6 +3,7 @@ using CRM.Domain.ModelsToUpload;
 using CRM.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using ConflictResult = CRM.Core.Implement.ConflictResult;
 
 namespace CRM.WebAPI.Controllers
@@ -20,9 +21,15 @@ namespace CRM.WebAPI.Controllers
             _contactRepository = contactRepository ?? throw new ArgumentNullException(nameof(contactRepository));
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         }
-
+       
+        [HttpGet]
+        public async Task<ActionResult> Get([FromQuery] int page,[FromQuery] int limit)
+        {
+            return Ok(await _contactRepository.Get(page, limit));
+        }
         // GET: api/Contact
         [HttpGet]
+        
         public async Task<ActionResult> GetAll()
         {
             return Ok(await _contactRepository.GetAll());

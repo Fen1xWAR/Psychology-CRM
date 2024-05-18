@@ -16,6 +16,14 @@ public class PsychologistRepository : RepositoryBase, IPsychologistRepository
     {
     }
 
+    public async  Task<IOperationResult<IEnumerable<Psychologist>>> Get(int page, int pageSize)
+    {
+        var offset = (page - 1) * pageSize ;
+        offset = offset >= 0 ? offset : 0;
+        var query = $"SELECT * FROM psychologists OFFSET {offset} ROWS FETCH NEXT {pageSize} ROWS ONLY";
+        return new Success<IEnumerable<Psychologist>>(await GetDataSql<Psychologist, PsychologistCreator>(query));
+    }
+
     public async Task<IOperationResult<IEnumerable<Psychologist>>> GetAll()
     {
         return new Success<IEnumerable<Psychologist>>( await GetDataSql<Psychologist, PsychologistCreator>("SELECT * FROM psychologists"));

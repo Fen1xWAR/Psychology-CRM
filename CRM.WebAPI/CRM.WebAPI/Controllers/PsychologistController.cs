@@ -24,6 +24,11 @@ namespace CRM.WebAPI.Controllers
             _repository = repository ?? throw new ArgumentException(nameof(repository));
         }
 
+        [HttpGet]
+        public async Task<ActionResult> Get([FromQuery] int page, [FromQuery] int limit)
+        {
+            return Ok(await _repository.Get(page, limit));
+        }
         // GET: api/Psychologist
         [HttpGet]
         public async Task<ActionResult> GetAll()

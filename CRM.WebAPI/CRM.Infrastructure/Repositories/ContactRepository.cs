@@ -14,7 +14,14 @@ public class ContactRepository : RepositoryBase, IContactRepository
     public ContactRepository(IConfiguration configuration) : base(configuration)
     {
     }
-    
+
+    public async Task<IOperationResult<IEnumerable<Contact>>> Get(int page, int pageSize )
+    {
+        var offset = (page - 1) * pageSize ;
+        offset = offset >= 0 ? offset : 0;
+        var query = $"SELECT * FROM contacts OFFSET {offset} ROWS FETCH NEXT {pageSize} ROWS ONLY";
+        return new Success<IEnumerable<Contact>>(await GetDataSql<Contact, ContactCreator>(query));
+    }
     public async Task<IOperationResult<IEnumerable<Contact>>> GetAll()
     {
         return new Success<IEnumerable<Contact>>(await GetDataSql<Contact, ContactCreator>("SELECT * FROM contacts"));

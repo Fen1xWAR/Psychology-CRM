@@ -6,6 +6,7 @@ namespace CRM.Infrastructure.Interfaces;
 
 public interface IPsychologistRepository
 {
+    Task<IOperationResult<IEnumerable<Psychologist>>> Get(int page,int pageSize);
     Task<IOperationResult< IEnumerable<Psychologist>>> GetAll();
     Task<IOperationResult< Psychologist>> GetById(Guid id);
     Task<IOperationResult<Psychologist>> GetByUserId(Guid userId);

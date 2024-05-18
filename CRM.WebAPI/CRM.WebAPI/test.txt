@@ -3504,3 +3504,310 @@ System.InvalidOperationException: Parameter '@visitId' must have either its Npgs
    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
    at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
    at CRM.WebApi.ExceptionMiddleware.InvokeAsync(HttpContext context, RequestDelegate next) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/ExceptionMiddleware.cs:line 14
+2024-05-18 13:17:51.911 +03:00 [ERR] 00000000-0000-0000-0000-000000000000
+2024-05-18 13:59:07.577 +03:00 [WRN] Deleting with 7f961a5a-9223-456d-8b9e-faf64be29545 and 0e084d05-4af2-40f4-ac0c-43fa5e00d67e
+2024-05-18 15:01:42.084 +03:00 [ERR] 2201X: OFFSET must not be negative
+Npgsql.PostgresException (0x80004005): 2201X: OFFSET must not be negative
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 34
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 35
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 43
+   at CRM.Infrastructure.Repositories.ContactRepository.Get(Int32 page, Int32 pageSize) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/ContactRepository.cs:line 22
+   at CRM.WebAPI.Controllers.ContactController.Get(Int32 page) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/Controllers/ContactController.cs:line 29
+   at lambda_method6(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.WebApi.ExceptionMiddleware.InvokeAsync(HttpContext context, RequestDelegate next) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/ExceptionMiddleware.cs:line 14
+  Exception data:
+    Severity: ERROR
+    SqlState: 2201X
+    MessageText: OFFSET must not be negative
+    File: nodeLimit.c
+    Line: 372
+    Routine: recompute_limits
+2024-05-18 15:02:16.296 +03:00 [ERR] 2201X: OFFSET must not be negative
+Npgsql.PostgresException (0x80004005): 2201X: OFFSET must not be negative
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 34
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 35
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 43
+   at CRM.Infrastructure.Repositories.ContactRepository.Get(Int32 page, Int32 pageSize) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/ContactRepository.cs:line 22
+   at CRM.WebAPI.Controllers.ContactController.Get(Int32 page) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/Controllers/ContactController.cs:line 29
+   at lambda_method6(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.WebApi.ExceptionMiddleware.InvokeAsync(HttpContext context, RequestDelegate next) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/ExceptionMiddleware.cs:line 14
+  Exception data:
+    Severity: ERROR
+    SqlState: 2201X
+    MessageText: OFFSET must not be negative
+    File: nodeLimit.c
+    Line: 372
+    Routine: recompute_limits
+2024-05-18 15:03:25.474 +03:00 [ERR] 2201X: OFFSET must not be negative
+Npgsql.PostgresException (0x80004005): 2201X: OFFSET must not be negative
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 34
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 35
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 43
+   at CRM.Infrastructure.Repositories.ContactRepository.Get(Int32 page, Int32 pageSize) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/ContactRepository.cs:line 22
+   at CRM.WebAPI.Controllers.ContactController.Get(Int32 page) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/Controllers/ContactController.cs:line 29
+   at lambda_method6(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.WebApi.ExceptionMiddleware.InvokeAsync(HttpContext context, RequestDelegate next) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/ExceptionMiddleware.cs:line 14
+  Exception data:
+    Severity: ERROR
+    SqlState: 2201X
+    MessageText: OFFSET must not be negative
+    File: nodeLimit.c
+    Line: 372
+    Routine: recompute_limits
+2024-05-18 15:03:35.772 +03:00 [ERR] 2201X: OFFSET must not be negative
+Npgsql.PostgresException (0x80004005): 2201X: OFFSET must not be negative
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 34
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 35
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 43
+   at CRM.Infrastructure.Repositories.ContactRepository.Get(Int32 page, Int32 pageSize) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/ContactRepository.cs:line 23
+   at CRM.WebAPI.Controllers.ContactController.Get(Int32 page, Int32 pageSize) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/Controllers/ContactController.cs:line 29
+   at lambda_method6(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.WebApi.ExceptionMiddleware.InvokeAsync(HttpContext context, RequestDelegate next) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/ExceptionMiddleware.cs:line 14
+  Exception data:
+    Severity: ERROR
+    SqlState: 2201X
+    MessageText: OFFSET must not be negative
+    File: nodeLimit.c
+    Line: 372
+    Routine: recompute_limits
+2024-05-18 15:03:42.665 +03:00 [ERR] 2201X: OFFSET must not be negative
+Npgsql.PostgresException (0x80004005): 2201X: OFFSET must not be negative
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 34
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 35
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 43
+   at CRM.Infrastructure.Repositories.ContactRepository.Get(Int32 page, Int32 pageSize) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/ContactRepository.cs:line 23
+   at CRM.WebAPI.Controllers.ContactController.Get(Int32 page, Int32 pageSize) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/Controllers/ContactController.cs:line 29
+   at lambda_method6(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.WebApi.ExceptionMiddleware.InvokeAsync(HttpContext context, RequestDelegate next) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/ExceptionMiddleware.cs:line 14
+  Exception data:
+    Severity: ERROR
+    SqlState: 2201X
+    MessageText: OFFSET must not be negative
+    File: nodeLimit.c
+    Line: 372
+    Routine: recompute_limits
+2024-05-18 15:03:51.586 +03:00 [ERR] 2201X: OFFSET must not be negative
+Npgsql.PostgresException (0x80004005): 2201X: OFFSET must not be negative
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 34
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 35
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 43
+   at CRM.Infrastructure.Repositories.ContactRepository.Get(Int32 page, Int32 pageSize) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/ContactRepository.cs:line 23
+   at CRM.WebAPI.Controllers.ContactController.Get(Int32 page, Int32 pageSize) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/Controllers/ContactController.cs:line 29
+   at lambda_method6(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.WebApi.ExceptionMiddleware.InvokeAsync(HttpContext context, RequestDelegate next) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/ExceptionMiddleware.cs:line 14
+  Exception data:
+    Severity: ERROR
+    SqlState: 2201X
+    MessageText: OFFSET must not be negative
+    File: nodeLimit.c
+    Line: 372
+    Routine: recompute_limits
+2024-05-18 15:04:21.012 +03:00 [ERR] 2201W: LIMIT must not be negative
+Npgsql.PostgresException (0x80004005): 2201W: LIMIT must not be negative
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 34
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 35
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 43
+   at CRM.Infrastructure.Repositories.ContactRepository.Get(Int32 page, Int32 pageSize) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/ContactRepository.cs:line 23
+   at CRM.WebAPI.Controllers.ContactController.Get(Int32 page, Int32 pageSize) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/Controllers/ContactController.cs:line 29
+   at lambda_method6(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.WebApi.ExceptionMiddleware.InvokeAsync(HttpContext context, RequestDelegate next) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/ExceptionMiddleware.cs:line 14
+  Exception data:
+    Severity: ERROR
+    SqlState: 2201W
+    MessageText: LIMIT must not be negative
+    File: nodeLimit.c
+    Line: 398
+    Routine: recompute_limits
+2024-05-18 15:04:44.347 +03:00 [ERR] 2201W: LIMIT must not be negative
+Npgsql.PostgresException (0x80004005): 2201W: LIMIT must not be negative
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 34
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 35
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 43
+   at CRM.Infrastructure.Repositories.ContactRepository.Get(Int32 page, Int32 pageSize) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/ContactRepository.cs:line 23
+   at CRM.WebAPI.Controllers.ContactController.Get(Int32 page, Int32 pageSize) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/Controllers/ContactController.cs:line 29
+   at lambda_method6(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.WebApi.ExceptionMiddleware.InvokeAsync(HttpContext context, RequestDelegate next) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/ExceptionMiddleware.cs:line 14
+  Exception data:
+    Severity: ERROR
+    SqlState: 2201W
+    MessageText: LIMIT must not be negative
+    File: nodeLimit.c
+    Line: 398
+    Routine: recompute_limits
+2024-05-18 15:25:03.903 +03:00 [WRN] Deleting with 7f961a5a-9223-456d-8b9e-faf64be29545 and b3579c56-b093-4d1d-910c-3b0c0092cd2b
+2024-05-18 15:39:48.946 +03:00 [ERR] 3fa85f64-5717-4562-b3fc-2c963f66afa6
+2024-05-18 15:39:48.956 +03:00 [ERR] Deleting token
+2024-05-18 15:39:48.957 +03:00 [WRN] Deleting with 1b254ff4-b62b-4e2c-8a11-f3d45b7be745 and 3fa85f64-5717-4562-b3fc-2c963f66afa6
+2024-05-18 16:06:41.046 +03:00 [WRN] Deleting with 7f961a5a-9223-456d-8b9e-faf64be29545 and ded014d1-1a0c-4e92-b15e-ab9e199443ed
+2024-05-18 16:37:51.676 +03:00 [ERR] Exception while reading from stream
+Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
+ ---> System.IO.IOException: Unable to read data from the transport connection: Connection reset by peer.
+ ---> System.Net.Sockets.SocketException (54): Connection reset by peer
+   --- End of inner exception stack trace ---
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource<System.Int32>.GetResult(Int16 token)
+   at System.Net.Security.SslStream.EnsureFullTlsFrameAsync[TIOAdapter](TIOAdapter adapter)
+   at System.Net.Security.SslStream.ReadAsyncInternal[TIOAdapter](TIOAdapter adapter, Memory`1 buffer)
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|54_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|54_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 34
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 35
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 43
+   at CRM.Infrastructure.Repositories.PsychologistRepository.Get(Int32 page, Int32 pageSize) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/PsychologistRepository.cs:line 25
+   at CRM.WebAPI.Controllers.PsychologistController.Get(Int32 page, Int32 limit) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/Controllers/PsychologistController.cs:line 31
+   at lambda_method56(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.WebApi.ExceptionMiddleware.InvokeAsync(HttpContext context, RequestDelegate next) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/ExceptionMiddleware.cs:line 21
+2024-05-18 16:38:19.127 +03:00 [ERR] 3fa85f64-5717-4562-b3fc-2c963f66afa6
+2024-05-18 16:38:19.142 +03:00 [ERR] Deleting token
+2024-05-18 16:38:19.142 +03:00 [WRN] Deleting with 1b254ff4-b62b-4e2c-8a11-f3d45b7be745 and 3fa85f64-5717-4562-b3fc-2c963f66afa6
+2024-05-18 16:39:18.136 +03:00 [ERR] 3fa85f64-5717-4562-b3fc-2c963f66afa6
+2024-05-18 16:39:18.146 +03:00 [ERR] Deleting token
+2024-05-18 16:39:18.147 +03:00 [WRN] Deleting with 1b254ff4-b62b-4e2c-8a11-f3d45b7be745 and 3fa85f64-5717-4562-b3fc-2c963f66afa6
+2024-05-18 16:47:37.951 +03:00 [WRN] Deleting with 7f961a5a-9223-456d-8b9e-faf64be29545 and a8357c02-944a-4b46-a48d-856aad400edb
