@@ -49,6 +49,7 @@ namespace CRM.WebAPI.Controllers
         }
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult> GetByUserId(Guid id)
         {
             if(id == Guid.Empty)

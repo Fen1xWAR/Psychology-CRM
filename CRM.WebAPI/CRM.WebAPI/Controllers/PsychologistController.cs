@@ -25,6 +25,7 @@ namespace CRM.WebAPI.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult> Get([FromQuery] int page, [FromQuery] int limit)
         {
             return Ok(await _repository.Get(page, limit));
@@ -37,7 +38,9 @@ namespace CRM.WebAPI.Controllers
         }
 
         // GET: api/Psychologist/5
+        
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult> GetById(Guid id)
         {
             if (id == Guid.Empty)

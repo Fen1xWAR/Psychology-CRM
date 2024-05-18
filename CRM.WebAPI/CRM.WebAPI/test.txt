@@ -3367,6 +3367,59 @@ Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
    at CRM.WebApi.ExceptionMiddleware.InvokeAsync(HttpContext context, RequestDelegate next) in C:\Users\PC\Desktop\Psychology-CRM\CRM.WebAPI\CRM.WebAPI\ExceptionMiddleware.cs:line 14
 2024-05-16 14:47:01.059 +03:00 [ERR] 00000000-0000-0000-0000-000000000000
 2024-05-16 15:18:54.550 +03:00 [WRN] Deleting with 7f961a5a-9223-456d-8b9e-faf64be29545 and d266fb87-0aa3-4fb1-8b20-06ecb39c0ae2
+2024-05-16 23:36:39.158 +03:00 [ERR] 00000000-0000-0000-0000-000000000000
+2024-05-16 23:37:51.989 +03:00 [ERR] 00000000-0000-0000-0000-000000000000
+2024-05-16 23:40:48.433 +03:00 [ERR] 00000000-0000-0000-0000-000000000000
+2024-05-16 23:40:57.018 +03:00 [ERR] 00000000-0000-0000-0000-000000000000
+2024-05-16 23:43:14.126 +03:00 [ERR] 00000000-0000-0000-0000-000000000000
+2024-05-17 00:02:56.205 +03:00 [ERR] 00000000-0000-0000-0000-000000000000
+2024-05-17 00:03:02.761 +03:00 [ERR] 00000000-0000-0000-0000-000000000000
+2024-05-17 00:03:28.687 +03:00 [ERR] 00000000-0000-0000-0000-000000000000
+2024-05-17 00:03:45.026 +03:00 [ERR] 00000000-0000-0000-0000-000000000000
+2024-05-17 00:05:45.223 +03:00 [ERR] 00000000-0000-0000-0000-000000000000
+2024-05-17 00:05:53.481 +03:00 [ERR] 00000000-0000-0000-0000-000000000000
+2024-05-17 00:06:03.056 +03:00 [ERR] 00000000-0000-0000-0000-000000000000
+2024-05-17 00:24:28.628 +03:00 [ERR] Exception while reading from stream
+Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
+ ---> System.IO.IOException: Unable to read data from the transport connection: Удаленный хост принудительно разорвал существующее подключение..
+ ---> System.Net.Sockets.SocketException (10054): Удаленный хост принудительно разорвал существующее подключение.
+   --- End of inner exception stack trace ---
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource<System.Int32>.GetResult(Int16 token)
+   at System.Net.Security.SslStream.EnsureFullTlsFrameAsync[TIOAdapter](TIOAdapter adapter)
+   at System.Net.Security.SslStream.ReadAsyncInternal[TIOAdapter](TIOAdapter adapter, Memory`1 buffer)
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|54_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|54_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in C:\Users\PC\Desktop\Psychology-CRM\CRM.WebAPI\CRM.Infrastructure\Repositories\RepositoryBase.cs:line 34
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in C:\Users\PC\Desktop\Psychology-CRM\CRM.WebAPI\CRM.Infrastructure\Repositories\RepositoryBase.cs:line 39
+   at CRM.Infrastructure.Repositories.RepositoryBase.GetDataSql[T,TCreator](String sql, NpgsqlParameter[] parameters) in C:\Users\PC\Desktop\Psychology-CRM\CRM.WebAPI\CRM.Infrastructure\Repositories\RepositoryBase.cs:line 43
+   at CRM.Infrastructure.Repositories.UserRepository.GetById(Guid id) in C:\Users\PC\Desktop\Psychology-CRM\CRM.WebAPI\CRM.Infrastructure\Repositories\UserRepository.cs:line 38
+   at CRM.WebAPI.Controllers.UserController.GetById(Guid id) in C:\Users\PC\Desktop\Psychology-CRM\CRM.WebAPI\CRM.WebAPI\Controllers\UserController.cs:line 95
+   at lambda_method80(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.WebApi.ExceptionMiddleware.InvokeAsync(HttpContext context, RequestDelegate next) in C:\Users\PC\Desktop\Psychology-CRM\CRM.WebAPI\CRM.WebAPI\ExceptionMiddleware.cs:line 14
+2024-05-17 00:36:06.258 +03:00 [WRN] Deleting with 7f961a5a-9223-456d-8b9e-faf64be29545 and 337703a6-c1a3-4852-b4cb-f2d5dca35d10
+2024-05-17 00:37:50.513 +03:00 [ERR] 00000000-0000-0000-0000-000000000000
+2024-05-17 00:40:10.348 +03:00 [ERR] 00000000-0000-0000-0000-000000000000
+2024-05-17 00:40:22.606 +03:00 [ERR] 00000000-0000-0000-0000-000000000000
 2024-05-18 13:03:21.143 +03:00 [ERR] 3fa85f64-5717-4562-b3fc-2c963f66afa6
 2024-05-18 13:03:34.648 +03:00 [ERR] 3fa85f64-5717-4562-b3fc-2c963f66afa6
 2024-05-18 13:04:43.263 +03:00 [ERR] 23503: insert or update on table "schedules" violates foreign key constraint "schedules_psychologists_psychologist_id_fk"
@@ -3811,3 +3864,11 @@ Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
 2024-05-18 16:39:18.146 +03:00 [ERR] Deleting token
 2024-05-18 16:39:18.147 +03:00 [WRN] Deleting with 1b254ff4-b62b-4e2c-8a11-f3d45b7be745 and 3fa85f64-5717-4562-b3fc-2c963f66afa6
 2024-05-18 16:47:37.951 +03:00 [WRN] Deleting with 7f961a5a-9223-456d-8b9e-faf64be29545 and a8357c02-944a-4b46-a48d-856aad400edb
+2024-05-18 17:04:44.034 +03:00 [ERR] 00000000-0000-0000-0000-000000000000
+2024-05-18 17:04:59.216 +03:00 [ERR] 00000000-0000-0000-0000-000000000000
+2024-05-18 17:36:29.748 +03:00 [ERR] 00000000-0000-0000-0000-000000000000
+2024-05-18 17:38:04.678 +03:00 [ERR] 00000000-0000-0000-0000-000000000000
+2024-05-18 17:38:18.333 +03:00 [ERR] 00000000-0000-0000-0000-000000000000
+2024-05-18 18:06:05.562 +03:00 [ERR] 00000000-0000-0000-0000-000000000000
+2024-05-18 18:48:19.221 +03:00 [ERR] 00000000-0000-0000-0000-000000000000
+2024-05-18 19:47:09.295 +03:00 [ERR] 00000000-0000-0000-0000-000000000000

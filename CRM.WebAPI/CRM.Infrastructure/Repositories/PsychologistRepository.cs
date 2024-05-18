@@ -54,9 +54,10 @@ public class PsychologistRepository : RepositoryBase, IPsychologistRepository
     {
         var psychologistId = Guid.NewGuid();
         await ExecuteSql(
-            "INSERT INTO psychologists (psychologist_id, user_id) VALUES (@id, @userId)",
+            "INSERT INTO psychologists (psychologist_id, user_id,about) VALUES (@id, @userId,@about)",
             new NpgsqlParameter("@id", psychologistId),
-            new NpgsqlParameter("@userId", psychologist.UserId));
+            new NpgsqlParameter("@userId", psychologist.UserId),
+            new NpgsqlParameter("@about", psychologist.About));
         return new Success<Guid>(psychologistId);
     }
 
@@ -67,9 +68,10 @@ public class PsychologistRepository : RepositoryBase, IPsychologistRepository
             return new ElementNotFound("Not found psychologist with current id");
         
         await ExecuteSql(
-            "UPDATE psychologists SET user_id = COALESCE(@userId, user_id) WHERE psychologist_id = @id",
+            "UPDATE psychologists SET user_id = COALESCE(@userId, user_id),about = COALESCE(@about, about) WHERE psychologist_id = @id",
             new NpgsqlParameter("@userId", dataToUpdate.UserId),
-            new NpgsqlParameter("@id", dataToUpdate.PsychologistId));
+            new NpgsqlParameter("@id", dataToUpdate.PsychologistId),
+            new NpgsqlParameter("@about", dataToUpdate.About));
         return new Success();
     }
 

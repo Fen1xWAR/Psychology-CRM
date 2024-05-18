@@ -5,4 +5,5 @@ public class Psychologist
     public Guid PsychologistId { get; set; }
 
     public Guid UserId { get; set; }
+    public string About { get; set; }
 }
