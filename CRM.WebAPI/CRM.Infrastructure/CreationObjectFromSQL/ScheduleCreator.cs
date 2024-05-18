@@ -14,7 +14,8 @@ public class ScheduleCreator:ICreator<Schedule>
             PsychologistId = reader.GetGuid(1),
             WorkDay = reader.GetFieldValue<DateOnly>(2),
             StartTime = reader.GetFieldValue<TimeOnly>(3),
-            EndTime = reader.GetFieldValue<TimeOnly>(4)
+            EndTime = reader.GetFieldValue<TimeOnly>(4),
+            VisitId = reader.GetFieldValue<Guid?>(5)
 
         };
     }

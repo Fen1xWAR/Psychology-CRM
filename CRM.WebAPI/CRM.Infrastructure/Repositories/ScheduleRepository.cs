@@ -16,14 +16,14 @@ public class ScheduleRepository : RepositoryBase, IScheduleRepository
     {
     }
 
-    public async Task<IOperationResult< IEnumerable<Schedule>>> GetAll()
+    public async Task<IOperationResult<IEnumerable<Schedule>>> GetAll()
     {
-        return new Success<IEnumerable<Schedule>>( await GetDataSql<Schedule, ScheduleCreator>("SELECT * FROM schedules"));
+        return new Success<IEnumerable<Schedule>>(
+            await GetDataSql<Schedule, ScheduleCreator>("SELECT * FROM schedules"));
     }
 
-    public async Task<IOperationResult< Schedule>> GetById(Guid id)
+    public async Task<IOperationResult<Schedule>> GetById(Guid id)
     {
-        
         var result = (await GetDataSql<Schedule, ScheduleCreator>("SELECT * FROM schedules WHERE schedule_id = @id",
             new NpgsqlParameter("@id", id))).FirstOrDefault();
         if (result == null)
@@ -34,13 +34,27 @@ public class ScheduleRepository : RepositoryBase, IScheduleRepository
     public async Task<IOperationResult<Guid>> Put(ScheduleModel schedule)
     {
         var scheduleId = Guid.NewGuid();
-        await ExecuteSql(
-            "INSERT INTO schedules (schedule_id, psychologist_id, work_day, start_time, end_time) VALUES (@id, @psychologistId, @workDay, @startTime, @endTime)",
+        var parameters = new List<NpgsqlParameter>
+        {
             new NpgsqlParameter("@id", scheduleId),
             new NpgsqlParameter("@psychologistId", schedule.PsychologistId),
             new NpgsqlParameter("@workDay", schedule.WorkDay),
             new NpgsqlParameter("@startTime", schedule.StartTime),
-            new NpgsqlParameter("@endTime", schedule.EndTime));
+            new NpgsqlParameter("@endTime", schedule.EndTime)
+        };
+
+        var sql = "INSERT INTO schedules (schedule_id, psychologist_id, work_day, start_time, end_time";
+        var values = "@id, @psychologistId, @workDay, @startTime, @endTime";
+
+        if (schedule.VisitId != null)
+        {
+            sql += ", visitId";
+            values += ", @visitId";
+            parameters.Add(new NpgsqlParameter("@visitId", schedule.VisitId));
+        }
+
+        sql += ") VALUES (" + values + ")";
+        await ExecuteSql(sql, parameters.ToArray());
         return new Success<Guid>(scheduleId);
     }
 
@@ -49,14 +63,15 @@ public class ScheduleRepository : RepositoryBase, IScheduleRepository
         var scheduleToUpdate = await GetById(dataToUpdate.ScheduleId);
         if (!scheduleToUpdate.Successful)
             return new ElementNotFound("Not found schedule with current id");
-        
+
         await ExecuteSql(
-            "UPDATE schedules SET psychologist_id = COALESCE(@psychologistId, psychologist_id), work_day = COALESCE(@workDay, work_day), start_time = COALESCE(@startTime, start_time), end_time = COALESCE(@endTime, end_time) WHERE schedule_id = @id",
+            "UPDATE schedules SET psychologist_id = COALESCE(@psychologistId, psychologist_id), work_day = COALESCE(@workDay, work_day), start_time = COALESCE(@startTime, start_time), end_time = COALESCE(@endTime, end_time),visitid = COALESCE(@visitId, visitid) WHERE schedule_id = @id",
             new NpgsqlParameter("@psychologistId", dataToUpdate.PsychologistId),
             new NpgsqlParameter("@workDay", dataToUpdate.WorkDay),
             new NpgsqlParameter("@startTime", dataToUpdate.StartTime),
             new NpgsqlParameter("@endTime", dataToUpdate.EndTime),
-            new NpgsqlParameter("@id", dataToUpdate.ScheduleId));
+            new NpgsqlParameter("@id", dataToUpdate.ScheduleId),
+            new NpgsqlParameter("@visitId", dataToUpdate.VisitId));
         return new Success();
     }
 

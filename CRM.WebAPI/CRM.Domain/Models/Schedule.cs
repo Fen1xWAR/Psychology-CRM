@@ -7,4 +7,5 @@ public class Schedule
     public DateOnly WorkDay { get; set; }
     public TimeOnly StartTime { get; set; }
     public TimeOnly EndTime { get; set; }
+    public Guid? VisitId { get; set; }
 }

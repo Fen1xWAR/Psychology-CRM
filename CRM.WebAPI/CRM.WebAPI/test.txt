@@ -3367,3 +3367,140 @@ Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
    at CRM.WebApi.ExceptionMiddleware.InvokeAsync(HttpContext context, RequestDelegate next) in C:\Users\PC\Desktop\Psychology-CRM\CRM.WebAPI\CRM.WebAPI\ExceptionMiddleware.cs:line 14
 2024-05-16 14:47:01.059 +03:00 [ERR] 00000000-0000-0000-0000-000000000000
 2024-05-16 15:18:54.550 +03:00 [WRN] Deleting with 7f961a5a-9223-456d-8b9e-faf64be29545 and d266fb87-0aa3-4fb1-8b20-06ecb39c0ae2
+2024-05-18 13:03:21.143 +03:00 [ERR] 3fa85f64-5717-4562-b3fc-2c963f66afa6
+2024-05-18 13:03:34.648 +03:00 [ERR] 3fa85f64-5717-4562-b3fc-2c963f66afa6
+2024-05-18 13:04:43.263 +03:00 [ERR] 23503: insert or update on table "schedules" violates foreign key constraint "schedules_psychologists_psychologist_id_fk"
+
+DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+Npgsql.PostgresException (0x80004005): 23503: insert or update on table "schedules" violates foreign key constraint "schedules_psychologists_psychologist_id_fk"
+
+DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteNonQuery(Boolean async, CancellationToken cancellationToken)
+   at CRM.Infrastructure.Repositories.RepositoryBase.ExecuteSql(String sql, Object[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 58
+   at CRM.Infrastructure.Repositories.RepositoryBase.ExecuteSql(String sql, Object[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 58
+   at CRM.Infrastructure.Repositories.RepositoryBase.ExecuteSql(String sql, Object[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 61
+   at CRM.Infrastructure.Repositories.ScheduleRepository.Put(ScheduleModel schedule) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/ScheduleRepository.cs:line 37
+   at CRM.WebAPI.Controllers.ScheduleController.Insert(ScheduleModel schedule) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/Controllers/ScheduleController.cs:line 54
+   at lambda_method30(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.WebApi.ExceptionMiddleware.InvokeAsync(HttpContext context, RequestDelegate next) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/ExceptionMiddleware.cs:line 14
+  Exception data:
+    Severity: ERROR
+    SqlState: 23503
+    MessageText: insert or update on table "schedules" violates foreign key constraint "schedules_psychologists_psychologist_id_fk"
+    Detail: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+    SchemaName: public
+    TableName: schedules
+    ConstraintName: schedules_psychologists_psychologist_id_fk
+    File: ri_triggers.c
+    Line: 2608
+    Routine: ri_ReportViolation
+2024-05-18 13:05:07.749 +03:00 [ERR] 23503: insert or update on table "schedules" violates foreign key constraint "schedules_psychologists_psychologist_id_fk"
+
+DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+Npgsql.PostgresException (0x80004005): 23503: insert or update on table "schedules" violates foreign key constraint "schedules_psychologists_psychologist_id_fk"
+
+DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteNonQuery(Boolean async, CancellationToken cancellationToken)
+   at CRM.Infrastructure.Repositories.RepositoryBase.ExecuteSql(String sql, Object[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 58
+   at CRM.Infrastructure.Repositories.RepositoryBase.ExecuteSql(String sql, Object[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 58
+   at CRM.Infrastructure.Repositories.RepositoryBase.ExecuteSql(String sql, Object[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 61
+   at CRM.Infrastructure.Repositories.ScheduleRepository.Put(ScheduleModel schedule) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/ScheduleRepository.cs:line 37
+   at CRM.WebAPI.Controllers.ScheduleController.Insert(ScheduleModel schedule) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/Controllers/ScheduleController.cs:line 54
+   at lambda_method30(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.WebApi.ExceptionMiddleware.InvokeAsync(HttpContext context, RequestDelegate next) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/ExceptionMiddleware.cs:line 14
+  Exception data:
+    Severity: ERROR
+    SqlState: 23503
+    MessageText: insert or update on table "schedules" violates foreign key constraint "schedules_psychologists_psychologist_id_fk"
+    Detail: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+    SchemaName: public
+    TableName: schedules
+    ConstraintName: schedules_psychologists_psychologist_id_fk
+    File: ri_triggers.c
+    Line: 2608
+    Routine: ri_ReportViolation
+2024-05-18 13:05:42.891 +03:00 [ERR] Parameter '@visitId' must have either its NpgsqlDbType or its DataTypeName or its Value set.
+System.InvalidOperationException: Parameter '@visitId' must have either its NpgsqlDbType or its DataTypeName or its Value set.
+   at Npgsql.ThrowHelper.ThrowInvalidOperationException(String message)
+   at Npgsql.NpgsqlParameter.<ResolveTypeInfo>g__ThrowNoTypeInfo|110_0()
+   at Npgsql.NpgsqlParameter.ResolveTypeInfo(PgSerializerOptions options)
+   at Npgsql.NpgsqlParameterCollection.ProcessParameters(PgSerializerOptions options, Boolean validateValues, CommandType commandType)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteNonQuery(Boolean async, CancellationToken cancellationToken)
+   at CRM.Infrastructure.Repositories.RepositoryBase.ExecuteSql(String sql, Object[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 58
+   at CRM.Infrastructure.Repositories.RepositoryBase.ExecuteSql(String sql, Object[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 58
+   at CRM.Infrastructure.Repositories.RepositoryBase.ExecuteSql(String sql, Object[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 61
+   at CRM.Infrastructure.Repositories.ScheduleRepository.Put(ScheduleModel schedule) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/ScheduleRepository.cs:line 37
+   at CRM.WebAPI.Controllers.ScheduleController.Insert(ScheduleModel schedule) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/Controllers/ScheduleController.cs:line 54
+   at lambda_method30(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.WebApi.ExceptionMiddleware.InvokeAsync(HttpContext context, RequestDelegate next) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/ExceptionMiddleware.cs:line 14
+2024-05-18 13:08:25.835 +03:00 [ERR] Parameter '@visitId' must have either its NpgsqlDbType or its DataTypeName or its Value set.
+System.InvalidOperationException: Parameter '@visitId' must have either its NpgsqlDbType or its DataTypeName or its Value set.
+   at Npgsql.ThrowHelper.ThrowInvalidOperationException(String message)
+   at Npgsql.NpgsqlParameter.<ResolveTypeInfo>g__ThrowNoTypeInfo|110_0()
+   at Npgsql.NpgsqlParameter.ResolveTypeInfo(PgSerializerOptions options)
+   at Npgsql.NpgsqlParameterCollection.ProcessParameters(PgSerializerOptions options, Boolean validateValues, CommandType commandType)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteNonQuery(Boolean async, CancellationToken cancellationToken)
+   at CRM.Infrastructure.Repositories.RepositoryBase.ExecuteSql(String sql, Object[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 58
+   at CRM.Infrastructure.Repositories.RepositoryBase.ExecuteSql(String sql, Object[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 58
+   at CRM.Infrastructure.Repositories.RepositoryBase.ExecuteSql(String sql, Object[] parameters) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/RepositoryBase.cs:line 61
+   at CRM.Infrastructure.Repositories.ScheduleRepository.Put(ScheduleModel schedule) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.Infrastructure/Repositories/ScheduleRepository.cs:line 37
+   at CRM.WebAPI.Controllers.ScheduleController.Insert(ScheduleModel schedule) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/Controllers/ScheduleController.cs:line 54
+   at lambda_method30(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.WebApi.ExceptionMiddleware.InvokeAsync(HttpContext context, RequestDelegate next) in /Users/fenix/Developer/C#/Psychology-CRM/CRM.WebAPI/CRM.WebAPI/ExceptionMiddleware.cs:line 14

@@ -6,4 +6,5 @@ public class ScheduleModel
     public DateOnly WorkDay { get; set; } = new DateOnly();
     public TimeOnly? StartTime { get; set; } = null;
     public TimeOnly? EndTime { get; set; } = null;
+    public Guid? VisitId { get; set; } = null;
 }
