@@ -22,6 +22,15 @@ public class ScheduleRepository : RepositoryBase, IScheduleRepository
             await GetDataSql<Schedule, ScheduleCreator>("SELECT * FROM schedules"));
     }
 
+    public async Task<IOperationResult<IEnumerable<Schedule>>> GetByPsychologistIdAndDay(Guid psychologistId,
+        DateOnly day)
+    {
+        return new Success<IEnumerable<Schedule>>(await GetDataSql<Schedule, ScheduleCreator>(
+            "SELECT * FROM schedules WHERE psychologist_id= @psychologistId and work_day = @day",
+            new NpgsqlParameter("@psychologistId", psychologistId),
+            new NpgsqlParameter("@day", day)));
+    }
+
     public async Task<IOperationResult<Schedule>> GetById(Guid id)
     {
         var result = (await GetDataSql<Schedule, ScheduleCreator>("SELECT * FROM schedules WHERE schedule_id = @id",

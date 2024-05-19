@@ -7,6 +7,8 @@ namespace CRM.Infrastructure.Interfaces;
 public interface IScheduleRepository
 {
     Task<IOperationResult< IEnumerable<Schedule>>> GetAll();
+
+    Task<IOperationResult<IEnumerable<Schedule>>> GetByPsychologistIdAndDay(Guid psychologistId, DateOnly day);
     Task<IOperationResult< Schedule>> GetById(Guid id);
     Task<IOperationResult<Guid>> Put(ScheduleModel schedule);
     Task<IOperationResult> Update(Schedule schedule);

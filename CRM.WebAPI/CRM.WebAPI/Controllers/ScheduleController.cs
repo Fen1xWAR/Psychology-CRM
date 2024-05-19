@@ -14,7 +14,7 @@ namespace CRM.WebAPI.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [Authorize] 
+    [Authorize]
     public class ScheduleController : ControllerBase
     {
         private IScheduleRepository _repository;
@@ -22,6 +22,14 @@ namespace CRM.WebAPI.Controllers
         public ScheduleController(IScheduleRepository repository)
         {
             _repository = repository ?? throw new ArgumentException(nameof(repository));
+        }
+
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<ActionResult> GetByPsychologistIdAndTime([FromBody] ScheduleSearchModel scheduleSearchModel)
+        {
+            return Ok(await _repository.GetByPsychologistIdAndDay(scheduleSearchModel.PsychologistId, scheduleSearchModel.Day));
         }
 
         // GET: api/Schedule
