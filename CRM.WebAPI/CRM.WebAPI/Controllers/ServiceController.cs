@@ -32,6 +32,7 @@ namespace CRM.WebAPI.Controllers
         }
         // GET: api/Service/5
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult> GetByPsychologistId(Guid id)
         {
             if (id == Guid.Empty)
