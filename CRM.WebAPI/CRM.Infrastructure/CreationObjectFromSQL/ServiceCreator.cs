@@ -12,7 +12,7 @@ public class ServiceCreator:ICreator<Service>
             ServiceId = reader.GetGuid(0),
             ServiceName = reader.GetString(1),
             ServicePrice = reader.GetDecimal(2),
-            ServiceDescription = reader.GetString(3)
+            PsychologistId = reader.GetGuid(3)
         };
 
     }

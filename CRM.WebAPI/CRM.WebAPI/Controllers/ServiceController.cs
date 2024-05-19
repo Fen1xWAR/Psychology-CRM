@@ -30,6 +30,18 @@ namespace CRM.WebAPI.Controllers
         {
             return Ok(await _repository.GetAll());
         }
+        // GET: api/Service/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetByPsychologistId(Guid id)
+        {
+            if (id == Guid.Empty)
+                return BadRequest(new ConflictResult("Empty input is not allowed!"));
+            var result = await _repository.GetByPsychologistId(id);
+            if (result.Successful)
+                return Ok(result);
+
+            return NotFound(result);
+        }
 
         // GET: api/Service/5
         [HttpGet("{id}")]
@@ -49,7 +61,7 @@ namespace CRM.WebAPI.Controllers
         [HttpPut]
         public async Task<ActionResult> Insert([FromBody] ServiceModel service)
         {
-            if (service.ServiceName == null || service.ServicePrice == null || service.ServiceDescription == null)
+            if (service.ServiceName == null || service.ServicePrice == null || service.PsychologistId == Guid.Empty)
                 return BadRequest(new ConflictResult("Empty input is not allowed!"));
             var result = await _repository.Put(service);
             if (result.Successful)

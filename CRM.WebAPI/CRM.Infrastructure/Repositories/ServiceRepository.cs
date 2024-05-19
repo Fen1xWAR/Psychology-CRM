@@ -21,6 +21,14 @@ public class ServiceRepository : RepositoryBase, IServiceRepository
         return new Success<IEnumerable<Service>>(await GetDataSql<Service, ServiceCreator>("SELECT * FROM services"));
     }
 
+    public async Task<IOperationResult<IEnumerable<Service>>> GetByPsychologistId(Guid id)
+    {
+        return new Success<IEnumerable<Service>>(await GetDataSql<Service, ServiceCreator>("SELECT * FROM services where psychologist_id=@id  ",
+            new NpgsqlParameter("@id",id)));
+        
+    }
+
+
     public async Task<IOperationResult<Service>> GetById(Guid id)
     {
         var result = (await GetDataSql<Service, ServiceCreator>("SELECT * FROM services WHERE service_id = @id",
@@ -34,11 +42,11 @@ public class ServiceRepository : RepositoryBase, IServiceRepository
     {
         var serviceId = Guid.NewGuid();
         await ExecuteSql(
-            "INSERT INTO services (service_id, service_name, service_price, service_description) VALUES (@id, @name, @price, @description)",
+            "INSERT INTO services (service_id, service_name, service_price,psychologist_id) VALUES (@id, @name, @price, @psychologist_id)",
             new NpgsqlParameter("@id", serviceId),
             new NpgsqlParameter("@name", service.ServiceName),
             new NpgsqlParameter("@price", service.ServicePrice),
-            new NpgsqlParameter("@description", service.ServiceDescription));
+            new NpgsqlParameter("@description", service.PsychologistId));
         return new Success<Guid>(serviceId);
     }
 
@@ -49,10 +57,10 @@ public class ServiceRepository : RepositoryBase, IServiceRepository
             return new ElementNotFound("Not found service with current id");
 
         await ExecuteSql(
-            "UPDATE services SET service_name = COALESCE(@name, service_name), service_price = COALESCE(@price, service_price), service_description = COALESCE(@description, service_description) WHERE service_id = @id",
+            "UPDATE services SET service_name = COALESCE(@name, service_name), service_price = COALESCE(@price, service_price), psychologist_id = COALESCE(@psychologist_id, psychologist_id) WHERE service_id = @id",
             new NpgsqlParameter("@name", dataToUpdate.ServiceName),
             new NpgsqlParameter("@price", dataToUpdate.ServicePrice),
-            new NpgsqlParameter("@description", dataToUpdate.ServiceDescription),
+            new NpgsqlParameter("@description", dataToUpdate.PsychologistId),
             new NpgsqlParameter("@id", dataToUpdate.ServiceId));
         return new Success();
     }
