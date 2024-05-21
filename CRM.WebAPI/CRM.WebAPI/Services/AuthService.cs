@@ -39,7 +39,7 @@ public class AuthService : IAuthService
 
     public async Task<IOperationResult<Tokens>> Login(UserAuth model)
     {
-        Log.Logger.Error(model.DeviceId.ToString());
+        Log.Logger.Error( "DeviceId:" + model.DeviceId);
         var user = await _userRepository.GetUserByEmail(model.Email);
 
         if (!user.Successful || user.Result.Password != model.Password)
@@ -104,9 +104,9 @@ public class AuthService : IAuthService
             return new ConflictResult<Tokens>(null, "User with this email is already exist");
         var contactId = (await _contactRepository.Put(new ContactModel
         {
-            Name = userRegModel.Name,
-            Lastname = userRegModel.LastName,
-            DateOfBirth= userRegModel.DateOfBirth
+            Name = "",
+            Lastname = "",
+            DateOfBirth= new DateOnly()
         })).Result;
         var userId = (await _userRepository.Put(new UserModel
         {
@@ -147,7 +147,7 @@ public class AuthService : IAuthService
         await _tokenRepository.WriteTokenAsync(new TokenModel()
         {
             UserId = userId,
-            RefreshToken = tokens.RefreshToken.Token,
+            RefreshToken = tokens.RefreshToken?.Token,
             DeviceId = deviceId
         });
         return new Success<Tokens>(tokens);

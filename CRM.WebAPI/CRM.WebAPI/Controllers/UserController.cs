@@ -30,8 +30,7 @@ namespace CRM.WebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> Register([FromBody] UserRegModel regModel)
         {
-            if (regModel.Email == "" || regModel.Password == "" || regModel.LastName == "" || regModel.Name == "" ||
-                regModel.Role == "")
+            if (regModel.Email == "" || regModel.Password == "" || regModel.Role == "")
                 return BadRequest(new ConflictResult("Empty input is not allowed!"));
             if (!(regModel.Role is "Admin" or "Client" or "Psychologist"))
                 return BadRequest(new ConflictResult($"Cant create user with role {regModel.Role}"));
