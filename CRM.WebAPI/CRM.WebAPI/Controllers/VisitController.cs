@@ -41,7 +41,18 @@ namespace CRM.WebAPI.Controllers
 
             return NotFound(result);
         }
+        //GET api/Visit/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetByScheduleId(Guid id)
+        {
+            if (id == Guid.Empty)
+                return BadRequest(new ConflictResult("Empty input is not allowed!"));
+            var result = await _repository.GetByScheduleId(id);
+            if (result.Successful)
+                return Ok(result);
 
+            return NotFound(result);
+        }
 
         // PUT api/Visit/5
         [HttpPut]

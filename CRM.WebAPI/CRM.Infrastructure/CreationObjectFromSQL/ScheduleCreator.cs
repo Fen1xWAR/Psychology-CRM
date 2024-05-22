@@ -15,7 +15,7 @@ public class ScheduleCreator:ICreator<Schedule>
             WorkDay = reader.GetFieldValue<DateOnly>(2),
             StartTime = reader.GetFieldValue<TimeOnly>(3),
             EndTime = reader.GetFieldValue<TimeOnly>(4),
-            VisitId = reader.GetFieldValue<Guid?>(5)
+            IsBooked = reader.GetFieldValue<bool>(5)
 
         };
     }

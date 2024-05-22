@@ -30,6 +30,15 @@ public class VisitRepository : RepositoryBase, IVisitRepository
             await GetDataSql<Visit, VisitCreator>("SELECT * FROM visits WHERE client_id=@clientId",
                 new NpgsqlParameter("@clientId", id)));
     }
+
+    public async Task<IOperationResult<Visit>> GetByScheduleId(Guid id)
+    {
+        var result = (await GetDataSql<Visit, VisitCreator>("SELECT * FROM visits WHERE schedule_id = @id",
+            new NpgsqlParameter("@id", id))).FirstOrDefault();
+        if (result == null)
+            return new ElementNotFound<Visit>(null, $"Not found visit with schedule_id {id}");
+        return new Success<Visit>(result);
+    }
     public async Task<IOperationResult<IEnumerable<Visit>>> GetAllByPsychologistId(Guid id)
     {
         return new Success<IEnumerable<Visit>>(
@@ -51,7 +60,7 @@ public class VisitRepository : RepositoryBase, IVisitRepository
         var visitId = Guid.NewGuid();
         await ExecuteSql(
             "INSERT INTO visits (visit_id, client_id, psychologist_description, client_note, service_id, psychologist_id, schedule_id) " +
-            "VALUES (@id, @clientId, @dateTime, @psychologistDescription, @clientNote, @serviceId, @psychologistId,@scheduleId)",
+            "VALUES (@id, @clientId, @psychologistDescription, @clientNote, @serviceId, @psychologistId,@scheduleId)",
             new NpgsqlParameter("@id", visitId),
             new NpgsqlParameter("@clientId", visit.ClientId),
             new NpgsqlParameter("@psychologistDescription", visit.PsychologistDescription ?? ""),
