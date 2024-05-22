@@ -50,15 +50,15 @@ public class VisitRepository : RepositoryBase, IVisitRepository
     {
         var visitId = Guid.NewGuid();
         await ExecuteSql(
-            "INSERT INTO visits (visit_id, client_id, date_time, psychologist_description, client_note, service_id, psychologist_id) " +
-            "VALUES (@id, @clientId, @dateTime, @psychologistDescription, @clientNote, @serviceId, @psychologistId)",
+            "INSERT INTO visits (visit_id, client_id, psychologist_description, client_note, service_id, psychologist_id, schedule_id) " +
+            "VALUES (@id, @clientId, @dateTime, @psychologistDescription, @clientNote, @serviceId, @psychologistId,@scheduleId)",
             new NpgsqlParameter("@id", visitId),
             new NpgsqlParameter("@clientId", visit.ClientId),
-            new NpgsqlParameter("@dateTime", visit.DateTime),
             new NpgsqlParameter("@psychologistDescription", visit.PsychologistDescription ?? ""),
             new NpgsqlParameter("@clientNote", visit.ClientNote ?? ""),
             new NpgsqlParameter("@serviceId", visit.ServiceId),
-            new NpgsqlParameter("@psychologistId", visit.PsychologistId));
+            new NpgsqlParameter("@psychologistId", visit.PsychologistId),
+            new NpgsqlParameter("@scheduleId", visit.ScheduleId));
         return new Success<Guid>(visitId);
     }
 
@@ -69,12 +69,12 @@ public class VisitRepository : RepositoryBase, IVisitRepository
             return new ElementNotFound("Not found visit with current id");
 
         await ExecuteSql(
-            "UPDATE visits SET client_id = COALESCE(@clientId, client_id), date_time = COALESCE(@dateTime, date_time), " +
+            "UPDATE visits SET client_id = COALESCE(@clientId, client_id), " +
             "client_note = COALESCE(@clientNote, client_note), psychologist_description = COALESCE(@psychologistDescription, psychologist_description), " +
-            "service_id = COALESCE(@serviceId, service_id), psychologist_id = COALESCE(@psychologistId, psychologist_id) " +
+            "service_id = COALESCE(@serviceId, service_id), psychologist_id = COALESCE(@psychologistId, psychologist_id), schedule_id = coalesce(@scheduleId, schedule_id) " +
             "WHERE visit_id = @id",
             new NpgsqlParameter("@clientId", dataToUpdate.ClientId),
-            new NpgsqlParameter("@dateTime", dataToUpdate.DateTime),
+            new NpgsqlParameter("@scheduleId", dataToUpdate.ScheduleId),
             new NpgsqlParameter("@clientNote", dataToUpdate.ClientNote),
             new NpgsqlParameter("@psychologistDescription", dataToUpdate.PsychologistDescription),
             new NpgsqlParameter("@serviceId", dataToUpdate.ServiceId),

@@ -11,11 +11,11 @@ public class VisitCreator : ICreator<Visit>
         {
             VisitId = reader.GetGuid(0),
             ClientId = reader.GetGuid(1),
-            DateTime = reader.GetDateTime(2),
-            ClientNote = reader.GetString(3),
-            PsychologistDescription = reader.GetString(4),
-            ServiceId = reader.GetGuid(5),
-            PsychologistId = reader.GetGuid(6),
+            ClientNote = reader.GetString(2),
+            PsychologistDescription = reader.GetString(3),
+            ServiceId = reader.GetGuid(4),
+            PsychologistId = reader.GetGuid(5),
+            ScheduleId = reader.GetGuid(6)
         };
     }
 }

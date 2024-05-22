@@ -49,7 +49,7 @@ namespace CRM.WebAPI.Controllers
 
         {
             if (visit.ClientId == Guid.Empty || visit.PsychologistId == Guid.Empty || visit.ServiceId == Guid.Empty ||
-                visit.DateTime == null)
+                visit.ScheduleId == Guid.Empty)
                 return BadRequest(new ConflictResult("Empty input is not allowed!"));
             var result = await _repository.Put(visit);
             if (result.Successful)

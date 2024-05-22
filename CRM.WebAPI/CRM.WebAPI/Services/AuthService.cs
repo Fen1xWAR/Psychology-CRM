@@ -71,6 +71,7 @@ public class AuthService : IAuthService
 
     public async Task<IOperationResult<Tokens>> RefreshTokens(Tokens token)
     {
+        Log.Logger.Fatal("REFRESHING");
         var user = ParseJwtToken(token.JWTToken);
         if (user == null || token.RefreshToken == null)
             return new ElementNotFound<Tokens>(null, "Some token is null!");
@@ -125,7 +126,8 @@ public class AuthService : IAuthService
                 await _clientRepository.Put(new ClientModel()
                 {
                     FormId = formId,
-                    UserId = userId
+                    UserId = userId,
+                    CurrentProblem = "[]"
                 });
                 break;
             case "Psychologist":
