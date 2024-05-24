@@ -46,8 +46,8 @@ public class ScheduleRepository : RepositoryBase, IScheduleRepository
     {
         var scheduleId = Guid.NewGuid();
         await ExecuteSql(
-            "INSERT INTO schedules (schedule_id, psychologist_id, work_day, start_time, end_time,is_booked) VALUES (@scheduleId, @psychologistId, @workingDay, @startTime, @endTime, @isBooked)",
-            new NpgsqlParameter("@id", scheduleId),
+            "INSERT INTO schedules (schedule_id, psychologist_id, work_day, start_time, end_time,is_booked) VALUES (@scheduleId, @psychologistId, @workDay, @startTime, @endTime, @isBooked)",
+            new NpgsqlParameter("@scheduleId", scheduleId),
             new NpgsqlParameter("@psychologistId", schedule.PsychologistId),
             new NpgsqlParameter("@workDay", schedule.WorkDay),
             new NpgsqlParameter("@startTime", schedule.StartTime),
