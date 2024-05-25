@@ -24,7 +24,7 @@ public class UserRepository : RepositoryBase, IUserRepository
         var result = (await GetDataSql<User, UserCreator>("SELECT * FROM users WHERE email = @email",
             new NpgsqlParameter("@email", email))).FirstOrDefault();
         if (result == null)
-            return new ElementNotFound<User>(null, "User not found");
+            return new ElementNotFound<User>(null, "Пользователь не найден");
         return new Success<User>(result);
     }
 
@@ -38,7 +38,7 @@ public class UserRepository : RepositoryBase, IUserRepository
         var result = (await GetDataSql<User, UserCreator>("SELECT * FROM users WHERE user_id = @id",
             new NpgsqlParameter("@id", id))).FirstOrDefault();
         if (result == null)
-            return new ElementNotFound<User>(null, $"User with id {id} not found");
+            return new ElementNotFound<User>(null, $"Пользователь с этим  id не найден");
         return new Success<User>(result);
     }
 
@@ -59,7 +59,7 @@ public class UserRepository : RepositoryBase, IUserRepository
     {
         var userToUpdate = await GetById(dataToUpdate.UserId);
         if (!userToUpdate.Successful)
-            return new ElementNotFound("Not found user with current Id");
+            return new ElementNotFound("Не найден пользователь с текущим id");
         await ExecuteSql(
             "UPDATE users SET email = COALESCE(@email, email), password = COALESCE(@password, password), role = COALESCE(@role, role), contact_id = COALESCE(@contactId, contact_id) WHERE user_id = @id",
             new NpgsqlParameter("@email", dataToUpdate.Email),
@@ -74,7 +74,7 @@ public class UserRepository : RepositoryBase, IUserRepository
     {
         var userToDelete = await GetById(id);
         if (!userToDelete.Successful)
-            return new ElementNotFound("Not found user with current id");
+            return new ElementNotFound("Не найден пользователь с текущим id");
 
         await ExecuteSql("DELETE FROM users WHERE user_id = @id", new NpgsqlParameter("@id", id));
         return new Success();

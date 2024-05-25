@@ -43,7 +43,7 @@ public class AuthService : IAuthService
         var user = await _userRepository.GetUserByEmail(model.Email);
 
         if (!user.Successful || user.Result.Password != model.Password)
-            return new ConflictResult<Tokens>(null, "Invalid login or password");
+            return new ConflictResult<Tokens>(null, "Неправильный логин или пароль");
         Guid userId = user.Result.UserId;
 
         if (model.DeviceId != Guid.Empty)
@@ -102,7 +102,7 @@ public class AuthService : IAuthService
     {
         var user = await _userRepository.GetUserByEmail(userRegModel.Email);
         if (user.Successful)
-            return new ConflictResult<Tokens>(null, "User with this email is already exist");
+            return new ConflictResult<Tokens>(null, "Пользователь с этим адресом электронной почты уже существует");
         var contactId = (await _contactRepository.Put(new ContactModel
         {
             Name = "",

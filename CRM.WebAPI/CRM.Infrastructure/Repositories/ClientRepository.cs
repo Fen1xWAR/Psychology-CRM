@@ -26,7 +26,7 @@ public class ClientRepository : RepositoryBase, IClientRepository
             new NpgsqlParameter("@id", userId))).FirstOrDefault();
         if (result == null)
         {
-            return new ElementNotFound<Client>(null, "Client not found");
+            return new ElementNotFound<Client>(null, "Данный клиент не найден.");
         }
 
         return new Success<Client>(result);
@@ -38,7 +38,7 @@ public class ClientRepository : RepositoryBase, IClientRepository
             new NpgsqlParameter("@id", id))).FirstOrDefault();
         if (result == null)
         {
-            return new ElementNotFound<Client>(null, "Client not found");
+            return new ElementNotFound<Client>(null, "Данный клиент не найден.");
         }
 
         return new Success<Client?>(result);
@@ -61,7 +61,7 @@ public class ClientRepository : RepositoryBase, IClientRepository
         var clientToUpdate = await GetById(dataToUpdate.ClientId);
         if (!clientToUpdate.Successful)
         {
-            return new ElementNotFound("Not found client with current Id");
+            return new ElementNotFound("Клиент с этим идентификатором не найден.");
         }
 
         await ExecuteSql(
@@ -78,7 +78,7 @@ public class ClientRepository : RepositoryBase, IClientRepository
         var clientToDelete = await GetById(id);
         if (!clientToDelete.Successful)
         {
-            return new ElementNotFound("Not found client with current Id");
+            return new ElementNotFound("Клиент с этим идентификатором не найден. ");
         }
 
         await ExecuteSql("DELETE FROM clients WHERE client_id = @id", new NpgsqlParameter("@id", id));

@@ -31,7 +31,7 @@ namespace CRM.WebAPI.Controllers
         public async Task<ActionResult> Register([FromBody] UserRegModel regModel)
         {
             if (regModel.Email == "" || regModel.Password == "" || regModel.Role == "")
-                return BadRequest(new ConflictResult("Empty input is not allowed!"));
+                return BadRequest(new ConflictResult("Необходимо заполнить обязательные поля"));
             if (!(regModel.Role is "Admin" or "Client" or "Psychologist"))
                 return BadRequest(new ConflictResult($"Cant create user with role {regModel.Role}"));
             var tokens = await _authService.Register(regModel);
@@ -48,7 +48,7 @@ namespace CRM.WebAPI.Controllers
         public async Task<ActionResult> Login([FromBody] UserAuth model)
         {
             if (model.Email == null || model.Password == null)
-                return BadRequest(new ConflictResult("Empty input is not allowed!"));
+                return BadRequest(new ConflictResult("Необходимо заполнить все поля"));
             var tokens = await _authService.Login(model);
             if (!tokens.Successful)
                 return BadRequest(tokens);
@@ -90,7 +90,7 @@ namespace CRM.WebAPI.Controllers
         public async Task<ActionResult> GetById(Guid id)
         {
             if (id == Guid.Empty)
-                return BadRequest(new ConflictResult("Empty input is not allowed!"));
+                return BadRequest(new ConflictResult("Пустой ввод не допустим"));
             var result = await _repository.GetById(id);
             if (result.Successful)
                 return Ok(result);
@@ -115,7 +115,7 @@ namespace CRM.WebAPI.Controllers
             Update([FromBody] User dataToUpdate)
         {
             if (dataToUpdate.UserId == Guid.Empty)
-                return BadRequest(new ConflictResult("Empty input is not allowed!"));
+                return BadRequest(new ConflictResult("Пустой ввод не допустим"));
             var result = await _repository.Update(dataToUpdate);
             if (result.Successful)
                 return Ok(result);
@@ -127,7 +127,7 @@ namespace CRM.WebAPI.Controllers
         public async Task<ActionResult> Delete(Guid id)
         {
             if (id == Guid.Empty)
-                return BadRequest(new ConflictResult("Empty input is not allowed!"));
+                return BadRequest(new ConflictResult("Пустой ввод не допустим"));
             var result = await _repository.RemoveById(id);
             if (result.Successful)
                 return Ok(result);

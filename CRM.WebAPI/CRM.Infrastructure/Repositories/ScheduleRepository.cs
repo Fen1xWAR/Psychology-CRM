@@ -38,7 +38,7 @@ public class ScheduleRepository : RepositoryBase, IScheduleRepository
         var result = (await GetDataSql<Schedule, ScheduleCreator>("SELECT * FROM schedules WHERE schedule_id = @id",
             new NpgsqlParameter("@id", id))).FirstOrDefault();
         if (result == null)
-            return new ElementNotFound<Schedule>(null, $"Not found schedule with id {id}!");
+            return new ElementNotFound<Schedule>(null, $"Не найдено расписание с этим id !");
         return new Success<Schedule>(result);
     }
 
@@ -62,7 +62,7 @@ public class ScheduleRepository : RepositoryBase, IScheduleRepository
     {
         var scheduleToUpdate = await GetById(dataToUpdate.ScheduleId);
         if (!scheduleToUpdate.Successful)
-            return new ElementNotFound("Not found schedule with current id");
+            return new ElementNotFound("Не найдено расписание с текущим идентификатором");
 
         await ExecuteSql(
             "UPDATE schedules SET psychologist_id = COALESCE(@psychologistId, psychologist_id), work_day = COALESCE(@workDay, work_day), start_time = COALESCE(@startTime, start_time), end_time = COALESCE(@endTime, end_time),is_booked = COALESCE(@isBooked, is_booked) WHERE schedule_id = @id",
@@ -79,7 +79,7 @@ public class ScheduleRepository : RepositoryBase, IScheduleRepository
     {
         var scheduleToUpdate = await GetById(id);
         if (!scheduleToUpdate.Successful)
-            return new ElementNotFound("Not found schedule with current id");
+            return new ElementNotFound("Не найдено расписание с текущим идентификатором");
 
         await ExecuteSql("DELETE FROM schedules WHERE schedule_id = @id", new NpgsqlParameter("@id", id));
         return new Success();

@@ -91,7 +91,7 @@ builder.Services.AddSingleton<ExceptionMiddleware>();
 var app = builder.Build(); 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
-    .WriteTo.File("test.txt")
+    .WriteTo.File($"logs-{DateOnly.FromDateTime(DateTime.Now)}.txt")
     .CreateLogger();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

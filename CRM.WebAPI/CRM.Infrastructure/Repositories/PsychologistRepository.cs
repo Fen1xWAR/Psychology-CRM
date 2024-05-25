@@ -36,7 +36,7 @@ public class PsychologistRepository : RepositoryBase, IPsychologistRepository
             "SELECT * FROM psychologists WHERE psychologist_id = @id",
             new NpgsqlParameter("@id", id))).FirstOrDefault();
         if (result == null)
-            return new ElementNotFound<Psychologist>(null, $"Not found psychologist with id {id}");
+            return new ElementNotFound<Psychologist>(null, $"Не найден психолог с этим  идентификатором ");
         return new Success<Psychologist>(result);
     }
 
@@ -46,7 +46,7 @@ public class PsychologistRepository : RepositoryBase, IPsychologistRepository
             "SELECT * FROM psychologists WHERE user_id = @id",
             new NpgsqlParameter("@id", userId))).FirstOrDefault();
         if (result == null)
-            return new ElementNotFound<Psychologist>(null, $"Not found psychologist with user id {userId}");
+            return new ElementNotFound<Psychologist>(null, $"Не найдет психолог с этим  пользовательским  идентификатором ");
         return new Success<Psychologist>(result);
     }
 
@@ -65,7 +65,7 @@ public class PsychologistRepository : RepositoryBase, IPsychologistRepository
     {
         var psychologistToUpdate = await GetById(dataToUpdate.PsychologistId);
         if (!psychologistToUpdate.Successful)
-            return new ElementNotFound("Not found psychologist with current id");
+            return new ElementNotFound("Не найден психолог с текушим идентификатором");
         
         await ExecuteSql(
             "UPDATE psychologists SET user_id = COALESCE(@userId, user_id),about = COALESCE(@about, about) WHERE psychologist_id = @id",
@@ -79,7 +79,7 @@ public class PsychologistRepository : RepositoryBase, IPsychologistRepository
     {
         var psychologistToDelete = await GetById(id);
         if (!psychologistToDelete.Successful)
-            return new ElementNotFound("Not found psychologist with current id");
+            return new ElementNotFound("Не найден психолог с текушим идентификатором");
 
         await ExecuteSql("DELETE FROM psychologists WHERE psychologist_id = @id", new NpgsqlParameter("@id", id));
         return new Success();
