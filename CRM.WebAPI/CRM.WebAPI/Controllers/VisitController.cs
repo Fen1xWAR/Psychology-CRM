@@ -1,47 +1,94 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using CRM.Domain.Models;
+using CRM.Domain.ModelsToUpload;
+using CRM.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ConflictResult = CRM.Core.Implement.ConflictResult;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace CRM.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
-    public class VisitController : Controller
+    [Route("api/[controller]/[action]")]
+    [ApiController]
+    [Authorize]
+    public class VisitController : ControllerBase
     {
-        // GET: api/values
+        private IVisitRepository _repository;
+
+        public VisitController(IVisitRepository repository)
+        {
+            _repository = repository ?? throw new ArgumentException(nameof(repository));
+        }
+
+
+        // GET: api/Visit
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<ActionResult> GetAll()
         {
-            return new string[] { "value1", "value2" };
+            return Ok(await _repository.GetAll());
         }
 
-        // GET api/values/5
+        // GET api/Visit/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult> GetById(Guid id)
         {
-            return "value";
+            if (id == Guid.Empty)
+                return BadRequest(new ConflictResult("Empty input is not allowed!"));
+            var result = await _repository.GetById(id);
+            if (result.Successful)
+                return Ok(result);
+
+            return NotFound(result);
+        }
+        //GET api/Visit/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetByScheduleId(Guid id)
+        {
+            if (id == Guid.Empty)
+                return BadRequest(new ConflictResult("Empty input is not allowed!"));
+            var result = await _repository.GetByScheduleId(id);
+            if (result.Successful)
+                return Ok(result);
+
+            return NotFound(result);
         }
 
-        // POST api/values
+        // PUT api/Visit/5
+        [HttpPut]
+        public async Task<ActionResult> Insert([FromBody] VisitModel visit)
+
+        {
+            if (visit.ClientId == Guid.Empty || visit.PsychologistId == Guid.Empty || visit.ServiceId == Guid.Empty ||
+                visit.ScheduleId == Guid.Empty)
+                return BadRequest(new ConflictResult("Empty input is not allowed!"));
+            var result = await _repository.Put(visit);
+            if (result.Successful)
+                return Ok(result);
+            return BadRequest(result);
+        }
+
         [HttpPost]
-        public void Post([FromBody]string value)
+        public async Task<ActionResult> Update([FromBody] Visit dataToUpdate)
         {
+            if (dataToUpdate.VisitId == Guid.Empty)
+                return BadRequest(new ConflictResult("Empty input is not allowed!"));
+            var result = await _repository.Update(dataToUpdate);
+            if (result.Successful)
+                return Ok(result);
+            return BadRequest(result);
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
+        // DELETE api/Visit/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult> Delete(Guid id)
         {
+            if (id == Guid.Empty)
+                return BadRequest(new ConflictResult("Empty input is not allowed!"));
+            var result = await _repository.RemoveById(id);
+            if (result.Successful)
+                return Ok(result);
+            return BadRequest(result);
         }
     }
 }
-
